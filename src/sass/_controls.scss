@@ -1,0 +1,89 @@
+.controls {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 2fr;
+
+  background-color: $color-left-dark;
+
+  padding: 2rem;
+
+  &__weather {
+    grid-row: 1;
+    background-color: $color-left-light;
+  }
+
+  &__calendar {
+    grid-row: 2;
+    background-color: $color-left-light;
+
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+
+    &-month {
+      grid-column: 1 / -1;
+      grid-row: 1;
+
+      background-color: $color-left-dark;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: $color-left-text-light;
+      text-align: center;
+      padding: 1rem;
+      border-left: 2px solid $color-left-light;
+      border-right: 2px solid $color-left-light;
+    }
+
+    .static {
+      background-color: $color-left-medium;
+      font-size: 1.4rem;
+      color: $color-left-text-medium;
+      text-align: center;
+      padding: 1rem;
+
+      &:nth-of-type(10) {
+        grid-column: 1;
+        grid-row: 4;
+      }
+      &:nth-of-type(11) {
+        grid-column: 1;
+        grid-row: 5;
+      }
+      &:nth-of-type(12) {
+        grid-column: 1;
+        grid-row: 6;
+      }
+      &:nth-of-type(13) {
+        grid-column: 1;
+        grid-row: 7;
+      }
+      &:nth-of-type(14) {
+        grid-column: 1;
+        grid-row: 8;
+      }
+      &:nth-of-type(15) {
+        grid-column: 1;
+        grid-row: 9;
+      }
+    }
+  }
+
+  &__add-task {
+    grid-row: span 2;
+    background-color: $color-left-light;
+
+    &-title {
+      grid-column: 1 / -1;
+      grid-row: 1;
+
+      background-color: $color-left-dark;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: $color-left-text-light;
+      text-align: center;
+      padding: 1rem;
+      border-left: 2px solid $color-left-light;
+      border-right: 2px solid $color-left-light;
+    }
+  }
+}

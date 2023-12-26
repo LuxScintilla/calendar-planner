@@ -1,0 +1,49 @@
+$color-left-light: #df998d;
+$color-left-medium: #de8b83;
+$color-left-dark: #d17f81;
+$color-left-text-light: #faf0f0;
+$color-left-text-medium: #f6e6e6;
+$color-left-text-dark: #cc887b;
+
+$color-right-light: #f5f5f5;
+$color-right-medium: #efded4;
+$color-right-dark: #dbb8b2;
+
+$color-calendar-light: #f5f5f5;
+$color-calendar-dark: #f3d0b2;
+
+$color-background-day: #dd7b30;
+$color-background-date: #eda541;
+$color-background-week: #ebaf8d;
+
+$color-text-completed: #d7babc;
+$color-text-task: #2b2526;
+
+$color-divider: #e7e7e7;
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+
+body {
+  font-family: sans-serif;
+  font-size: 1.4rem;
+  color: $color-text-task;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+}
