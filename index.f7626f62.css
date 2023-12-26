@@ -1,0 +1,211 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*, :before, :after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+
+body {
+  color: #2b2526;
+  font-family: sans-serif;
+  font-size: 1.4rem;
+}
+
+.container {
+  grid-template-columns: 1fr 4fr;
+  display: grid;
+}
+
+.controls {
+  background-color: #d17f81;
+  grid-template-rows: 1fr 1fr 2fr;
+  grid-template-columns: 1fr;
+  padding: 2rem;
+  display: grid;
+}
+
+.controls__weather {
+  background-color: #df998d;
+  grid-row: 1;
+}
+
+.controls__calendar {
+  background-color: #df998d;
+  grid-row: 2;
+  grid-template-rows: repeat(8, 1fr);
+  grid-template-columns: repeat(8, 1fr);
+  display: grid;
+}
+
+.controls__calendar-month {
+  color: #faf0f0;
+  text-align: center;
+  background-color: #d17f81;
+  border-left: 2px solid #df998d;
+  border-right: 2px solid #df998d;
+  grid-area: 1 / 1 / auto / -1;
+  padding: 1rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.controls__calendar .static {
+  color: #f6e6e6;
+  text-align: center;
+  background-color: #de8b83;
+  padding: 1rem;
+  font-size: 1.4rem;
+}
+
+.controls__calendar .static:nth-of-type(10) {
+  grid-area: 4 / 1;
+}
+
+.controls__calendar .static:nth-of-type(11) {
+  grid-area: 5 / 1;
+}
+
+.controls__calendar .static:nth-of-type(12) {
+  grid-area: 6 / 1;
+}
+
+.controls__calendar .static:nth-of-type(13) {
+  grid-area: 7 / 1;
+}
+
+.controls__calendar .static:nth-of-type(14) {
+  grid-area: 8 / 1;
+}
+
+.controls__calendar .static:nth-of-type(15) {
+  grid-area: 9 / 1;
+}
+
+.controls__add-task {
+  background-color: #df998d;
+  grid-row: span 2;
+}
+
+.controls__add-task-title {
+  color: #faf0f0;
+  text-align: center;
+  background-color: #d17f81;
+  border-left: 2px solid #df998d;
+  border-right: 2px solid #df998d;
+  grid-area: 1 / 1 / auto / -1;
+  padding: 1rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.calendar {
+  background-color: #dbb8b2;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.calendar__wrapper {
+  background-color: #efded4;
+  padding-left: 4rem;
+}
+
+.calendar__month {
+  background-color: #f5f5f5;
+  margin-bottom: 4rem;
+  padding: 1rem;
+  font-size: 2.8rem;
+  font-weight: 700;
+}
+
+.organiser {
+  grid-template-rows: 6rem repeat(6, 1fr);
+  grid-template-columns: 5rem repeat(7, 1fr);
+  display: grid;
+}
+
+.organiser__static {
+  color: #faf0f0;
+  background-color: #ebaf8d;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.organiser__static-day {
+  background-color: #dd7b30;
+  font-weight: 700;
+}
+
+.organiser__static span {
+  display: inline-block;
+  transform: rotate(-90deg);
+}
+
+.organiser__static:nth-child(9) {
+  grid-area: 2 / 1;
+}
+
+.organiser__static:nth-child(10) {
+  grid-area: 3 / 1;
+}
+
+.organiser__static:nth-child(11) {
+  grid-area: 4 / 1;
+}
+
+.organiser__static:nth-child(12) {
+  grid-area: 5 / 1;
+}
+
+.organiser__static:nth-child(13) {
+  grid-area: 6 / 1;
+}
+
+.organiser__static:nth-child(14) {
+  grid-area: 7 / 1;
+}
+
+.organiser__dynamic {
+  background-color: #f5f5f5;
+  grid-template-rows: repeat(7, 1fr);
+  grid-template-columns: 2.4rem 1fr;
+  display: grid;
+}
+
+.organiser__date {
+  color: #faf0f0;
+  text-align: center;
+  background-color: #eda541;
+  padding: .6rem;
+  font-weight: 700;
+}
+
+.organiser__divider {
+  background-color: #f3d0b2;
+}
+
+.organiser__checkbox {
+  vertical-align: bottom;
+  padding-top: .8rem;
+}
+
+.organiser__task {
+  border-right: #e7e7e7;
+}
+
+.organiser__checkbox {
+  justify-self: center;
+}
+
+.organiser__checkbox, .organiser__task {
+  border-bottom: 1px solid #e7e7e7;
+}
+
+/*# sourceMappingURL=index.f7626f62.css.map */
