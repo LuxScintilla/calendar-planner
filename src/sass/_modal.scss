@@ -1,0 +1,131 @@
+.modal {
+  &__new-task {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 200;
+
+    background-color: $color-right-medium;
+    height: 32rem;
+    width: 64rem;
+    padding: 2rem;
+
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    box-shadow: 0px 0px 16px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  &__title {
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__task-label {
+    margin-bottom: 0.6rem;
+  }
+
+  &__task-input {
+    all: unset;
+    width: 24rem;
+    background-color: $color-right-light;
+    border-bottom: 2px solid $color-right-dark;
+    padding: 1rem;
+    transition: all 0.2s;
+
+    &:focus {
+      width: 28rem;
+      border-bottom: 2px solid $color-background-week;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 2rem;
+  }
+
+  &__btn-save,
+  &__btn-cancel {
+    all: unset;
+    width: 8rem;
+    height: 4rem;
+    padding: 0rem 2rem;
+    text-align: center;
+    font-size: 1.8rem;
+    color: $color-text-task;
+    border-radius: 4px;
+    background-color: $color-right-dark;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: $color-background-week;
+    }
+  }
+
+  &__delete-task {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 200;
+
+    background-color: $color-right-medium;
+    height: 32rem;
+    width: 64rem;
+    padding: 2rem;
+
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    box-shadow: 0px 0px 16px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  &__question {
+  }
+
+  &__btn-delete,
+  &__btn-close {
+    all: unset;
+    width: 8rem;
+    height: 4rem;
+    padding: 0rem 2rem;
+    text-align: center;
+    font-size: 1.8rem;
+    color: $color-text-task;
+    border-radius: 4px;
+    background-color: $color-right-dark;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: $color-background-week;
+    }
+  }
+
+  &__backdrop {
+    display: none;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+}
+
+.task-text {
+  display: inline-block;
+  background-color: $color-right-light;
+  padding: 1rem 2rem;
+}

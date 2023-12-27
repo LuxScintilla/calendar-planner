@@ -16,6 +16,9 @@
       align-items: center;
 
       background-color: $color-background-day;
+
+      font-weight: 700;
+      color: $color-left-text-light;
     }
   }
 
@@ -32,6 +35,8 @@
       align-items: center;
 
       background-color: $color-background-week;
+
+      color: $color-left-text-light;
 
       span {
         display: inline-block;

@@ -50,15 +50,46 @@ body {
   padding: 2rem;
 
   &__title {
+    font-family: "Tangerine", cursive;
+    font-size: 3.6rem;
     text-align: center;
     color: #fff;
     padding: 2rem;
   }
 
   &__month {
-    text-align: center;
+    display: flex;
+    align-items: center;
+    font-size: 1.6rem;
     background-color: $color-right-light;
     padding: 2rem;
     margin-bottom: 2rem;
+
+    h2 {
+      margin-left: auto;
+    }
+
+    .month__button {
+      margin-left: auto;
+
+      &--previous,
+      &--next {
+        all: unset;
+        width: 8rem;
+        height: 4rem;
+        text-align: center;
+        font-size: 1.8rem;
+        color: $color-text-task;
+        border-radius: 4px;
+        background-color: $color-right-dark;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+          color: $color-right-dark;
+          background-color: $color-right-medium;
+        }
+      }
+    }
   }
 }

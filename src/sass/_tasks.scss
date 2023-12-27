@@ -12,12 +12,43 @@
   }
 
   &__divider {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
     background-color: $color-calendar-dark;
+    padding-right: 1rem;
+  }
+
+  &__btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    all: unset;
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.6rem;
+    color: $color-text-task;
+    border-radius: 4px;
+    background-color: $color-right-dark;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      color: $color-right-dark;
+      background-color: $color-calendar-light;
+    }
   }
 
   &__checkbox {
+    vertical-align: bottom;
+    justify-self: center;
+    align-self: center;
   }
 
   &__todo {
+    border-bottom: 1px solid $color-divider;
+    border-right: 1px solid $color-divider;
   }
 }

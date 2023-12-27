@@ -29,13 +29,39 @@ body {
   text-align: center;
   color: #fff;
   padding: 2rem;
+  font-family: Tangerine, cursive;
+  font-size: 3.6rem;
 }
 
 .calendar__month {
-  text-align: center;
   background-color: #f5f5f5;
+  align-items: center;
   margin-bottom: 2rem;
   padding: 2rem;
+  font-size: 1.6rem;
+  display: flex;
+}
+
+.calendar__month h2, .calendar__month .month__button {
+  margin-left: auto;
+}
+
+.calendar__month .month__button--previous, .calendar__month .month__button--next {
+  all: unset;
+  text-align: center;
+  color: #2b2526;
+  cursor: pointer;
+  background-color: #dbb8b2;
+  border-radius: 4px;
+  width: 8rem;
+  height: 4rem;
+  font-size: 1.8rem;
+  transition: all .2s;
+}
+
+.calendar__month .month__button--previous:hover, .calendar__month .month__button--next:hover {
+  color: #dbb8b2;
+  background-color: #efded4;
 }
 
 .organiser {
@@ -51,9 +77,11 @@ body {
 }
 
 .organiser__days .day {
+  color: #faf0f0;
   background-color: #dd7b30;
   justify-content: center;
   align-items: center;
+  font-weight: 700;
   display: flex;
 }
 
@@ -64,6 +92,7 @@ body {
 }
 
 .organiser__weeks .week {
+  color: #faf0f0;
   background-color: #ebaf8d;
   justify-content: center;
   align-items: center;
@@ -98,6 +127,155 @@ body {
 
 .tasks__divider {
   background-color: #f3d0b2;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 1rem;
+  display: flex;
+}
+
+.tasks__btn {
+  all: unset;
+  color: #2b2526;
+  cursor: pointer;
+  background-color: #dbb8b2;
+  border-radius: 4px;
+  justify-content: center;
+  align-items: center;
+  width: 2rem;
+  height: 2rem;
+  font-size: 1.6rem;
+  transition: all .2s;
+  display: flex;
+}
+
+.tasks__btn:hover {
+  color: #dbb8b2;
+  background-color: #f5f5f5;
+}
+
+.tasks__checkbox {
+  vertical-align: bottom;
+  place-self: center;
+}
+
+.tasks__todo {
+  border-bottom: 1px solid #e7e7e7;
+  border-right: 1px solid #e7e7e7;
+}
+
+.modal__new-task {
+  z-index: 200;
+  background-color: #efded4;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 64rem;
+  height: 32rem;
+  padding: 2rem;
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 16px 16px #0003;
+}
+
+.modal__form {
+  flex-direction: column;
+  display: flex;
+}
+
+.modal__task-label {
+  margin-bottom: .6rem;
+}
+
+.modal__task-input {
+  all: unset;
+  background-color: #f5f5f5;
+  border-bottom: 2px solid #dbb8b2;
+  width: 24rem;
+  padding: 1rem;
+  transition: all .2s;
+}
+
+.modal__task-input:focus {
+  border-bottom: 2px solid #ebaf8d;
+  width: 28rem;
+}
+
+.modal__buttons {
+  gap: 2rem;
+  display: flex;
+}
+
+.modal__btn-save, .modal__btn-cancel {
+  all: unset;
+  text-align: center;
+  color: #2b2526;
+  cursor: pointer;
+  background-color: #dbb8b2;
+  border-radius: 4px;
+  width: 8rem;
+  height: 4rem;
+  padding: 0 2rem;
+  font-size: 1.8rem;
+  transition: all .2s;
+}
+
+.modal__btn-save:hover, .modal__btn-cancel:hover {
+  background-color: #ebaf8d;
+}
+
+.modal__delete-task {
+  z-index: 200;
+  background-color: #efded4;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 64rem;
+  height: 32rem;
+  padding: 2rem;
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 16px 16px #0003;
+}
+
+.modal__btn-delete, .modal__btn-close {
+  all: unset;
+  text-align: center;
+  color: #2b2526;
+  cursor: pointer;
+  background-color: #dbb8b2;
+  border-radius: 4px;
+  width: 8rem;
+  height: 4rem;
+  padding: 0 2rem;
+  font-size: 1.8rem;
+  transition: all .2s;
+}
+
+.modal__btn-delete:hover, .modal__btn-close:hover {
+  background-color: #ebaf8d;
+}
+
+.modal__backdrop {
+  z-index: 100;
+  background-color: #0009;
+  width: 100%;
+  height: 100%;
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.task-text {
+  background-color: #f5f5f5;
+  padding: 1rem 2rem;
+  display: inline-block;
 }
 
 /*# sourceMappingURL=index.f7626f62.css.map */
