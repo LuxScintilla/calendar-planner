@@ -41,9 +41,24 @@ body {
   font-family: sans-serif;
   font-size: 1.4rem;
   color: $color-text-task;
+  background-color: $color-right-dark;
+  padding: 2rem;
 }
 
-.container {
-  display: grid;
-  grid-template-columns: 1fr 4fr;
+.calendar {
+  background-color: $color-right-medium;
+  padding: 2rem;
+
+  &__title {
+    text-align: center;
+    color: #fff;
+    padding: 2rem;
+  }
+
+  &__month {
+    text-align: center;
+    background-color: $color-right-light;
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
 }

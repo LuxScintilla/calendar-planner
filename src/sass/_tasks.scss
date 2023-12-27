@@ -1,0 +1,23 @@
+.tasks {
+  display: grid;
+  grid-template-columns: 4rem 1fr;
+  grid-template-rows: repeat(7, 1fr);
+  background-color: $color-calendar-light;
+
+  &__date {
+    text-align: center;
+    background-color: $color-background-date;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  &__divider {
+    background-color: $color-calendar-dark;
+  }
+
+  &__checkbox {
+  }
+
+  &__todo {
+  }
+}
