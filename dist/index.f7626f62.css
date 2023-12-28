@@ -42,7 +42,7 @@ body {
   display: flex;
 }
 
-.calendar__month h2, .calendar__month .month__button {
+.calendar__month .month__button {
   margin-left: auto;
 }
 
@@ -60,8 +60,8 @@ body {
 }
 
 .calendar__month .month__button--previous:hover, .calendar__month .month__button--next:hover {
-  color: #dbb8b2;
-  background-color: #efded4;
+  color: #f5f5f5;
+  background-color: #e2c6c1;
 }
 
 .organiser {
@@ -119,10 +119,13 @@ body {
 }
 
 .tasks__date {
+  color: #fff;
   text-align: center;
   background-color: #eda541;
   padding-top: 1rem;
   padding-bottom: 1rem;
+  font-size: 1.8rem;
+  font-weight: 700;
 }
 
 .tasks__divider {
@@ -135,9 +138,9 @@ body {
 
 .tasks__btn {
   all: unset;
-  color: #2b2526;
+  color: #fff;
   cursor: pointer;
-  background-color: #dbb8b2;
+  background-color: #c5a6a0;
   border-radius: 4px;
   justify-content: center;
   align-items: center;
@@ -154,8 +157,52 @@ body {
 }
 
 .tasks__checkbox {
-  vertical-align: bottom;
-  place-self: center;
+  grid-template-columns: auto;
+  place-content: center;
+  font-family: sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.1;
+  display: grid;
+}
+
+.tasks__checkbox--disabled {
+  color: var(--form-control-disabled);
+  cursor: not-allowed;
+}
+
+.tasks__checkbox input[type="checkbox"] {
+  appearance: none;
+  font: inherit;
+  color: #dbb8b2;
+  background-color: #f5f5f5;
+  border: 2px solid #dbb8b2;
+  border-radius: 4px;
+  place-content: center;
+  width: 2rem;
+  height: 2rem;
+  margin: 0;
+  display: grid;
+}
+
+.tasks__checkbox input[type="checkbox"]:before {
+  content: "";
+  background-color: CanvasText;
+  width: 1rem;
+  height: 1rem;
+  transition: transform .2s ease-in-out;
+  transform: scale(0);
+  box-shadow: inset 1rem 1rem #dbb8b2;
+}
+
+.tasks__checkbox input[type="checkbox"]:checked:before {
+  transform: scale(1);
+}
+
+.tasks__checkbox input[type="checkbox"]:disabled {
+  --form-control-color: #a0a0a0;
+  color: #a0a0a0;
+  cursor: not-allowed;
 }
 
 .tasks__todo {
