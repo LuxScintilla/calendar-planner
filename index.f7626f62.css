@@ -214,6 +214,10 @@ body {
   box-shadow: 0 0 0 8px #af938e;
 }
 
+.padding {
+  background-color: #efded4;
+}
+
 .modal__new-task, .modal__edit-task, .modal__delete-task {
   z-index: 200;
   background-color: #efded4;
