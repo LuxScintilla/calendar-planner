@@ -575,73 +575,105 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 }
 
 },{}],"1SICI":[function(require,module,exports) {
-let monthNavigation = 0;
-let tasks = localStorage.getItem("tasks") ? JSON.parse(localStorage.getItem("tasks")) : [];
+"use strict";
 const calendar = document.querySelector(".organiser__dates");
 const monthYear = document.getElementById("month-year");
 const btnPrevious = document.querySelector(".month__button--previous");
 const btnNext = document.querySelector(".month__button--next");
 const weekdaysArray = [
-    "Sunday",
     "Monday",
     "Tuesday",
     "Wednesday",
     "Thursday",
     "Friday",
-    "Saturday"
+    "Saturday",
+    "Sunday"
 ];
-const monthsArray = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
-];
+let currentDate = new Date();
 const state = {
-    day: null,
-    date: null,
-    month: null,
-    year: null
+    tasks: localStorage.getItem("tasks") ? JSON.parse(localStorage.getItem("tasks")) : []
 };
+// Gets all the data for the date you are working with
 const getDate = function() {
-    const currentDate = new Date();
     state.day = currentDate.getDay();
     state.date = currentDate.getDate();
     state.month = currentDate.getMonth();
     state.year = currentDate.getFullYear();
+    state.daysInMonth = new Date(state.year, state.month + 1, 0).getDate();
+    state.firstDayOfMonth = new Date(state.year, state.month, 1);
+    state.dateString = state.firstDayOfMonth.toLocaleDateString("en-UK", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    });
+    state.paddingDays = weekdaysArray.indexOf(state.dateString.split(", ")[0]);
 };
-const previous = function() {
-    state.month = state.month === 0 ? 11 : state.month - 1;
-    state.year = state.month === 0 ? state.year - 1 : state.year;
+const renderDates = function() {
+    let markup = "";
+    for(let i = 1; i <= state.paddingDays + state.daysInMonth; i++)if (i > state.paddingDays) {
+        markup += `
+      <div class="tasks">
+          <div class="tasks__date"><span>${i - state.paddingDays}</span></div>
+          <div class="tasks__divider">
+            <button class="tasks__btn"><i class="fa-solid fa-plus"></i></button>
+          </div>
+          <label class="tasks__checkbox">
+            <input type="checkbox" name="checkbox">
+          </label>
+          <div class="tasks__todo"></div>
+          <label class="tasks__checkbox">
+            <input type="checkbox" name="checkbox">
+          </label>
+          <div class="tasks__todo"></div>
+          <label class="tasks__checkbox">
+            <input type="checkbox" name="checkbox">
+          </label>
+          <div class="tasks__todo"></div>
+          <label class="tasks__checkbox">
+            <input type="checkbox" name="checkbox">
+          </label>
+          <div class="tasks__todo"></div>
+          <label class="tasks__checkbox">
+            <input type="checkbox" name="checkbox">
+          </label>
+          <div class="tasks__todo"></div>
+          <label class="tasks__checkbox">
+            <input type="checkbox" name="checkbox">
+          </label>
+          <div class="tasks__todo"></div>
+        </div>
+      `;
+        document.querySelector(".tasks__btn").addEventListener("click", ()=>console.log("click"));
+    } else markup += `
+      <div class="padding"></div>
+      `;
+    // Clear and insert html markup into the calendar
+    calendar.innerHTML = "";
+    calendar.insertAdjacentHTML("afterbegin", markup);
 };
-const next = function() {
-    state.month = (state.month + 1) % 12;
-    state.year = state.month === 11 ? state.year + 1 : state.year;
-};
+// Shows and updates the current month and year
 const renderMonthYear = function() {
-    monthYear.textContent = `${monthsArray[state.month]} ${state.year}`;
+    monthYear.textContent = `${new Intl.DateTimeFormat("en-UK", {
+        month: "long"
+    }).format(currentDate)} ${state.year}`;
 };
+// Buttons for going through the months
 btnPrevious.addEventListener("click", function() {
-    monthNavigation--;
-    previous();
     renderMonthYear();
+    getDate();
+    renderDates();
     console.log(state);
 });
 btnNext.addEventListener("click", function() {
-    monthNavigation++;
-    next();
     renderMonthYear();
+    getDate();
+    renderDates();
     console.log(state);
 });
 getDate();
 renderMonthYear();
+renderDates();
 console.log(state);
 
 },{}]},["46McK","1SICI"], "1SICI", "parcelRequired748")
