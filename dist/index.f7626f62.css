@@ -128,6 +128,16 @@ body {
   font-weight: 700;
 }
 
+.tasks__date--current {
+  color: #fff;
+  text-align: center;
+  background-color: #c23048;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
 .tasks__divider {
   background-color: #f3d0b2;
   justify-content: flex-end;
@@ -264,7 +274,7 @@ body {
   display: flex;
 }
 
-.modal__btn-save, .modal__btn-edit, .modal__btn-cancel, .modal__btn-delete, .modal__btn-close {
+.modal__btn-save, .modal__btn-edit, .modal__btn-cancel, .modal__btn-delete {
   all: unset;
   text-align: center;
   color: #2b2526;
@@ -278,7 +288,7 @@ body {
   transition: all .2s;
 }
 
-.modal__btn-save:hover, .modal__btn-edit:hover, .modal__btn-cancel:hover, .modal__btn-delete:hover, .modal__btn-close:hover {
+.modal__btn-save:hover, .modal__btn-edit:hover, .modal__btn-cancel:hover, .modal__btn-delete:hover {
   background-color: #ebaf8d;
 }
 

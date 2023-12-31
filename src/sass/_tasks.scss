@@ -12,6 +12,16 @@
     background-color: $color-background-date;
     padding-top: 1rem;
     padding-bottom: 1rem;
+
+    &--current {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #fff;
+      text-align: center;
+      background-color: #c23048;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
   }
 
   &__divider {

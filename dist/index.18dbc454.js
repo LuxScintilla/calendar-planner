@@ -575,6 +575,7 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 }
 
 },{}],"1SICI":[function(require,module,exports) {
+var _modalJs = require("./modal.js");
 "use strict";
 const calendar = document.querySelector(".organiser__dates");
 const monthYear = document.getElementById("month-year");
@@ -590,13 +591,12 @@ const weekdaysArray = [
     "Sunday"
 ];
 let currentDate = new Date();
-const state = {
-    tasks: localStorage.getItem("tasks") ? JSON.parse(localStorage.getItem("tasks")) : []
-};
+let originalDate = new Date().getDate();
+let tasks = localStorage.getItem("tasks") ? JSON.parse(localStorage.getItem("tasks")) : [];
+const state = {};
 // Gets all the data for the date you are working with
 const getDate = function() {
     state.day = currentDate.getDay();
-    state.date = currentDate.getDate();
     state.month = currentDate.getMonth();
     state.year = currentDate.getFullYear();
     state.daysInMonth = new Date(state.year, state.month + 1, 0).getDate();
@@ -609,14 +609,17 @@ const getDate = function() {
     });
     state.paddingDays = weekdaysArray.indexOf(state.dateString.split(", ")[0]);
 };
+const addCurrentMarkup = function(i) {
+    if (i === originalDate + state.paddingDays) return `--current`;
+    else return "";
+};
 const renderDates = function() {
     let markup = "";
-    for(let i = 1; i <= state.paddingDays + state.daysInMonth; i++)if (i > state.paddingDays) {
-        markup += `
+    for(let i = 1; i <= state.paddingDays + state.daysInMonth; i++)if (i > state.paddingDays) markup += `
       <div class="tasks">
-          <div class="tasks__date"><span>${i - state.paddingDays}</span></div>
+          <div class="tasks__date${addCurrentMarkup(i)}"><span>${i - state.paddingDays}</span></div>
           <div class="tasks__divider">
-            <button class="tasks__btn"><i class="fa-solid fa-plus"></i></button>
+            <button class="tasks__btn" data-date="${i - state.paddingDays}"><i class="fa-solid fa-plus"></i></button>
           </div>
           <label class="tasks__checkbox">
             <input type="checkbox" name="checkbox">
@@ -644,8 +647,7 @@ const renderDates = function() {
           <div class="tasks__todo"></div>
         </div>
       `;
-        document.querySelector(".tasks__btn").addEventListener("click", ()=>console.log("click"));
-    } else markup += `
+    else markup += `
       <div class="padding"></div>
       `;
     // Clear and insert html markup into the calendar
@@ -656,25 +658,100 @@ const renderDates = function() {
 const renderMonthYear = function() {
     monthYear.textContent = `${new Intl.DateTimeFormat("en-UK", {
         month: "long"
-    }).format(currentDate)} ${state.year}`;
+    }).format(currentDate)} ${currentDate.getFullYear()}`;
 };
 // Buttons for going through the months
 btnPrevious.addEventListener("click", function() {
+    if (currentDate.getMonth() === 0) currentDate = new Date(state.year - 1, 11);
+    else currentDate = new Date(state.year, state.month - 1);
     renderMonthYear();
     getDate();
     renderDates();
     console.log(state);
 });
 btnNext.addEventListener("click", function() {
+    if (currentDate.getMonth() === 11) currentDate = new Date(state.year + 1, 0);
+    else currentDate = new Date(state.year, state.month + 1);
     renderMonthYear();
     getDate();
     renderDates();
     console.log(state);
 });
+// Add eventlisteners to all the "add task" buttons on all the dates
+// Also collects the dataset for the date of the clicked button
+const attachHandler = function() {
+    const addTaskBtns = document.querySelectorAll(".tasks__btn");
+    addTaskBtns.forEach((btn)=>btn.addEventListener("click", function(event) {
+            console.log(event.target.closest(".tasks__btn").dataset.date);
+            _modalJs.openAddTask();
+        }));
+};
 getDate();
 renderMonthYear();
 renderDates();
+attachHandler();
 console.log(state);
+
+},{"./modal.js":"aHHgN"}],"aHHgN":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "openAddTask", ()=>openAddTask);
+parcelHelpers.export(exports, "openEditTask", ()=>openEditTask);
+parcelHelpers.export(exports, "openDeleteTask", ()=>openDeleteTask);
+const backDrop = document.querySelector(".modal__backdrop");
+const addTaskModal = document.querySelector(".modal__new-task");
+const editTaskModal = document.querySelector(".modal__edit-task");
+const deleteTaskModal = document.querySelector(".modal__delete-task");
+const saveBtn = document.querySelector(".modal__btn-save");
+const editBtn = document.querySelector(".modal__btn-edit");
+const deleteBtn = document.querySelector(".modal__btn-delete");
+const cancelBtn = document.querySelector(".modal__btn-cancel");
+cancelBtn.addEventListener("click", function() {
+    backDrop.style.display = "none";
+    addTaskModal.style.display = "none";
+});
+const openAddTask = function() {
+    backDrop.style.display = "block";
+    addTaskModal.style.display = "flex";
+};
+const openEditTask = function() {
+    backDrop.style.display = "block";
+    editTaskModal.style.display = "flex";
+};
+const openDeleteTask = function() {
+    backDrop.style.display = "block";
+    deleteTaskModal.style.display = "flex";
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || Object.prototype.hasOwnProperty.call(dest, key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
 
 },{}]},["46McK","1SICI"], "1SICI", "parcelRequired748")
 
