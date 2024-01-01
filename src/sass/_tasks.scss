@@ -107,6 +107,9 @@
   }
 
   &__todo {
+    align-self: center;
+    font-size: 1.6rem;
+    color: $color-text-task;
     border-bottom: 1px solid $color-divider;
     border-right: 1px solid $color-divider;
   }
@@ -118,4 +121,8 @@
 
 .padding {
   background-color: $color-right-medium;
+}
+
+.checked-task {
+  opacity: 0.5;
 }

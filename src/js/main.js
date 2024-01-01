@@ -19,7 +19,10 @@ const weekdaysArray = [
 
 let currentDate = new Date();
 let originalDate = new Date().getDate();
-let tasks = localStorage.getItem("tasks")
+
+export let clickedDate;
+
+export let tasks = localStorage.getItem("tasks")
   ? JSON.parse(localStorage.getItem("tasks"))
   : [];
 
@@ -49,6 +52,14 @@ const addCurrentMarkup = function (i) {
   }
 };
 
+const renderTaskTitle = function (i) {
+  if (tasks.taskDate === i) {
+    return `tasks.taskTitle`;
+  } else {
+    return "";
+  }
+};
+
 const renderDates = function () {
   let markup = "";
   for (let i = 1; i <= state.paddingDays + state.daysInMonth; i++) {
@@ -63,30 +74,54 @@ const renderDates = function () {
               i - state.paddingDays
             }"><i class="fa-solid fa-plus"></i></button>
           </div>
-          <label class="tasks__checkbox">
-            <input type="checkbox" name="checkbox">
-          </label>
-          <div class="tasks__todo"></div>
-          <label class="tasks__checkbox">
-            <input type="checkbox" name="checkbox">
-          </label>
-          <div class="tasks__todo"></div>
-          <label class="tasks__checkbox">
-            <input type="checkbox" name="checkbox">
-          </label>
-          <div class="tasks__todo"></div>
-          <label class="tasks__checkbox">
-            <input type="checkbox" name="checkbox">
-          </label>
-          <div class="tasks__todo"></div>
-          <label class="tasks__checkbox">
-            <input type="checkbox" name="checkbox">
-          </label>
-          <div class="tasks__todo"></div>
-          <label class="tasks__checkbox">
-            <input type="checkbox" name="checkbox">
-          </label>
-          <div class="tasks__todo"></div>
+          <div class="tasks__checkbox">
+            <input type="checkbox" name="checkbox" id="task-1-${
+              i - state.paddingDays
+            }">
+          </div>
+          <label class="tasks__todo" for="task-1" data-task="task-1-${
+            i - state.paddingDays
+          }">${renderTaskTitle(i)}</label>
+          <div class="tasks__checkbox">
+            <input type="checkbox" name="checkbox" id="task-2-${
+              i - state.paddingDays
+            }">
+          </div>
+          <label class="tasks__todo" for="task-2" data-task="task-2-${
+            i - state.paddingDays
+          }"></label>
+          <div class="tasks__checkbox">
+            <input type="checkbox" name="checkbox" id="task-3-${
+              i - state.paddingDays
+            }">
+          </div>
+          <label class="tasks__todo" for="task-3" data-task="task-3-${
+            i - state.paddingDays
+          }"></label>
+          <div class="tasks__checkbox">
+            <input type="checkbox" name="checkbox" id="task-4-${
+              i - state.paddingDays
+            }">
+          </div>
+          <label class="tasks__todo" for="task-4" data-task="task-4-${
+            i - state.paddingDays
+          }"></label>
+          <div class="tasks__checkbox">
+            <input type="checkbox" name="checkbox" id="task-5-${
+              i - state.paddingDays
+            }">
+          </div>
+          <label class="tasks__todo" for="task-5" data-task="task-5-${
+            i - state.paddingDays
+          }"></label>
+          <div class="tasks__checkbox">
+            <input type="checkbox" name="checkbox" id="task-6-${
+              i - state.paddingDays
+            }">
+          </div>
+          <label class="tasks__todo" for="task-6" data-task="task-6-${
+            i - state.paddingDays
+          }"></label>
         </div>
       `;
     } else {
@@ -107,6 +142,15 @@ const renderMonthYear = function () {
   }).format(currentDate)} ${currentDate.getFullYear()}`;
 };
 
+const executeOrder = function () {
+  renderMonthYear();
+  getDate();
+  renderDates();
+  attachDateHandler();
+  attachCheckBoxHandler();
+  console.log(state);
+};
+
 // Buttons for going through the months
 btnPrevious.addEventListener("click", function () {
   if (currentDate.getMonth() === 0) {
@@ -114,10 +158,7 @@ btnPrevious.addEventListener("click", function () {
   } else {
     currentDate = new Date(state.year, state.month - 1);
   }
-  renderMonthYear();
-  getDate();
-  renderDates();
-  console.log(state);
+  executeOrder();
 });
 
 btnNext.addEventListener("click", function () {
@@ -126,20 +167,41 @@ btnNext.addEventListener("click", function () {
   } else {
     currentDate = new Date(state.year, state.month + 1);
   }
-  renderMonthYear();
-  getDate();
-  renderDates();
-  console.log(state);
+  executeOrder();
 });
 
 // Add eventlisteners to all the "add task" buttons on all the dates
 // Also collects the dataset for the date of the clicked button
-const attachHandler = function () {
+const attachDateHandler = function () {
   const addTaskBtns = document.querySelectorAll(".tasks__btn");
   addTaskBtns.forEach((btn) =>
     btn.addEventListener("click", function (event) {
-      console.log(event.target.closest(".tasks__btn").dataset.date);
+      clickedDate = event.target.closest(".tasks__btn").dataset.date;
       modal.openAddTask();
+    })
+  );
+};
+
+// Listen to and get info from the checkboxes clicked
+const attachCheckBoxHandler = function () {
+  const checkBox = document.querySelectorAll('input[type="checkbox"]');
+  const taskLabel = document.querySelectorAll(".tasks__todo");
+
+  checkBox.forEach((box) =>
+    box.addEventListener("change", function () {
+      if (this.checked) {
+        taskLabel.forEach((label) => {
+          if (label.dataset.task === this.id) {
+            label.style.opacity = 0.3;
+          }
+        });
+      } else {
+        taskLabel.forEach((label) => {
+          if (label.dataset.task === this.id) {
+            label.style.opacity = 1;
+          }
+        });
+      }
     })
   );
 };
@@ -147,5 +209,7 @@ const attachHandler = function () {
 getDate();
 renderMonthYear();
 renderDates();
-attachHandler();
+attachDateHandler();
+attachCheckBoxHandler();
 console.log(state);
+console.log(tasks);
