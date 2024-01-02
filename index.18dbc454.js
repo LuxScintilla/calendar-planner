@@ -579,6 +579,7 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "clickedDate", ()=>clickedDate);
 parcelHelpers.export(exports, "tasks", ()=>tasks);
+parcelHelpers.export(exports, "executeOrder", ()=>executeOrder);
 var _modalJs = require("./modal.js");
 "use strict";
 const calendar = document.querySelector(".organiser__dates");
@@ -615,11 +616,14 @@ const getDate = function() {
     state.paddingDays = weekdaysArray.indexOf(state.dateString.split(", ")[0]);
 };
 const addCurrentMarkup = function(i) {
-    if (i === originalDate + state.paddingDays) return `--current`;
+    if (i === originalDate) return `--current`;
     else return "";
 };
-const renderTaskTitle = function(i) {
-    if (tasks.taskDate === i) return `tasks.taskTitle`;
+const renderTaskTitle = function(i, line) {
+    const filtered = tasks.filter((task)=>{
+        return task.taskDate === i;
+    });
+    if (filtered[line]) return `${filtered[line].taskTitle}`;
     else return "";
 };
 const renderDates = function() {
@@ -633,27 +637,27 @@ const renderDates = function() {
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-1-${i - state.paddingDays}">
           </div>
-          <label class="tasks__todo" for="task-1" data-task="task-1-${i - state.paddingDays}">${renderTaskTitle(i)}</label>
+          <label class="tasks__todo" for="task-1" data-task="task-1-${i - state.paddingDays}">${renderTaskTitle(i, 0) ? renderTaskTitle(i, 0) : ""}</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-2-${i - state.paddingDays}">
           </div>
-          <label class="tasks__todo" for="task-2" data-task="task-2-${i - state.paddingDays}"></label>
+          <label class="tasks__todo" for="task-2" data-task="task-2-${i - state.paddingDays}">${renderTaskTitle(i, 1) ? renderTaskTitle(i, 1) : ""}</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-3-${i - state.paddingDays}">
           </div>
-          <label class="tasks__todo" for="task-3" data-task="task-3-${i - state.paddingDays}"></label>
+          <label class="tasks__todo" for="task-3" data-task="task-3-${i - state.paddingDays}">${renderTaskTitle(i, 2) ? renderTaskTitle(i, 2) : ""}</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-4-${i - state.paddingDays}">
           </div>
-          <label class="tasks__todo" for="task-4" data-task="task-4-${i - state.paddingDays}"></label>
+          <label class="tasks__todo" for="task-4" data-task="task-4-${i - state.paddingDays}">${renderTaskTitle(i, 3) ? renderTaskTitle(i, 3) : ""}</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-5-${i - state.paddingDays}">
           </div>
-          <label class="tasks__todo" for="task-5" data-task="task-5-${i - state.paddingDays}"></label>
+          <label class="tasks__todo" for="task-5" data-task="task-5-${i - state.paddingDays}">${renderTaskTitle(i, 4) ? renderTaskTitle(i, 4) : ""}</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-6-${i - state.paddingDays}">
           </div>
-          <label class="tasks__todo" for="task-6" data-task="task-6-${i - state.paddingDays}"></label>
+          <label class="tasks__todo" for="task-6" data-task="task-6-${i - state.paddingDays}">${renderTaskTitle(i, 5) ? renderTaskTitle(i, 5) : ""}</label>
         </div>
       `;
     else markup += `
@@ -703,10 +707,16 @@ const attachCheckBoxHandler = function() {
     const taskLabel = document.querySelectorAll(".tasks__todo");
     checkBox.forEach((box)=>box.addEventListener("change", function() {
             if (this.checked) taskLabel.forEach((label)=>{
-                if (label.dataset.task === this.id) label.style.opacity = 0.3;
+                if (label.dataset.task === this.id) {
+                    label.style.opacity = 0.5;
+                    label.style.textDecoration = "line-through";
+                }
             });
             else taskLabel.forEach((label)=>{
-                if (label.dataset.task === this.id) label.style.opacity = 1;
+                if (label.dataset.task === this.id) {
+                    label.style.opacity = 1;
+                    label.style.textDecoration = "none";
+                }
             });
         }));
 };
@@ -736,12 +746,14 @@ const deleteBtn = document.querySelector(".modal__btn-delete");
 const cancelBtn = document.querySelector(".modal__btn-cancel");
 saveBtn.addEventListener("click", function() {
     const dataObject = {
-        taskDate: _mainJs.clickedDate,
+        taskDate: Number(_mainJs.clickedDate),
         taskTitle: addTaskInput.value
     };
-    localStorage.setItem("tasks", JSON.stringify(dataObject));
+    _mainJs.tasks[_mainJs.tasks.length] = dataObject;
+    localStorage.setItem("tasks", JSON.stringify(_mainJs.tasks));
     backDrop.style.display = "none";
     addTaskModal.style.display = "none";
+    addTaskInput.value = "";
     console.log(_mainJs.tasks);
 });
 cancelBtn.addEventListener("click", function() {
@@ -753,6 +765,7 @@ cancelBtn.addEventListener("click", function() {
 const openAddTask = function() {
     backDrop.style.display = "block";
     addTaskModal.style.display = "flex";
+    addTaskInput.focus();
 };
 const openEditTask = function() {
     backDrop.style.display = "block";
