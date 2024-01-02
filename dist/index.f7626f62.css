@@ -231,10 +231,6 @@ body {
   background-color: #efded4;
 }
 
-.checked-task {
-  opacity: .5;
-}
-
 .modal__new-task, .modal__edit-task, .modal__delete-task {
   z-index: 200;
   background-color: #efded4;

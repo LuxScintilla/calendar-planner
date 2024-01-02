@@ -14,14 +14,18 @@ const cancelBtn = document.querySelector(".modal__btn-cancel");
 
 saveBtn.addEventListener("click", function () {
   const dataObject = {
-    taskDate: main.clickedDate,
+    taskDate: Number(main.clickedDate),
     taskTitle: addTaskInput.value,
   };
 
-  localStorage.setItem("tasks", JSON.stringify(dataObject));
+  main.tasks[main.tasks.length] = dataObject;
+
+  localStorage.setItem("tasks", JSON.stringify(main.tasks));
 
   backDrop.style.display = "none";
   addTaskModal.style.display = "none";
+
+  addTaskInput.value = "";
 
   console.log(main.tasks);
 });
@@ -36,6 +40,7 @@ cancelBtn.addEventListener("click", function () {
 export const openAddTask = function () {
   backDrop.style.display = "block";
   addTaskModal.style.display = "flex";
+  addTaskInput.focus();
 };
 
 export const openEditTask = function () {

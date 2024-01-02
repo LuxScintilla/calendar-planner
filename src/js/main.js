@@ -45,16 +45,20 @@ const getDate = function () {
 };
 
 const addCurrentMarkup = function (i) {
-  if (i === originalDate + state.paddingDays) {
+  if (i === originalDate) {
     return `--current`;
   } else {
     return "";
   }
 };
 
-const renderTaskTitle = function (i) {
-  if (tasks.taskDate === i) {
-    return `tasks.taskTitle`;
+const renderTaskTitle = function (i, line) {
+  const filtered = tasks.filter((task) => {
+    return task.taskDate === i;
+  });
+
+  if (filtered[line]) {
+    return `${filtered[line].taskTitle}`;
   } else {
     return "";
   }
@@ -81,7 +85,7 @@ const renderDates = function () {
           </div>
           <label class="tasks__todo" for="task-1" data-task="task-1-${
             i - state.paddingDays
-          }">${renderTaskTitle(i)}</label>
+          }">${renderTaskTitle(i, 0) ? renderTaskTitle(i, 0) : ""}</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-2-${
               i - state.paddingDays
@@ -89,7 +93,7 @@ const renderDates = function () {
           </div>
           <label class="tasks__todo" for="task-2" data-task="task-2-${
             i - state.paddingDays
-          }"></label>
+          }">${renderTaskTitle(i, 1) ? renderTaskTitle(i, 1) : ""}</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-3-${
               i - state.paddingDays
@@ -97,7 +101,7 @@ const renderDates = function () {
           </div>
           <label class="tasks__todo" for="task-3" data-task="task-3-${
             i - state.paddingDays
-          }"></label>
+          }">${renderTaskTitle(i, 2) ? renderTaskTitle(i, 2) : ""}</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-4-${
               i - state.paddingDays
@@ -105,7 +109,7 @@ const renderDates = function () {
           </div>
           <label class="tasks__todo" for="task-4" data-task="task-4-${
             i - state.paddingDays
-          }"></label>
+          }">${renderTaskTitle(i, 3) ? renderTaskTitle(i, 3) : ""}</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-5-${
               i - state.paddingDays
@@ -113,7 +117,7 @@ const renderDates = function () {
           </div>
           <label class="tasks__todo" for="task-5" data-task="task-5-${
             i - state.paddingDays
-          }"></label>
+          }">${renderTaskTitle(i, 4) ? renderTaskTitle(i, 4) : ""}</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-6-${
               i - state.paddingDays
@@ -121,7 +125,7 @@ const renderDates = function () {
           </div>
           <label class="tasks__todo" for="task-6" data-task="task-6-${
             i - state.paddingDays
-          }"></label>
+          }">${renderTaskTitle(i, 5) ? renderTaskTitle(i, 5) : ""}</label>
         </div>
       `;
     } else {
@@ -142,7 +146,7 @@ const renderMonthYear = function () {
   }).format(currentDate)} ${currentDate.getFullYear()}`;
 };
 
-const executeOrder = function () {
+export const executeOrder = function () {
   renderMonthYear();
   getDate();
   renderDates();
@@ -192,13 +196,15 @@ const attachCheckBoxHandler = function () {
       if (this.checked) {
         taskLabel.forEach((label) => {
           if (label.dataset.task === this.id) {
-            label.style.opacity = 0.3;
+            label.style.opacity = 0.5;
+            label.style.textDecoration = "line-through";
           }
         });
       } else {
         taskLabel.forEach((label) => {
           if (label.dataset.task === this.id) {
             label.style.opacity = 1;
+            label.style.textDecoration = "none";
           }
         });
       }
