@@ -710,15 +710,41 @@ const attachCheckBoxHandler = function() {
                 if (label.dataset.task === this.id) {
                     label.style.opacity = 0.5;
                     label.style.textDecoration = "line-through";
+                    const data = this.parentElement.nextElementSibling.textContent;
+                    addCheckedStatus(data, true);
                 }
             });
             else taskLabel.forEach((label)=>{
                 if (label.dataset.task === this.id) {
                     label.style.opacity = 1;
                     label.style.textDecoration = "none";
+                    const data = this.parentElement.nextElementSibling.textContent;
+                    addCheckedStatus(data, false);
                 }
             });
         }));
+    checkBox.forEach((box)=>{
+        const data = box.parentElement.nextElementSibling.textContent;
+        tasks.forEach((task)=>{
+            if (task.taskTitle === data && task.checked === true) {
+                box.setAttribute("checked", "");
+                taskLabel.forEach((label)=>{
+                    if (label.textContent === data) {
+                        label.style.opacity = 0.5;
+                        label.style.textDecoration = "line-through";
+                    }
+                });
+            }
+        });
+    });
+};
+const addCheckedStatus = function(data, status) {
+    tasks.forEach((task)=>{
+        if (task.taskTitle === data) {
+            task.checked = status;
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+        }
+    });
 };
 getDate();
 renderMonthYear();
