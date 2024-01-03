@@ -579,6 +579,7 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "clickedDate", ()=>clickedDate);
 parcelHelpers.export(exports, "tasks", ()=>tasks);
+parcelHelpers.export(exports, "state", ()=>state);
 parcelHelpers.export(exports, "executeOrder", ()=>executeOrder);
 var _modalJs = require("./modal.js");
 "use strict";
@@ -616,48 +617,48 @@ const getDate = function() {
     state.paddingDays = weekdaysArray.indexOf(state.dateString.split(", ")[0]);
 };
 const addCurrentMarkup = function(i) {
-    if (i === originalDate) return `--current`;
+    if (i === originalDate && state.month === new Date().getMonth()) return `--current`;
     else return "";
 };
 const renderTaskTitle = function(i, line) {
     const filtered = tasks.filter((task)=>{
-        return task.taskDate === i;
+        return task.taskDate === i && state.month === task.taskMonth;
     });
-    if (filtered[line]) return `${filtered[line].taskTitle}`;
+    if (filtered[line] && filtered[line].taskMonth === state.month) return `${filtered[line].taskTitle}`;
     else return "";
 };
 const renderDates = function() {
     let markup = "";
     for(let i = 1; i <= state.paddingDays + state.daysInMonth; i++)if (i > state.paddingDays) markup += `
       <div class="tasks">
-          <div class="tasks__date${addCurrentMarkup(i)}"><span>${i - state.paddingDays}</span></div>
+          <div class="tasks__date${addCurrentMarkup(i - state.paddingDays)}"><span>${i - state.paddingDays}</span></div>
           <div class="tasks__divider">
             <button class="tasks__btn" data-date="${i - state.paddingDays}"><i class="fa-solid fa-plus"></i></button>
           </div>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-1-${i - state.paddingDays}">
           </div>
-          <label class="tasks__todo" for="task-1" data-task="task-1-${i - state.paddingDays}">${renderTaskTitle(i, 0) ? renderTaskTitle(i, 0) : ""}</label>
+          <label class="tasks__todo" for="task-1" data-task="task-1-${i - state.paddingDays}">${renderTaskTitle(i - state.paddingDays, 0) ? renderTaskTitle(i - state.paddingDays, 0) : ""}</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-2-${i - state.paddingDays}">
           </div>
-          <label class="tasks__todo" for="task-2" data-task="task-2-${i - state.paddingDays}">${renderTaskTitle(i, 1) ? renderTaskTitle(i, 1) : ""}</label>
+          <label class="tasks__todo" for="task-2" data-task="task-2-${i - state.paddingDays}">${renderTaskTitle(i - state.paddingDays, 1) ? renderTaskTitle(i - state.paddingDays, 1) : ""}</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-3-${i - state.paddingDays}">
           </div>
-          <label class="tasks__todo" for="task-3" data-task="task-3-${i - state.paddingDays}">${renderTaskTitle(i, 2) ? renderTaskTitle(i, 2) : ""}</label>
+          <label class="tasks__todo" for="task-3" data-task="task-3-${i - state.paddingDays}">${renderTaskTitle(i - state.paddingDays, 2) ? renderTaskTitle(i - state.paddingDays, 2) : ""}</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-4-${i - state.paddingDays}">
           </div>
-          <label class="tasks__todo" for="task-4" data-task="task-4-${i - state.paddingDays}">${renderTaskTitle(i, 3) ? renderTaskTitle(i, 3) : ""}</label>
+          <label class="tasks__todo" for="task-4" data-task="task-4-${i - state.paddingDays}">${renderTaskTitle(i - state.paddingDays, 3) ? renderTaskTitle(i - state.paddingDays, 3) : ""}</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-5-${i - state.paddingDays}">
           </div>
-          <label class="tasks__todo" for="task-5" data-task="task-5-${i - state.paddingDays}">${renderTaskTitle(i, 4) ? renderTaskTitle(i, 4) : ""}</label>
+          <label class="tasks__todo" for="task-5" data-task="task-5-${i - state.paddingDays}">${renderTaskTitle(i - state.paddingDays, 4) ? renderTaskTitle(i - state.paddingDays, 4) : ""}</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-6-${i - state.paddingDays}">
           </div>
-          <label class="tasks__todo" for="task-6" data-task="task-6-${i - state.paddingDays}">${renderTaskTitle(i, 5) ? renderTaskTitle(i, 5) : ""}</label>
+          <label class="tasks__todo" for="task-6" data-task="task-6-${i - state.paddingDays}">${renderTaskTitle(i - state.paddingDays, 5) ? renderTaskTitle(i - state.paddingDays, 5) : ""}</label>
         </div>
       `;
     else markup += `
@@ -679,7 +680,6 @@ const executeOrder = function() {
     renderDates();
     attachDateHandler();
     attachCheckBoxHandler();
-    console.log(state);
 };
 // Buttons for going through the months
 btnPrevious.addEventListener("click", function() {
@@ -725,8 +725,6 @@ renderMonthYear();
 renderDates();
 attachDateHandler();
 attachCheckBoxHandler();
-console.log(state);
-console.log(tasks);
 
 },{"./modal.js":"aHHgN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aHHgN":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -747,6 +745,7 @@ const cancelBtn = document.querySelector(".modal__btn-cancel");
 saveBtn.addEventListener("click", function() {
     const dataObject = {
         taskDate: Number(_mainJs.clickedDate),
+        taskMonth: _mainJs.state.month,
         taskTitle: addTaskInput.value
     };
     _mainJs.tasks[_mainJs.tasks.length] = dataObject;
@@ -754,6 +753,7 @@ saveBtn.addEventListener("click", function() {
     backDrop.style.display = "none";
     addTaskModal.style.display = "none";
     addTaskInput.value = "";
+    _mainJs.executeOrder();
     console.log(_mainJs.tasks);
 });
 cancelBtn.addEventListener("click", function() {

@@ -15,6 +15,7 @@ const cancelBtn = document.querySelector(".modal__btn-cancel");
 saveBtn.addEventListener("click", function () {
   const dataObject = {
     taskDate: Number(main.clickedDate),
+    taskMonth: main.state.month,
     taskTitle: addTaskInput.value,
   };
 
@@ -26,6 +27,8 @@ saveBtn.addEventListener("click", function () {
   addTaskModal.style.display = "none";
 
   addTaskInput.value = "";
+
+  main.executeOrder();
 
   console.log(main.tasks);
 });

@@ -26,7 +26,7 @@ export let tasks = localStorage.getItem("tasks")
   ? JSON.parse(localStorage.getItem("tasks"))
   : [];
 
-const state = {};
+export const state = {};
 
 // Gets all the data for the date you are working with
 const getDate = function () {
@@ -45,7 +45,7 @@ const getDate = function () {
 };
 
 const addCurrentMarkup = function (i) {
-  if (i === originalDate) {
+  if (i === originalDate && state.month === new Date().getMonth()) {
     return `--current`;
   } else {
     return "";
@@ -54,10 +54,10 @@ const addCurrentMarkup = function (i) {
 
 const renderTaskTitle = function (i, line) {
   const filtered = tasks.filter((task) => {
-    return task.taskDate === i;
+    return task.taskDate === i && state.month === task.taskMonth;
   });
 
-  if (filtered[line]) {
+  if (filtered[line] && filtered[line].taskMonth === state.month) {
     return `${filtered[line].taskTitle}`;
   } else {
     return "";
@@ -70,9 +70,9 @@ const renderDates = function () {
     if (i > state.paddingDays) {
       markup += `
       <div class="tasks">
-          <div class="tasks__date${addCurrentMarkup(i)}"><span>${
-        i - state.paddingDays
-      }</span></div>
+          <div class="tasks__date${addCurrentMarkup(
+            i - state.paddingDays
+          )}"><span>${i - state.paddingDays}</span></div>
           <div class="tasks__divider">
             <button class="tasks__btn" data-date="${
               i - state.paddingDays
@@ -85,7 +85,11 @@ const renderDates = function () {
           </div>
           <label class="tasks__todo" for="task-1" data-task="task-1-${
             i - state.paddingDays
-          }">${renderTaskTitle(i, 0) ? renderTaskTitle(i, 0) : ""}</label>
+          }">${
+        renderTaskTitle(i - state.paddingDays, 0)
+          ? renderTaskTitle(i - state.paddingDays, 0)
+          : ""
+      }</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-2-${
               i - state.paddingDays
@@ -93,7 +97,11 @@ const renderDates = function () {
           </div>
           <label class="tasks__todo" for="task-2" data-task="task-2-${
             i - state.paddingDays
-          }">${renderTaskTitle(i, 1) ? renderTaskTitle(i, 1) : ""}</label>
+          }">${
+        renderTaskTitle(i - state.paddingDays, 1)
+          ? renderTaskTitle(i - state.paddingDays, 1)
+          : ""
+      }</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-3-${
               i - state.paddingDays
@@ -101,7 +109,11 @@ const renderDates = function () {
           </div>
           <label class="tasks__todo" for="task-3" data-task="task-3-${
             i - state.paddingDays
-          }">${renderTaskTitle(i, 2) ? renderTaskTitle(i, 2) : ""}</label>
+          }">${
+        renderTaskTitle(i - state.paddingDays, 2)
+          ? renderTaskTitle(i - state.paddingDays, 2)
+          : ""
+      }</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-4-${
               i - state.paddingDays
@@ -109,7 +121,11 @@ const renderDates = function () {
           </div>
           <label class="tasks__todo" for="task-4" data-task="task-4-${
             i - state.paddingDays
-          }">${renderTaskTitle(i, 3) ? renderTaskTitle(i, 3) : ""}</label>
+          }">${
+        renderTaskTitle(i - state.paddingDays, 3)
+          ? renderTaskTitle(i - state.paddingDays, 3)
+          : ""
+      }</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-5-${
               i - state.paddingDays
@@ -117,7 +133,11 @@ const renderDates = function () {
           </div>
           <label class="tasks__todo" for="task-5" data-task="task-5-${
             i - state.paddingDays
-          }">${renderTaskTitle(i, 4) ? renderTaskTitle(i, 4) : ""}</label>
+          }">${
+        renderTaskTitle(i - state.paddingDays, 4)
+          ? renderTaskTitle(i - state.paddingDays, 4)
+          : ""
+      }</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-6-${
               i - state.paddingDays
@@ -125,7 +145,11 @@ const renderDates = function () {
           </div>
           <label class="tasks__todo" for="task-6" data-task="task-6-${
             i - state.paddingDays
-          }">${renderTaskTitle(i, 5) ? renderTaskTitle(i, 5) : ""}</label>
+          }">${
+        renderTaskTitle(i - state.paddingDays, 5)
+          ? renderTaskTitle(i - state.paddingDays, 5)
+          : ""
+      }</label>
         </div>
       `;
     } else {
@@ -152,7 +176,6 @@ export const executeOrder = function () {
   renderDates();
   attachDateHandler();
   attachCheckBoxHandler();
-  console.log(state);
 };
 
 // Buttons for going through the months
@@ -217,5 +240,3 @@ renderMonthYear();
 renderDates();
 attachDateHandler();
 attachCheckBoxHandler();
-console.log(state);
-console.log(tasks);
