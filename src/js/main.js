@@ -64,6 +64,26 @@ const renderTaskTitle = function (i, line) {
   }
 };
 
+const renderAddTaskBtn = function (i) {
+  if (i < originalDate) {
+    return "";
+  } else {
+    return `<button class="tasks__btn" data-date="${i}"><i class="fa-solid fa-plus"></i></button>`;
+  }
+};
+
+const renderEditTaskBtn = function (i) {
+  return `<button class="tasks__btn" data-date="${i}"><i class="fa-solid fa-pen-to-square"></i></button>`;
+};
+
+const renderDeleteTaskBtn = function (i) {
+  return `<button class="tasks__btn" data-date="${i}"><i class="fa-solid fa-trash"></i></button>`;
+};
+
+const renderWeatherBtn = function (i) {
+  return `<button class="tasks__btn" data-date="${i}"><i class="fa-solid fa-cloud-sun"></i></button>`;
+};
+
 const renderDates = function () {
   let markup = "";
   for (let i = 1; i <= state.paddingDays + state.daysInMonth; i++) {
@@ -74,9 +94,10 @@ const renderDates = function () {
             i - state.paddingDays
           )}"><span>${i - state.paddingDays}</span></div>
           <div class="tasks__divider">
-            <button class="tasks__btn" data-date="${
-              i - state.paddingDays
-            }"><i class="fa-solid fa-plus"></i></button>
+            ${renderWeatherBtn(i - state.paddingDays)}
+            ${renderAddTaskBtn(i - state.paddingDays)}
+            ${renderEditTaskBtn(i - state.paddingDays)}
+            ${renderDeleteTaskBtn(i - state.paddingDays)}
           </div>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-1-${

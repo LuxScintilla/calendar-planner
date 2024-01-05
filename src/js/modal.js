@@ -5,6 +5,7 @@ const addTaskModal = document.querySelector(".modal__new-task");
 const editTaskModal = document.querySelector(".modal__edit-task");
 const deleteTaskModal = document.querySelector(".modal__delete-task");
 
+const modalForm = document.querySelector(".modal__form");
 const addTaskInput = document.querySelector(".modal__task-input");
 
 const saveBtn = document.querySelector(".modal__btn-save");
@@ -12,7 +13,13 @@ const editBtn = document.querySelector(".modal__btn-edit");
 const deleteBtn = document.querySelector(".modal__btn-delete");
 const cancelBtn = document.querySelector(".modal__btn-cancel");
 
-saveBtn.addEventListener("click", function () {
+modalForm.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+  }
+});
+
+saveBtn.addEventListener("click", function (event) {
   const dataObject = {
     taskDate: Number(main.clickedDate),
     taskMonth: main.state.month,

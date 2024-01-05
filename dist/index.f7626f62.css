@@ -142,6 +142,7 @@ body {
   background-color: #f3d0b2;
   justify-content: flex-end;
   align-items: center;
+  gap: 1rem;
   padding-right: 1rem;
   display: flex;
 }
@@ -156,7 +157,7 @@ body {
   align-items: center;
   width: 2rem;
   height: 2rem;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   transition: all .2s;
   display: flex;
 }
