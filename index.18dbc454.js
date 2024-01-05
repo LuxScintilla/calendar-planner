@@ -627,13 +627,29 @@ const renderTaskTitle = function(i, line) {
     if (filtered[line] && filtered[line].taskMonth === state.month) return `${filtered[line].taskTitle}`;
     else return "";
 };
+const renderAddTaskBtn = function(i) {
+    if (i < originalDate) return "";
+    else return `<button class="tasks__btn" data-date="${i}"><i class="fa-solid fa-plus"></i></button>`;
+};
+const renderEditTaskBtn = function(i) {
+    return `<button class="tasks__btn" data-date="${i}"><i class="fa-solid fa-pen-to-square"></i></button>`;
+};
+const renderDeleteTaskBtn = function(i) {
+    return `<button class="tasks__btn" data-date="${i}"><i class="fa-solid fa-trash"></i></button>`;
+};
+const renderWeatherBtn = function(i) {
+    return `<button class="tasks__btn" data-date="${i}"><i class="fa-solid fa-cloud-sun"></i></button>`;
+};
 const renderDates = function() {
     let markup = "";
     for(let i = 1; i <= state.paddingDays + state.daysInMonth; i++)if (i > state.paddingDays) markup += `
       <div class="tasks">
           <div class="tasks__date${addCurrentMarkup(i - state.paddingDays)}"><span>${i - state.paddingDays}</span></div>
           <div class="tasks__divider">
-            <button class="tasks__btn" data-date="${i - state.paddingDays}"><i class="fa-solid fa-plus"></i></button>
+            ${renderWeatherBtn(i - state.paddingDays)}
+            ${renderAddTaskBtn(i - state.paddingDays)}
+            ${renderEditTaskBtn(i - state.paddingDays)}
+            ${renderDeleteTaskBtn(i - state.paddingDays)}
           </div>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-1-${i - state.paddingDays}">
@@ -763,12 +779,16 @@ const backDrop = document.querySelector(".modal__backdrop");
 const addTaskModal = document.querySelector(".modal__new-task");
 const editTaskModal = document.querySelector(".modal__edit-task");
 const deleteTaskModal = document.querySelector(".modal__delete-task");
+const modalForm = document.querySelector(".modal__form");
 const addTaskInput = document.querySelector(".modal__task-input");
 const saveBtn = document.querySelector(".modal__btn-save");
 const editBtn = document.querySelector(".modal__btn-edit");
 const deleteBtn = document.querySelector(".modal__btn-delete");
 const cancelBtn = document.querySelector(".modal__btn-cancel");
-saveBtn.addEventListener("click", function() {
+modalForm.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") event.preventDefault();
+});
+saveBtn.addEventListener("click", function(event) {
     const dataObject = {
         taskDate: Number(_mainJs.clickedDate),
         taskMonth: _mainJs.state.month,
