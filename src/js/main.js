@@ -249,8 +249,58 @@ const attachBtnHandler = function () {
     btn.addEventListener("click", function (event) {
       // Get the dataset from the button itself when clicking the icon within the button
       clickedDate = event.target.closest(".tasks__btn--edit").dataset.date;
+      // Opens the edit modal, filters, and renders tasks for that day inside the modal
       modal.openEditTask();
+
+      const editTaskBtns = document.querySelectorAll(".edit-task-btn");
+      const taskInputs = document.querySelectorAll(".modal__task-input");
+
+      editTaskBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          if (btn.textContent === "Edit") {
+            btn.textContent = "Save";
+            editTaskHandler(btn, taskInputs);
+          } else if (btn.textContent === "Save") {
+            btn.textContent = "Edit";
+            editTaskHandler(btn, taskInputs);
+          }
+        });
+      });
     });
+  });
+};
+
+const editTaskHandler = function (btn, inputs) {
+  inputs.forEach((input) => {
+    let originalValue;
+    let newValue;
+    if (
+      btn.dataset.task === input.dataset.task &&
+      input.hasAttribute("readonly")
+    ) {
+      originalValue = input.value;
+
+      input.removeAttribute("readonly");
+    } else if (
+      btn.dataset.task === input.dataset.task &&
+      !input.hasAttribute("readonly")
+    ) {
+      newValue = input.value;
+      input.setAttribute("readonly", "readonly");
+
+      // const mappedTasks = tasks.map((task) => {
+      //   if (task.taskDate !== Number(clickedDate)) {
+      //     return task;
+      //   } else if (
+      //     task.taskDate === Number(clickedDate) &&
+      //     task.taskTitle === originalValue
+      //   ) {
+      //     task.taskTitle = input.value;
+      //     return task;
+      //   }
+      // });
+      // console.log(mappedTasks);
+    }
   });
 };
 

@@ -8,6 +8,8 @@ const deleteTaskModal = document.querySelector(".modal__delete-task");
 const modalForm = document.querySelector(".modal__form");
 const addTaskInput = document.querySelector(".modal__task-input");
 
+const editContainer = document.querySelector(".modal__render-container");
+
 const saveBtn = document.querySelector(".modal__btn-save");
 const editBtn = document.querySelector(".modal__btn-edit");
 const doneBtn = document.querySelector(".modal__btn-done");
@@ -41,6 +43,40 @@ saveBtn.addEventListener("click", function (event) {
   console.log(main.tasks);
 });
 
+export const openAddTask = function () {
+  backDrop.style.display = "block";
+  addTaskModal.style.display = "flex";
+  addTaskInput.focus();
+};
+
+export const openEditTask = function () {
+  let markup = "";
+  let i = 1;
+  const filtered = main.tasks.filter(
+    (task) => task.taskDate === Number(main.clickedDate)
+  );
+  filtered.forEach((task) => {
+    markup += `<div class="modal__task-container">
+      <label class="modal__task-label--edit" for="task">Task ${i}:</label>
+      <input class="modal__task-input" name="task" type="text" data-task=${i} value="${task.taskTitle}" autocomplete="off"
+      readonly>
+      <button class="edit-task-btn" data-task=${i}>Edit</button>
+    </div>`;
+    i++;
+  });
+
+  editContainer.innerHTML = "";
+  editContainer.insertAdjacentHTML("afterbegin", markup);
+
+  backDrop.style.display = "block";
+  editTaskModal.style.display = "flex";
+};
+
+export const openDeleteTask = function () {
+  backDrop.style.display = "block";
+  deleteTaskModal.style.display = "flex";
+};
+
 cancelBtn.addEventListener("click", function () {
   backDrop.style.display = "none";
   addTaskModal.style.display = "none";
@@ -54,19 +90,3 @@ doneBtn.addEventListener("click", function () {
   editTaskModal.style.display = "none";
   deleteTaskModal.style.display = "none";
 });
-
-export const openAddTask = function () {
-  backDrop.style.display = "block";
-  addTaskModal.style.display = "flex";
-  addTaskInput.focus();
-};
-
-export const openEditTask = function () {
-  backDrop.style.display = "block";
-  editTaskModal.style.display = "flex";
-};
-
-export const openDeleteTask = function () {
-  backDrop.style.display = "block";
-  deleteTaskModal.style.display = "flex";
-};
