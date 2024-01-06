@@ -44,6 +44,7 @@ const getDate = function () {
   state.paddingDays = weekdaysArray.indexOf(state.dateString.split(", ")[0]);
 };
 
+// Adds a class modifier depending on what date it is currently
 const addCurrentMarkup = function (i) {
   if (i === originalDate && state.month === new Date().getMonth()) {
     return `--current`;
@@ -52,6 +53,7 @@ const addCurrentMarkup = function (i) {
   }
 };
 
+// Returns the html markup needed for rendering the appropriate tasks
 const renderTaskTitle = function (i, line) {
   const filtered = tasks.filter((task) => {
     return task.taskDate === i && state.month === task.taskMonth;
@@ -68,22 +70,31 @@ const renderAddTaskBtn = function (i) {
   if (i < originalDate) {
     return "";
   } else {
-    return `<button class="tasks__btn" data-date="${i}"><i class="fa-solid fa-plus"></i></button>`;
+    return `<button class="tasks__btn tasks__btn--add" data-date="${i}"><i class="fa-solid fa-plus"></i></button>`;
   }
 };
 
 const renderEditTaskBtn = function (i) {
-  return `<button class="tasks__btn" data-date="${i}"><i class="fa-solid fa-pen-to-square"></i></button>`;
+  if (tasks.some((task) => task.taskDate === i)) {
+    return `<button class="tasks__btn tasks__btn--edit" data-date="${i}"><i class="fa-solid fa-pen-to-square"></i></button>`;
+  } else {
+    return "";
+  }
 };
 
 const renderDeleteTaskBtn = function (i) {
-  return `<button class="tasks__btn" data-date="${i}"><i class="fa-solid fa-trash"></i></button>`;
+  if (tasks.some((task) => task.taskDate === i)) {
+    return `<button class="tasks__btn tasks__btn--delete" data-date="${i}"><i class="fa-solid fa-trash"></i></button>`;
+  } else {
+    return "";
+  }
 };
 
 const renderWeatherBtn = function (i) {
-  return `<button class="tasks__btn" data-date="${i}"><i class="fa-solid fa-cloud-sun"></i></button>`;
+  return `<button class="tasks__btn tasks__btn--weather" data-date="${i}"><i class="fa-solid fa-cloud-sun"></i></button>`;
 };
 
+// Generates all the html markup for all the dates of the month
 const renderDates = function () {
   let markup = "";
   for (let i = 1; i <= state.paddingDays + state.daysInMonth; i++) {
@@ -191,15 +202,16 @@ const renderMonthYear = function () {
   }).format(currentDate)} ${currentDate.getFullYear()}`;
 };
 
+// Helper function that executes all the modular functions needed at once
 export const executeOrder = function () {
   renderMonthYear();
   getDate();
   renderDates();
-  attachDateHandler();
+  attachBtnHandler();
   attachCheckBoxHandler();
 };
 
-// Buttons for going through the months
+// Button for going through the months - Previous Month
 btnPrevious.addEventListener("click", function () {
   if (currentDate.getMonth() === 0) {
     currentDate = new Date(state.year - 1, 11);
@@ -209,6 +221,7 @@ btnPrevious.addEventListener("click", function () {
   executeOrder();
 });
 
+// Button for going through the months - Next Month
 btnNext.addEventListener("click", function () {
   if (currentDate.getMonth() === 11) {
     currentDate = new Date(state.year + 1, 0);
@@ -220,14 +233,25 @@ btnNext.addEventListener("click", function () {
 
 // Add eventlisteners to all the "add task" buttons on all the dates
 // Also collects the dataset for the date of the clicked button
-const attachDateHandler = function () {
-  const addTaskBtns = document.querySelectorAll(".tasks__btn");
+const attachBtnHandler = function () {
+  const addTaskBtns = document.querySelectorAll(".tasks__btn--add");
+  const editTaskbtns = document.querySelectorAll(".tasks__btn--edit");
+
   addTaskBtns.forEach((btn) =>
     btn.addEventListener("click", function (event) {
-      clickedDate = event.target.closest(".tasks__btn").dataset.date;
+      // Get the dataset from the button itself when clicking the icon within the button
+      clickedDate = event.target.closest(".tasks__btn--add").dataset.date;
       modal.openAddTask();
     })
   );
+
+  editTaskbtns.forEach((btn) => {
+    btn.addEventListener("click", function (event) {
+      // Get the dataset from the button itself when clicking the icon within the button
+      clickedDate = event.target.closest(".tasks__btn--edit").dataset.date;
+      modal.openEditTask();
+    });
+  });
 };
 
 // Listen to and get info from the checkboxes clicked
@@ -287,5 +311,5 @@ const addCheckedStatus = function (data, status) {
 getDate();
 renderMonthYear();
 renderDates();
-attachDateHandler();
+attachBtnHandler();
 attachCheckBoxHandler();

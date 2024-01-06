@@ -9,14 +9,16 @@
     z-index: 200;
 
     background-color: $color-right-medium;
-    height: 32rem;
-    width: 64rem;
+    // height: 32rem;
+    // width: 64rem;
     border: 2rem solid $color-right-light;
-    padding: 2rem;
+    padding: 4rem 8rem;
 
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+
+    row-gap: 2rem;
 
     box-shadow: 0px 0px 16px 16px rgba(0, 0, 0, 0.2);
   }
@@ -30,6 +32,10 @@
     display: none;
   }
 
+  &__title {
+    margin-bottom: 2rem;
+  }
+
   &__form {
     display: flex;
     flex-direction: column;
@@ -37,6 +43,10 @@
 
   &__task-label {
     margin-bottom: 0.6rem;
+
+    &--edit {
+      align-self: center;
+    }
   }
 
   &__task-input {
@@ -45,22 +55,18 @@
     background-color: $color-right-light;
     border-bottom: 2px solid $color-right-dark;
     padding: 1rem;
-    transition: all 0.2s;
-
-    &:focus {
-      width: 28rem;
-      border-bottom: 2px solid $color-background-week;
-    }
   }
 
   &__buttons {
     display: flex;
     gap: 2rem;
+    margin-top: 2rem;
   }
 
   &__btn-save,
   &__btn-edit,
   &__btn-cancel,
+  &__btn-done,
   &__btn-delete {
     all: unset;
     width: 8rem;
@@ -90,10 +96,30 @@
     z-index: 100;
     background-color: rgba(0, 0, 0, 0.6);
   }
+
+  &__task-container {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+  }
 }
 
 .task-text {
   display: inline-block;
   background-color: $color-right-light;
   padding: 1rem 2rem;
+}
+
+.edit-task-btn {
+  all: unset;
+  text-align: center;
+  font-size: 1.8rem;
+  color: $color-text-task;
+  border-radius: 4px;
+  background-color: $color-right-dark;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: $color-background-week;
+  }
 }

@@ -10,6 +10,7 @@ const addTaskInput = document.querySelector(".modal__task-input");
 
 const saveBtn = document.querySelector(".modal__btn-save");
 const editBtn = document.querySelector(".modal__btn-edit");
+const doneBtn = document.querySelector(".modal__btn-done");
 const deleteBtn = document.querySelector(".modal__btn-delete");
 const cancelBtn = document.querySelector(".modal__btn-cancel");
 
@@ -41,6 +42,13 @@ saveBtn.addEventListener("click", function (event) {
 });
 
 cancelBtn.addEventListener("click", function () {
+  backDrop.style.display = "none";
+  addTaskModal.style.display = "none";
+  editTaskModal.style.display = "none";
+  deleteTaskModal.style.display = "none";
+});
+
+doneBtn.addEventListener("click", function () {
   backDrop.style.display = "none";
   addTaskModal.style.display = "none";
   editTaskModal.style.display = "none";

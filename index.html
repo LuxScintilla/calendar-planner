@@ -56,7 +56,8 @@
       <h2 class="modal__title">New Task</h2>
       <form class="modal__form">
         <label class="modal__task-label" for="task">Title:</label>
-        <input class="modal__task-input" name="task" id="task" placeholder="Be excellent to each other">
+        <input class="modal__task-input" name="task" id="task" placeholder="Be excellent to each other"
+          autocomplete="off">
       </form>
       <div class="modal__buttons">
         <button class="modal__btn-save">Save</button>
@@ -66,13 +67,41 @@
 
     <div class="modal__edit-task">
       <h2 class="modal__title">Edit Task</h2>
-      <form class="modal__form">
-        <label class="modal__task-label" for="task">Title:</label>
-        <input class="modal__task-input" name="task" id="task" placeholder="Be excellent to each other">
-      </form>
+      <div class="modal__task-container">
+        <label class="modal__task-label--edit" for="task">Task 1:</label>
+        <input class="modal__task-input" name="task" type="text" value="Be excellent to each other" autocomplete="off"
+          readonly>
+        <button class="edit-task-btn">Edit</button>
+      </div>
+      <div class="modal__task-container">
+        <label class="modal__task-label--edit" for="task">Task 2:</label>
+        <input class="modal__task-input" name="task" type="text" value="Another task be here" autocomplete="off"
+          readonly>
+        <button class="edit-task-btn">Edit</button>
+      </div>
+      <div class="modal__task-container">
+        <label class="modal__task-label--edit" for="task">Task 3:</label>
+        <input class="modal__task-input" name="task" type="text" value="Something witty" autocomplete="off" readonly>
+        <button class="edit-task-btn">Edit</button>
+      </div>
+      <div class="modal__task-container">
+        <label class="modal__task-label--edit" for="task">Task 4:</label>
+        <input class="modal__task-input" name="task" type="text" value="Please let this work" autocomplete="off"
+          readonly>
+        <button class="edit-task-btn">Edit</button>
+      </div>
+      <div class="modal__task-container">
+        <label class="modal__task-label--edit" for="task">Task 5:</label>
+        <input class="modal__task-input" name="task" type="text" value="Hoping be hoping" autocomplete="off" readonly>
+        <button class="edit-task-btn">Edit</button>
+      </div>
+      <div class="modal__task-container">
+        <label class="modal__task-label--edit" for="task">Task 6:</label>
+        <input class="modal__task-input" name="task" type="text" value="I can do this" autocomplete="off" readonly>
+        <button class="edit-task-btn">Edit</button>
+      </div>
       <div class="modal__buttons">
-        <button class="modal__btn-edit">Edit</button>
-        <button class="modal__btn-cancel">Cancel</button>
+        <button class="modal__btn-done">Done</button>
       </div>
     </div>
 
