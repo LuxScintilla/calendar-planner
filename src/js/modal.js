@@ -20,18 +20,21 @@ const deleteBtn = document.querySelector(".modal__btn-delete");
 const cancelBtn = document.querySelector(".modal__btn-cancel");
 
 modalForm.addEventListener("keydown", function (event) {
+  // Stop anything from happening when user presses the enter key
   if (event.key === "Enter") {
     event.preventDefault();
   }
 });
 
 saveBtn.addEventListener("click", function (event) {
+  // Object that will be saved into localstorage
   const dataObject = {
     taskDate: Number(main.clickedDate),
     taskMonth: main.state.month,
     taskTitle: addTaskInput.value,
   };
 
+  // Push object to the end of the main tasks array
   main.tasks[main.tasks.length] = dataObject;
 
   localStorage.setItem("tasks", JSON.stringify(main.tasks));
@@ -39,8 +42,10 @@ saveBtn.addEventListener("click", function (event) {
   backDrop.style.display = "none";
   addTaskModal.style.display = "none";
 
+  // Clear input field
   addTaskInput.value = "";
 
+  // Render the calendar with the new data
   main.executeOrder();
 });
 
@@ -51,13 +56,17 @@ export const openAddTask = function () {
 };
 
 export const openEditTask = function () {
+  // Collects the entire markup to be attached when done
   let markup = "";
+  // Counter for the task numbers when rendering dynamically
   let i = 1;
+  // Get only the tasks for the day and month you clicked
   const filtered = main.tasks.filter(
     (task) =>
       task.taskDate === Number(main.clickedDate) &&
       task.taskMonth === main.state.month
   );
+  // For each task of selected generate the html markup
   filtered.forEach((task) => {
     markup += `<div class="modal__task-container">
       <label class="modal__task-label--edit" for="task">Task ${i}:</label>
@@ -76,13 +85,17 @@ export const openEditTask = function () {
 };
 
 export const openDeleteTask = function () {
+  // Collects the entire markup to be attached when done
   let markup = "";
+  // Counter for the task numbers when rendering dynamically
   let i = 1;
+  // Get only the tasks for the day and month you clicked
   const filtered = main.tasks.filter(
     (task) =>
       task.taskDate === Number(main.clickedDate) &&
       task.taskMonth === main.state.month
   );
+  // For each task of selected generate the html markup
   filtered.forEach((task) => {
     markup += `<div class="modal__task-container">
       <label class="modal__task-label--delete" for="task">Task ${i}:</label>
@@ -113,6 +126,7 @@ doneBtn.forEach((btn) => {
     addTaskModal.style.display = "none";
     editTaskModal.style.display = "none";
     deleteTaskModal.style.display = "none";
+    // Render the calendar with the new data
     main.executeOrder();
   });
 });
