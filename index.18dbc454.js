@@ -730,45 +730,45 @@ const attachBtnHandler = function() {
             clickedDate = event.target.closest(".tasks__btn--edit").dataset.date;
             // Opens the edit modal, filters, and renders tasks for that day inside the modal
             _modalJs.openEditTask();
-            const editTaskBtns = document.querySelectorAll(".edit-task-btn");
-            const taskInputs = document.querySelectorAll(".modal__task-input");
-            editTaskBtns.forEach((btn)=>{
-                btn.addEventListener("click", ()=>{
-                    if (btn.textContent === "Edit") {
-                        btn.textContent = "Save";
-                        editTaskHandler(btn, taskInputs);
-                    } else if (btn.textContent === "Save") {
-                        btn.textContent = "Edit";
-                        editTaskHandler(btn, taskInputs);
-                    }
-                });
-            });
+            // Checks which tasks have been edited and saves them into localstorage
+            editTaskHandler();
         });
     });
 };
-const editTaskHandler = function(btn, inputs) {
-    inputs.forEach((input)=>{
-        let originalValue;
-        let newValue;
-        if (btn.dataset.task === input.dataset.task && input.hasAttribute("readonly")) {
-            originalValue = input.value;
-            input.removeAttribute("readonly");
-        } else if (btn.dataset.task === input.dataset.task && !input.hasAttribute("readonly")) {
-            newValue = input.value;
-            input.setAttribute("readonly", "readonly");
-        // const mappedTasks = tasks.map((task) => {
-        //   if (task.taskDate !== Number(clickedDate)) {
-        //     return task;
-        //   } else if (
-        //     task.taskDate === Number(clickedDate) &&
-        //     task.taskTitle === originalValue
-        //   ) {
-        //     task.taskTitle = input.value;
-        //     return task;
-        //   }
-        // });
-        // console.log(mappedTasks);
-        }
+const editTaskHandler = function() {
+    const editTaskBtns = document.querySelectorAll(".edit-task-btn");
+    const taskInputs = document.querySelectorAll(".modal__task-input");
+    let originalValue;
+    let newValue;
+    editTaskBtns.forEach((btn)=>{
+        btn.addEventListener("click", ()=>{
+            if (btn.textContent === "Edit") {
+                btn.textContent = "Save";
+                taskInputs.forEach((input)=>{
+                    if (btn.dataset.task === input.dataset.task && input.hasAttribute("readonly")) {
+                        originalValue = input.value;
+                        input.removeAttribute("readonly");
+                    }
+                });
+            } else if (btn.textContent === "Save") {
+                btn.textContent = "Edit";
+                taskInputs.forEach((input)=>{
+                    if (btn.dataset.task === input.dataset.task && !input.hasAttribute("readonly")) {
+                        newValue = input.value;
+                        const mappedTasks = tasks.map((task)=>{
+                            if (task.taskDate !== Number(clickedDate)) return task;
+                            else if (task.taskDate === Number(clickedDate) && task.taskTitle !== originalValue) return task;
+                            else if (task.taskDate === Number(clickedDate) && task.taskTitle === originalValue) {
+                                task.taskTitle = newValue;
+                                return task;
+                            }
+                        });
+                        input.setAttribute("readonly", "readonly");
+                        localStorage.setItem("tasks", JSON.stringify(mappedTasks));
+                    }
+                });
+            }
+        });
     });
 };
 // Listen to and get info from the checkboxes clicked
@@ -896,6 +896,7 @@ doneBtn.addEventListener("click", function() {
     addTaskModal.style.display = "none";
     editTaskModal.style.display = "none";
     deleteTaskModal.style.display = "none";
+    _mainJs.executeOrder();
 });
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./main.js":"1SICI"}],"gkKU3":[function(require,module,exports) {
