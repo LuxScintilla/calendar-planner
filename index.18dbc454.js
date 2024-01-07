@@ -696,6 +696,7 @@ const renderMonthYear = function() {
     }).format(currentDate)} ${currentDate.getFullYear()}`;
 };
 const executeOrder = function() {
+    tasks = localStorage.getItem("tasks") ? JSON.parse(localStorage.getItem("tasks")) : [];
     renderMonthYear();
     getDate();
     renderDates();
@@ -718,13 +719,15 @@ btnNext.addEventListener("click", function() {
 // Also collects the dataset for the date of the clicked button
 const attachBtnHandler = function() {
     const addTaskBtns = document.querySelectorAll(".tasks__btn--add");
-    const editTaskbtns = document.querySelectorAll(".tasks__btn--edit");
+    const editTaskBtns = document.querySelectorAll(".tasks__btn--edit");
+    const deleteTaskBtns = document.querySelectorAll(".tasks__btn--delete");
     addTaskBtns.forEach((btn)=>btn.addEventListener("click", function(event) {
             // Get the dataset from the button itself when clicking the icon within the button
             clickedDate = event.target.closest(".tasks__btn--add").dataset.date;
+            // Opens the add task modal, creates object of date info and task title, and saves to localstorage
             _modalJs.openAddTask();
         }));
-    editTaskbtns.forEach((btn)=>{
+    editTaskBtns.forEach((btn)=>{
         btn.addEventListener("click", function(event) {
             // Get the dataset from the button itself when clicking the icon within the button
             clickedDate = event.target.closest(".tasks__btn--edit").dataset.date;
@@ -734,10 +737,22 @@ const attachBtnHandler = function() {
             editTaskHandler();
         });
     });
+    deleteTaskBtns.forEach((btn)=>{
+        btn.addEventListener("click", function(event) {
+            // Get the dataset from the button itself when clicking the icon within the button
+            clickedDate = event.target.closest(".tasks__btn--delete").dataset.date;
+            // Opens the delete modal, filters, and renders tasks for that day inside the modal
+            _modalJs.openDeleteTask();
+            // Checks which tasks have been deleted and saves changes into localstorage
+            deleteTaskHandler();
+        });
+    });
 };
 const editTaskHandler = function() {
+    // Select the dynamically rendered (by the modal.openEditTask) btns and inputs inside the edit modal
     const editTaskBtns = document.querySelectorAll(".edit-task-btn");
     const taskInputs = document.querySelectorAll(".modal__task-input");
+    // Original and new values for the task titles to compare and update
     let originalValue;
     let newValue;
     editTaskBtns.forEach((btn)=>{
@@ -745,20 +760,22 @@ const editTaskHandler = function() {
             if (btn.textContent === "Edit") {
                 btn.textContent = "Save";
                 taskInputs.forEach((input)=>{
+                    // Sets the inputs from readonly to editable
                     if (btn.dataset.task === input.dataset.task && input.hasAttribute("readonly")) {
                         originalValue = input.value;
                         input.removeAttribute("readonly");
                     }
                 });
+            // Sets inputs back to readonly, compares each input with original values and updates the changed titles, and finally updates localstorage
             } else if (btn.textContent === "Save") {
                 btn.textContent = "Edit";
                 taskInputs.forEach((input)=>{
                     if (btn.dataset.task === input.dataset.task && !input.hasAttribute("readonly")) {
                         newValue = input.value;
                         const mappedTasks = tasks.map((task)=>{
-                            if (task.taskDate !== Number(clickedDate)) return task;
-                            else if (task.taskDate === Number(clickedDate) && task.taskTitle !== originalValue) return task;
-                            else if (task.taskDate === Number(clickedDate) && task.taskTitle === originalValue) {
+                            if (task.taskDate !== Number(clickedDate) && task.taskMonth === state.month) return task;
+                            else if (task.taskDate === Number(clickedDate) && task.taskTitle !== originalValue && task.taskMonth === state.month) return task;
+                            else if (task.taskDate === Number(clickedDate) && task.taskTitle === originalValue && task.taskMonth === state.month) {
                                 task.taskTitle = newValue;
                                 return task;
                             }
@@ -766,6 +783,29 @@ const editTaskHandler = function() {
                         input.setAttribute("readonly", "readonly");
                         localStorage.setItem("tasks", JSON.stringify(mappedTasks));
                     }
+                });
+            }
+        });
+    });
+};
+const deleteTaskHandler = function() {
+    // Select the dynamically rendered (by the modal.openDeleteTask) btns and inputs inside the delete task modal
+    const deleteTaskBtns = document.querySelectorAll(".delete-task-btn");
+    const taskInputs = document.querySelectorAll(".modal__task-input");
+    let originalValueArray = [];
+    deleteTaskBtns.forEach((btn)=>{
+        btn.addEventListener("click", ()=>{
+            if (btn.textContent === "Delete") btn.textContent = "Confirm";
+            else if (btn.textContent === "Confirm") {
+                btn.textContent = "Delete";
+                taskInputs.forEach((item)=>{
+                    if (btn.dataset.task === item.dataset.task) originalValueArray.push(item.value);
+                    const filteredTasks = tasks.filter((task)=>{
+                        if (task.taskDate !== Number(clickedDate) && task.taskMonth === state.month) return task;
+                        else if (task.taskDate === Number(clickedDate) && !originalValueArray.some((item)=>item === task.taskTitle) && task.taskMonth === state.month) return task;
+                        else if (task.taskDate === Number(clickedDate) && originalValueArray.some((item)=>item === task.taskTitle) && task.taskMonth === state.month) return;
+                    });
+                    localStorage.setItem("tasks", JSON.stringify(filteredTasks));
                 });
             }
         });
@@ -835,10 +875,11 @@ const editTaskModal = document.querySelector(".modal__edit-task");
 const deleteTaskModal = document.querySelector(".modal__delete-task");
 const modalForm = document.querySelector(".modal__form");
 const addTaskInput = document.querySelector(".modal__task-input");
-const editContainer = document.querySelector(".modal__render-container");
+const editContainer = document.querySelector(".modal__render-edit-container");
+const deleteContainer = document.querySelector(".modal__render-delete-container");
 const saveBtn = document.querySelector(".modal__btn-save");
 const editBtn = document.querySelector(".modal__btn-edit");
-const doneBtn = document.querySelector(".modal__btn-done");
+const doneBtn = document.querySelectorAll(".modal__btn-done");
 const deleteBtn = document.querySelector(".modal__btn-delete");
 const cancelBtn = document.querySelector(".modal__btn-cancel");
 modalForm.addEventListener("keydown", function(event) {
@@ -856,7 +897,6 @@ saveBtn.addEventListener("click", function(event) {
     addTaskModal.style.display = "none";
     addTaskInput.value = "";
     _mainJs.executeOrder();
-    console.log(_mainJs.tasks);
 });
 const openAddTask = function() {
     backDrop.style.display = "block";
@@ -866,7 +906,7 @@ const openAddTask = function() {
 const openEditTask = function() {
     let markup = "";
     let i = 1;
-    const filtered = _mainJs.tasks.filter((task)=>task.taskDate === Number(_mainJs.clickedDate));
+    const filtered = _mainJs.tasks.filter((task)=>task.taskDate === Number(_mainJs.clickedDate) && task.taskMonth === _mainJs.state.month);
     filtered.forEach((task)=>{
         markup += `<div class="modal__task-container">
       <label class="modal__task-label--edit" for="task">Task ${i}:</label>
@@ -882,6 +922,20 @@ const openEditTask = function() {
     editTaskModal.style.display = "flex";
 };
 const openDeleteTask = function() {
+    let markup = "";
+    let i = 1;
+    const filtered = _mainJs.tasks.filter((task)=>task.taskDate === Number(_mainJs.clickedDate) && task.taskMonth === _mainJs.state.month);
+    filtered.forEach((task)=>{
+        markup += `<div class="modal__task-container">
+      <label class="modal__task-label--delete" for="task">Task ${i}:</label>
+      <input class="modal__task-input" name="task" type="text" data-task=${i} value="${task.taskTitle}" autocomplete="off"
+      readonly>
+      <button class="delete-task-btn" data-task=${i}>Delete</button>
+    </div>`;
+        i++;
+    });
+    deleteContainer.innerHTML = "";
+    deleteContainer.insertAdjacentHTML("afterbegin", markup);
     backDrop.style.display = "block";
     deleteTaskModal.style.display = "flex";
 };
@@ -891,12 +945,14 @@ cancelBtn.addEventListener("click", function() {
     editTaskModal.style.display = "none";
     deleteTaskModal.style.display = "none";
 });
-doneBtn.addEventListener("click", function() {
-    backDrop.style.display = "none";
-    addTaskModal.style.display = "none";
-    editTaskModal.style.display = "none";
-    deleteTaskModal.style.display = "none";
-    _mainJs.executeOrder();
+doneBtn.forEach((btn)=>{
+    btn.addEventListener("click", function() {
+        backDrop.style.display = "none";
+        addTaskModal.style.display = "none";
+        editTaskModal.style.display = "none";
+        deleteTaskModal.style.display = "none";
+        _mainJs.executeOrder();
+    });
 });
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./main.js":"1SICI"}],"gkKU3":[function(require,module,exports) {
