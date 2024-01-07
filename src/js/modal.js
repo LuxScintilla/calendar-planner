@@ -89,4 +89,6 @@ doneBtn.addEventListener("click", function () {
   addTaskModal.style.display = "none";
   editTaskModal.style.display = "none";
   deleteTaskModal.style.display = "none";
+
+  main.executeOrder();
 });
