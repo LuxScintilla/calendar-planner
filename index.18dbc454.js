@@ -621,7 +621,7 @@ const addCurrentMarkup = function(i) {
     if (i === originalDate && state.month === new Date().getMonth()) return `--current`;
     else return "";
 };
-// Returns the html markup needed for rendering the appropriate tasks
+// Returns the html markup needed for rendering the appropriate task titles
 const renderTaskTitle = function(i, line) {
     const filtered = tasks.filter((task)=>{
         return task.taskDate === i && state.month === task.taskMonth;
@@ -629,23 +629,28 @@ const renderTaskTitle = function(i, line) {
     if (filtered[line] && filtered[line].taskMonth === state.month) return `${filtered[line].taskTitle}`;
     else return "";
 };
+// Renders the add task button at the top of the dates, unless date has passed
 const renderAddTaskBtn = function(i) {
     if (i < originalDate) return "";
     else return `<button class="tasks__btn tasks__btn--add" data-date="${i}"><i class="fa-solid fa-plus"></i></button>`;
 };
+// Renders the edit button at the top of the dates, unless there are no tasks for that date
 const renderEditTaskBtn = function(i) {
     if (tasks.some((task)=>task.taskDate === i)) return `<button class="tasks__btn tasks__btn--edit" data-date="${i}"><i class="fa-solid fa-pen-to-square"></i></button>`;
     else return "";
 };
+// Renders the delete button at the top of the dates, unless there are no tasks for that date
 const renderDeleteTaskBtn = function(i) {
     if (tasks.some((task)=>task.taskDate === i)) return `<button class="tasks__btn tasks__btn--delete" data-date="${i}"><i class="fa-solid fa-trash"></i></button>`;
     else return "";
 };
+// Renders the weather button at the top of every date, which will get the weather info from API and display it
 const renderWeatherBtn = function(i) {
     return `<button class="tasks__btn tasks__btn--weather" data-date="${i}"><i class="fa-solid fa-cloud-sun"></i></button>`;
 };
 // Generates all the html markup for all the dates of the month
 const renderDates = function() {
+    // Collects all the markup when finished
     let markup = "";
     for(let i = 1; i <= state.paddingDays + state.daysInMonth; i++)if (i > state.paddingDays) markup += `
       <div class="tasks">
@@ -689,7 +694,7 @@ const renderDates = function() {
     calendar.innerHTML = "";
     calendar.insertAdjacentHTML("afterbegin", markup);
 };
-// Shows and updates the current month and year
+// Renders and updates the current month and year text at the top of the calendar
 const renderMonthYear = function() {
     monthYear.textContent = `${new Intl.DateTimeFormat("en-UK", {
         month: "long"
@@ -697,10 +702,15 @@ const renderMonthYear = function() {
 };
 const executeOrder = function() {
     tasks = localStorage.getItem("tasks") ? JSON.parse(localStorage.getItem("tasks")) : [];
+    // Renders and updates the current month and year text at the top of the calendar
     renderMonthYear();
+    // Gets the current (or requested by previous or next month buttons) dates and saves it in state object
     getDate();
+    // Renders all the markup for each date of currently viewed month
     renderDates();
+    // Attaches eventlisteners to the add, edit, and delete buttons
     attachBtnHandler();
+    // Renders the css styles according to whether the checkbox is checked or not
     attachCheckBoxHandler();
 };
 // Button for going through the months - Previous Month
@@ -762,6 +772,7 @@ const editTaskHandler = function() {
                 taskInputs.forEach((input)=>{
                     // Sets the inputs from readonly to editable
                     if (btn.dataset.task === input.dataset.task && input.hasAttribute("readonly")) {
+                        // Sets original value to be compared later
                         originalValue = input.value;
                         input.removeAttribute("readonly");
                     }
@@ -771,6 +782,7 @@ const editTaskHandler = function() {
                 btn.textContent = "Edit";
                 taskInputs.forEach((input)=>{
                     if (btn.dataset.task === input.dataset.task && !input.hasAttribute("readonly")) {
+                        // Sets new value to replace with in tasks later
                         newValue = input.value;
                         const mappedTasks = tasks.map((task)=>{
                             if (task.taskDate !== Number(clickedDate) && task.taskMonth === state.month) return task;
@@ -799,7 +811,8 @@ const deleteTaskHandler = function() {
             else if (btn.textContent === "Confirm") {
                 btn.textContent = "Delete";
                 taskInputs.forEach((item)=>{
-                    if (btn.dataset.task === item.dataset.task) originalValueArray.push(item.value);
+                    if (btn.dataset.task === item.dataset.task) // After confirm is clicked this value will be added to array which will later be used to filter out these to be deteled tasks from the main list of tasks
+                    originalValueArray.push(item.value);
                     const filteredTasks = tasks.filter((task)=>{
                         if (task.taskDate !== Number(clickedDate) && task.taskMonth === state.month) return task;
                         else if (task.taskDate === Number(clickedDate) && !originalValueArray.some((item)=>item === task.taskTitle) && task.taskMonth === state.month) return task;
@@ -817,18 +830,24 @@ const attachCheckBoxHandler = function() {
     const taskLabel = document.querySelectorAll(".tasks__todo");
     checkBox.forEach((box)=>box.addEventListener("change", function() {
             if (this.checked) taskLabel.forEach((label)=>{
+                // Label dataset and checkbox id have matching values representing the month and date
                 if (label.dataset.task === this.id) {
                     label.style.opacity = 0.5;
                     label.style.textDecoration = "line-through";
+                    // Traverses the DOM until it finds the textContent for the task
                     const data = this.parentElement.nextElementSibling.textContent;
+                    // Sets the checked status for this task in the localstorage
                     addCheckedStatus(data, true);
                 }
             });
             else taskLabel.forEach((label)=>{
+                // Label dataset and checkbox id have matching values representing the month and date
                 if (label.dataset.task === this.id) {
                     label.style.opacity = 1;
                     label.style.textDecoration = "none";
+                    // Traverses the DOM until it finds the textContent for the task
                     const data = this.parentElement.nextElementSibling.textContent;
+                    // Sets the checked status for this task in the localstorage
                     addCheckedStatus(data, false);
                 }
             });
@@ -883,19 +902,24 @@ const doneBtn = document.querySelectorAll(".modal__btn-done");
 const deleteBtn = document.querySelector(".modal__btn-delete");
 const cancelBtn = document.querySelector(".modal__btn-cancel");
 modalForm.addEventListener("keydown", function(event) {
+    // Stop anything from happening when user presses the enter key
     if (event.key === "Enter") event.preventDefault();
 });
 saveBtn.addEventListener("click", function(event) {
+    // Object that will be saved into localstorage
     const dataObject = {
         taskDate: Number(_mainJs.clickedDate),
         taskMonth: _mainJs.state.month,
         taskTitle: addTaskInput.value
     };
+    // Push object to the end of the main tasks array
     _mainJs.tasks[_mainJs.tasks.length] = dataObject;
     localStorage.setItem("tasks", JSON.stringify(_mainJs.tasks));
     backDrop.style.display = "none";
     addTaskModal.style.display = "none";
+    // Clear input field
     addTaskInput.value = "";
+    // Render the calendar with the new data
     _mainJs.executeOrder();
 });
 const openAddTask = function() {
@@ -904,9 +928,13 @@ const openAddTask = function() {
     addTaskInput.focus();
 };
 const openEditTask = function() {
+    // Collects the entire markup to be attached when done
     let markup = "";
+    // Counter for the task numbers when rendering dynamically
     let i = 1;
+    // Get only the tasks for the day and month you clicked
     const filtered = _mainJs.tasks.filter((task)=>task.taskDate === Number(_mainJs.clickedDate) && task.taskMonth === _mainJs.state.month);
+    // For each task of selected generate the html markup
     filtered.forEach((task)=>{
         markup += `<div class="modal__task-container">
       <label class="modal__task-label--edit" for="task">Task ${i}:</label>
@@ -922,9 +950,13 @@ const openEditTask = function() {
     editTaskModal.style.display = "flex";
 };
 const openDeleteTask = function() {
+    // Collects the entire markup to be attached when done
     let markup = "";
+    // Counter for the task numbers when rendering dynamically
     let i = 1;
+    // Get only the tasks for the day and month you clicked
     const filtered = _mainJs.tasks.filter((task)=>task.taskDate === Number(_mainJs.clickedDate) && task.taskMonth === _mainJs.state.month);
+    // For each task of selected generate the html markup
     filtered.forEach((task)=>{
         markup += `<div class="modal__task-container">
       <label class="modal__task-label--delete" for="task">Task ${i}:</label>
@@ -951,6 +983,7 @@ doneBtn.forEach((btn)=>{
         addTaskModal.style.display = "none";
         editTaskModal.style.display = "none";
         deleteTaskModal.style.display = "none";
+        // Render the calendar with the new data
         _mainJs.executeOrder();
     });
 });
