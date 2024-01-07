@@ -44,7 +44,8 @@
   &__task-label {
     margin-bottom: 0.6rem;
 
-    &--edit {
+    &--edit,
+    &--delete {
       align-self: center;
     }
   }
@@ -110,7 +111,8 @@
   padding: 1rem 2rem;
 }
 
-.edit-task-btn {
+.edit-task-btn,
+.delete-task-btn {
   all: unset;
   text-align: center;
   font-size: 1.8rem;

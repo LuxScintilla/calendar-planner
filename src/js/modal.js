@@ -8,11 +8,14 @@ const deleteTaskModal = document.querySelector(".modal__delete-task");
 const modalForm = document.querySelector(".modal__form");
 const addTaskInput = document.querySelector(".modal__task-input");
 
-const editContainer = document.querySelector(".modal__render-container");
+const editContainer = document.querySelector(".modal__render-edit-container");
+const deleteContainer = document.querySelector(
+  ".modal__render-delete-container"
+);
 
 const saveBtn = document.querySelector(".modal__btn-save");
 const editBtn = document.querySelector(".modal__btn-edit");
-const doneBtn = document.querySelector(".modal__btn-done");
+const doneBtn = document.querySelectorAll(".modal__btn-done");
 const deleteBtn = document.querySelector(".modal__btn-delete");
 const cancelBtn = document.querySelector(".modal__btn-cancel");
 
@@ -39,8 +42,6 @@ saveBtn.addEventListener("click", function (event) {
   addTaskInput.value = "";
 
   main.executeOrder();
-
-  console.log(main.tasks);
 });
 
 export const openAddTask = function () {
@@ -53,7 +54,9 @@ export const openEditTask = function () {
   let markup = "";
   let i = 1;
   const filtered = main.tasks.filter(
-    (task) => task.taskDate === Number(main.clickedDate)
+    (task) =>
+      task.taskDate === Number(main.clickedDate) &&
+      task.taskMonth === main.state.month
   );
   filtered.forEach((task) => {
     markup += `<div class="modal__task-container">
@@ -73,6 +76,26 @@ export const openEditTask = function () {
 };
 
 export const openDeleteTask = function () {
+  let markup = "";
+  let i = 1;
+  const filtered = main.tasks.filter(
+    (task) =>
+      task.taskDate === Number(main.clickedDate) &&
+      task.taskMonth === main.state.month
+  );
+  filtered.forEach((task) => {
+    markup += `<div class="modal__task-container">
+      <label class="modal__task-label--delete" for="task">Task ${i}:</label>
+      <input class="modal__task-input" name="task" type="text" data-task=${i} value="${task.taskTitle}" autocomplete="off"
+      readonly>
+      <button class="delete-task-btn" data-task=${i}>Delete</button>
+    </div>`;
+    i++;
+  });
+
+  deleteContainer.innerHTML = "";
+  deleteContainer.insertAdjacentHTML("afterbegin", markup);
+
   backDrop.style.display = "block";
   deleteTaskModal.style.display = "flex";
 };
@@ -84,11 +107,12 @@ cancelBtn.addEventListener("click", function () {
   deleteTaskModal.style.display = "none";
 });
 
-doneBtn.addEventListener("click", function () {
-  backDrop.style.display = "none";
-  addTaskModal.style.display = "none";
-  editTaskModal.style.display = "none";
-  deleteTaskModal.style.display = "none";
-
-  main.executeOrder();
+doneBtn.forEach((btn) => {
+  btn.addEventListener("click", function () {
+    backDrop.style.display = "none";
+    addTaskModal.style.display = "none";
+    editTaskModal.style.display = "none";
+    deleteTaskModal.style.display = "none";
+    main.executeOrder();
+  });
 });
