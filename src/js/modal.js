@@ -6,6 +6,7 @@ const backDrop = document.querySelector(".modal__backdrop");
 const addTaskModal = document.querySelector(".modal__new-task");
 const editTaskModal = document.querySelector(".modal__edit-task");
 const deleteTaskModal = document.querySelector(".modal__delete-task");
+const weatherModal = document.querySelector(".modal__weather");
 const profileModal = document.querySelector(".modal__profile");
 
 const modalForm = document.querySelector(".modal__form");
@@ -25,6 +26,7 @@ const editBtn = document.querySelector(".modal__btn-edit");
 const doneBtn = document.querySelectorAll(".modal__btn-done");
 const deleteBtn = document.querySelector(".modal__btn-delete");
 const cancelBtn = document.querySelectorAll(".modal__btn-cancel");
+const okBtn = document.querySelector(".modal__btn-ok");
 
 modalForm.addEventListener("keydown", function (event) {
   // Stop anything from happening when user presses the enter key
@@ -120,6 +122,11 @@ export const openDeleteTask = function () {
   deleteTaskModal.style.display = "flex";
 };
 
+export const openWeatherModal = function () {
+  backDrop.style.display = "block";
+  weatherModal.style.display = "flex";
+};
+
 export const openProfileModal = function () {
   main.profile = JSON.parse(localStorage.getItem("profile"));
 
@@ -178,4 +185,9 @@ doneBtn.forEach((btn) => {
     // Render the calendar with the new data
     main.executeOrder();
   });
+});
+
+okBtn.addEventListener("click", function () {
+  backDrop.style.display = "none";
+  weatherModal.style.display = "none";
 });

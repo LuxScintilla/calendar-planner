@@ -2,6 +2,7 @@
   &__new-task,
   &__edit-task,
   &__delete-task,
+  &__weather,
   &__profile {
     position: absolute;
     top: 50%;
@@ -30,6 +31,9 @@
     display: none;
   }
   &__delete-task {
+    display: none;
+  }
+  &__weather {
     display: none;
   }
   &__profile {
@@ -83,6 +87,7 @@
   &__btn-edit,
   &__btn-cancel,
   &__btn-done,
+  &__btn-ok,
   &__btn-delete {
     all: unset;
     width: 8rem;

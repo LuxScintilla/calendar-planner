@@ -252,12 +252,17 @@ btnNext.addEventListener("click", function () {
   executeOrder();
 });
 
+////////////////////////////////////
+// Function which adds all the eventlisteners to the buttons on every date
+////////////////////////////////////
+
 // Add eventlisteners to all the "add task" buttons on all the dates
 // Also collects the dataset for the date of the clicked button
 const attachBtnHandler = function () {
   const addTaskBtns = document.querySelectorAll(".tasks__btn--add");
   const editTaskBtns = document.querySelectorAll(".tasks__btn--edit");
   const deleteTaskBtns = document.querySelectorAll(".tasks__btn--delete");
+  const weatherBtns = document.querySelectorAll(".tasks__btn--weather");
 
   addTaskBtns.forEach((btn) =>
     btn.addEventListener("click", function (event) {
@@ -287,6 +292,15 @@ const attachBtnHandler = function () {
       modal.openDeleteTask();
       // Checks which tasks have been deleted and saves changes into localstorage
       deleteTaskHandler();
+    });
+  });
+
+  weatherBtns.forEach((btn) => {
+    btn.addEventListener("click", function (event) {
+      // Get the dataset from the button itself when clicking the icon within the button
+      clickedDate = event.target.closest(".tasks__btn--weather").dataset.date;
+      // Opens the weather modal, and renders the weather from an API (openweathermap) for that day inside the modal
+      modal.openWeatherModal();
     });
   });
 };
@@ -472,11 +486,11 @@ export const renderProfile = function () {
   profile = JSON.parse(localStorage.getItem("profile"));
 
   if (localStorage.getItem("profile")) {
-    usernameEl.textContent = `Username: ${profile.username}`;
-    locationEl.textContent = `Location: ${profile.location}`;
+    usernameEl.textContent = profile.username;
+    locationEl.textContent = profile.location;
   } else {
-    usernameEl.textContent = "Username: User";
-    locationEl.textContent = "Location: Location";
+    usernameEl.textContent = "User";
+    locationEl.textContent = "Location";
   }
 };
 

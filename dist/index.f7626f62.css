@@ -305,7 +305,7 @@ body {
   background-color: #efded4;
 }
 
-.modal__new-task, .modal__edit-task, .modal__delete-task, .modal__profile {
+.modal__new-task, .modal__edit-task, .modal__delete-task, .modal__weather, .modal__profile {
   z-index: 200;
   background-color: #efded4;
   border: 2rem solid #f5f5f5;
@@ -362,7 +362,7 @@ body {
   display: flex;
 }
 
-.modal__btn-save, .modal__btn-profile-save, .modal__btn-edit, .modal__btn-cancel, .modal__btn-done, .modal__btn-delete {
+.modal__btn-save, .modal__btn-profile-save, .modal__btn-edit, .modal__btn-cancel, .modal__btn-done, .modal__btn-ok, .modal__btn-delete {
   all: unset;
   text-align: center;
   color: #564a4b;
@@ -376,7 +376,7 @@ body {
   transition: all .2s;
 }
 
-.modal__btn-save:hover, .modal__btn-profile-save:hover, .modal__btn-edit:hover, .modal__btn-cancel:hover, .modal__btn-done:hover, .modal__btn-delete:hover {
+.modal__btn-save:hover, .modal__btn-profile-save:hover, .modal__btn-edit:hover, .modal__btn-cancel:hover, .modal__btn-done:hover, .modal__btn-ok:hover, .modal__btn-delete:hover {
   background-color: #ebaf8d;
 }
 
