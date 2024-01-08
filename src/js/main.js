@@ -7,6 +7,10 @@ const monthYear = document.getElementById("month-year");
 const btnPrevious = document.querySelector(".month__button--previous");
 const btnNext = document.querySelector(".month__button--next");
 
+const avatarEl = document.querySelector(".calendar__avatar");
+const usernameEl = document.querySelector(".calendar__username");
+const locationEl = document.querySelector(".calendar__location");
+
 const weekdaysArray = [
   "Monday",
   "Tuesday",
@@ -24,6 +28,10 @@ export let clickedDate;
 
 export let tasks = localStorage.getItem("tasks")
   ? JSON.parse(localStorage.getItem("tasks"))
+  : [];
+
+export let profile = localStorage.getItem("profile")
+  ? JSON.parse(localStorage.getItem("profile"))
   : [];
 
 export const state = {};
@@ -456,6 +464,23 @@ const addCheckedStatus = function (data, status) {
   });
 };
 
+avatarEl.addEventListener("click", function () {
+  modal.openProfileModal();
+});
+
+export const renderProfile = function () {
+  profile = JSON.parse(localStorage.getItem("profile"));
+
+  if (localStorage.getItem("profile")) {
+    usernameEl.textContent = `Username: ${profile.username}`;
+    locationEl.textContent = `Location: ${profile.location}`;
+  } else {
+    usernameEl.textContent = "Username: User";
+    locationEl.textContent = "Location: Location";
+  }
+};
+
+renderProfile();
 getDate();
 renderMonthYear();
 renderDates();

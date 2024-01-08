@@ -16,9 +16,18 @@
 <body>
 
   <div class="calendar">
-    <div class="calendar__title">
-      <h1>Calendar Planner</h1>
-    </div>
+    <header class="calendar__header">
+      <div class="calendar__profile">
+        <div class="calendar__avatar">
+          <img class="avatar" src="/mountain-avatar.76d53d81.jpg" alt="avatar picture">
+        </div>
+        <p class="calendar__username">Username: User</p>
+        <p class="calendar__location">Location: Scotland</p>
+      </div>
+      <div class="calendar__title">
+        <h1>Calendar Planner</h1>
+      </div>
+    </header>
 
     <div class="calendar__month">
       <h2 id="month-year">January 2024</h2>
@@ -56,7 +65,7 @@
       <h2 class="modal__title">New Task</h2>
       <form class="modal__form">
         <label class="modal__task-label" for="task">Title:</label>
-        <input class="modal__task-input" name="task" id="task" placeholder="Be excellent to each other" autocomplete="off">
+        <input class="modal__task-input" name="task" id="task" placeholder="Be excellent to each other" autocomplete="off" maxlength="30">
       </form>
       <div class="modal__buttons">
         <button class="modal__btn-save">Save</button>
@@ -81,6 +90,20 @@
 
       <div class="modal__buttons">
         <button class="modal__btn-done">Done</button>
+      </div>
+    </div>
+
+    <div class="modal__profile">
+      <h2 class="modal__title">Your profile settings</h2>
+      <form class="modal__form">
+        <label class="modal__profile-label" for="profile">Username:</label>
+        <input class="modal__profile-input username-input" name="profile" placeholder="username" autocomplete="off" maxlength="20">
+        <label class="modal__profile-label" for="profile">Location:</label>
+        <input class="modal__profile-input location-input" name="profile" placeholder="city" autocomplete="off" maxlength="20">
+      </form>
+      <div class="modal__buttons">
+        <button class="modal__btn-profile-save">Save</button>
+        <button class="modal__btn-cancel">Cancel</button>
       </div>
     </div>
 

@@ -579,14 +579,19 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "clickedDate", ()=>clickedDate);
 parcelHelpers.export(exports, "tasks", ()=>tasks);
+parcelHelpers.export(exports, "profile", ()=>profile);
 parcelHelpers.export(exports, "state", ()=>state);
 parcelHelpers.export(exports, "executeOrder", ()=>executeOrder);
+parcelHelpers.export(exports, "renderProfile", ()=>renderProfile);
 var _modalJs = require("./modal.js");
 "use strict";
 const calendar = document.querySelector(".organiser__dates");
 const monthYear = document.getElementById("month-year");
 const btnPrevious = document.querySelector(".month__button--previous");
 const btnNext = document.querySelector(".month__button--next");
+const avatarEl = document.querySelector(".calendar__avatar");
+const usernameEl = document.querySelector(".calendar__username");
+const locationEl = document.querySelector(".calendar__location");
 const weekdaysArray = [
     "Monday",
     "Tuesday",
@@ -600,6 +605,7 @@ let currentDate = new Date();
 let originalDate = new Date().getDate();
 let clickedDate;
 let tasks = localStorage.getItem("tasks") ? JSON.parse(localStorage.getItem("tasks")) : [];
+let profile = localStorage.getItem("profile") ? JSON.parse(localStorage.getItem("profile")) : [];
 const state = {};
 // Gets all the data for the date you are working with
 const getDate = function() {
@@ -875,6 +881,20 @@ const addCheckedStatus = function(data, status) {
         }
     });
 };
+avatarEl.addEventListener("click", function() {
+    _modalJs.openProfileModal();
+});
+const renderProfile = function() {
+    profile = JSON.parse(localStorage.getItem("profile"));
+    if (localStorage.getItem("profile")) {
+        usernameEl.textContent = `Username: ${profile.username}`;
+        locationEl.textContent = `Location: ${profile.location}`;
+    } else {
+        usernameEl.textContent = "Username: User";
+        locationEl.textContent = "Location: Location";
+    }
+};
+renderProfile();
 getDate();
 renderMonthYear();
 renderDates();
@@ -887,20 +907,26 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "openAddTask", ()=>openAddTask);
 parcelHelpers.export(exports, "openEditTask", ()=>openEditTask);
 parcelHelpers.export(exports, "openDeleteTask", ()=>openDeleteTask);
+parcelHelpers.export(exports, "openProfileModal", ()=>openProfileModal);
 var _mainJs = require("./main.js");
+"use strict";
 const backDrop = document.querySelector(".modal__backdrop");
 const addTaskModal = document.querySelector(".modal__new-task");
 const editTaskModal = document.querySelector(".modal__edit-task");
 const deleteTaskModal = document.querySelector(".modal__delete-task");
+const profileModal = document.querySelector(".modal__profile");
 const modalForm = document.querySelector(".modal__form");
 const addTaskInput = document.querySelector(".modal__task-input");
+const usernameInput = document.querySelector(".username-input");
+const locationInput = document.querySelector(".location-input");
 const editContainer = document.querySelector(".modal__render-edit-container");
 const deleteContainer = document.querySelector(".modal__render-delete-container");
 const saveBtn = document.querySelector(".modal__btn-save");
+const profileSaveBtn = document.querySelector(".modal__btn-profile-save");
 const editBtn = document.querySelector(".modal__btn-edit");
 const doneBtn = document.querySelectorAll(".modal__btn-done");
 const deleteBtn = document.querySelector(".modal__btn-delete");
-const cancelBtn = document.querySelector(".modal__btn-cancel");
+const cancelBtn = document.querySelectorAll(".modal__btn-cancel");
 modalForm.addEventListener("keydown", function(event) {
     // Stop anything from happening when user presses the enter key
     if (event.key === "Enter") event.preventDefault();
@@ -938,7 +964,7 @@ const openEditTask = function() {
     filtered.forEach((task)=>{
         markup += `<div class="modal__task-container">
       <label class="modal__task-label--edit" for="task">Task ${i}:</label>
-      <input class="modal__task-input" name="task" type="text" data-task=${i} value="${task.taskTitle}" autocomplete="off"
+      <input class="modal__task-input" name="task" type="text" data-task=${i} value="${task.taskTitle}" autocomplete="off" maxlength="30"
       readonly>
       <button class="edit-task-btn" data-task=${i}>Edit</button>
     </div>`;
@@ -960,7 +986,7 @@ const openDeleteTask = function() {
     filtered.forEach((task)=>{
         markup += `<div class="modal__task-container">
       <label class="modal__task-label--delete" for="task">Task ${i}:</label>
-      <input class="modal__task-input" name="task" type="text" data-task=${i} value="${task.taskTitle}" autocomplete="off"
+      <input class="modal__task-input" name="task" type="text" data-task=${i} value="${task.taskTitle}" autocomplete="off" maxlength="30"
       readonly>
       <button class="delete-task-btn" data-task=${i}>Delete</button>
     </div>`;
@@ -971,11 +997,39 @@ const openDeleteTask = function() {
     backDrop.style.display = "block";
     deleteTaskModal.style.display = "flex";
 };
-cancelBtn.addEventListener("click", function() {
+const openProfileModal = function() {
+    _mainJs.profile = JSON.parse(localStorage.getItem("profile"));
+    if (localStorage.getItem("profile")) {
+        usernameInput.placeholder = _mainJs.profile.username;
+        locationInput.placeholder = _mainJs.profile.location;
+    } else {
+        usernameInput.placeholder = "Username";
+        locationInput.placeholder = "Location";
+    }
+    backDrop.style.display = "block";
+    profileModal.style.display = "flex";
+};
+profileSaveBtn.addEventListener("click", function() {
+    const dataObject = {
+        username: localStorage.getItem("profile") && usernameInput.value === "" ? _mainJs.profile.username : usernameInput.value,
+        location: localStorage.getItem("profile") && locationInput.value === "" ? _mainJs.profile.location : locationInput.value
+    };
+    localStorage.setItem("profile", JSON.stringify(dataObject));
+    _mainJs.renderProfile();
     backDrop.style.display = "none";
-    addTaskModal.style.display = "none";
-    editTaskModal.style.display = "none";
-    deleteTaskModal.style.display = "none";
+    profileModal.style.display = "none";
+    // Clear input field
+    usernameInput.value = "";
+    locationInput.value = "";
+});
+cancelBtn.forEach((btn)=>{
+    btn.addEventListener("click", function() {
+        backDrop.style.display = "none";
+        addTaskModal.style.display = "none";
+        editTaskModal.style.display = "none";
+        deleteTaskModal.style.display = "none";
+        profileModal.style.display = "none";
+    });
 });
 doneBtn.forEach((btn)=>{
     btn.addEventListener("click", function() {
