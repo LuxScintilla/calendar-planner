@@ -731,12 +731,16 @@ btnNext.addEventListener("click", function() {
     else currentDate = new Date(state.year, state.month + 1);
     executeOrder();
 });
+////////////////////////////////////
+// Function which adds all the eventlisteners to the buttons on every date
+////////////////////////////////////
 // Add eventlisteners to all the "add task" buttons on all the dates
 // Also collects the dataset for the date of the clicked button
 const attachBtnHandler = function() {
     const addTaskBtns = document.querySelectorAll(".tasks__btn--add");
     const editTaskBtns = document.querySelectorAll(".tasks__btn--edit");
     const deleteTaskBtns = document.querySelectorAll(".tasks__btn--delete");
+    const weatherBtns = document.querySelectorAll(".tasks__btn--weather");
     addTaskBtns.forEach((btn)=>btn.addEventListener("click", function(event) {
             // Get the dataset from the button itself when clicking the icon within the button
             clickedDate = event.target.closest(".tasks__btn--add").dataset.date;
@@ -761,6 +765,14 @@ const attachBtnHandler = function() {
             _modalJs.openDeleteTask();
             // Checks which tasks have been deleted and saves changes into localstorage
             deleteTaskHandler();
+        });
+    });
+    weatherBtns.forEach((btn)=>{
+        btn.addEventListener("click", function(event) {
+            // Get the dataset from the button itself when clicking the icon within the button
+            clickedDate = event.target.closest(".tasks__btn--weather").dataset.date;
+            // Opens the weather modal, and renders the weather from an API (openweathermap) for that day inside the modal
+            _modalJs.openWeatherModal();
         });
     });
 };
@@ -887,11 +899,11 @@ avatarEl.addEventListener("click", function() {
 const renderProfile = function() {
     profile = JSON.parse(localStorage.getItem("profile"));
     if (localStorage.getItem("profile")) {
-        usernameEl.textContent = `Username: ${profile.username}`;
-        locationEl.textContent = `Location: ${profile.location}`;
+        usernameEl.textContent = profile.username;
+        locationEl.textContent = profile.location;
     } else {
-        usernameEl.textContent = "Username: User";
-        locationEl.textContent = "Location: Location";
+        usernameEl.textContent = "User";
+        locationEl.textContent = "Location";
     }
 };
 renderProfile();
@@ -907,6 +919,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "openAddTask", ()=>openAddTask);
 parcelHelpers.export(exports, "openEditTask", ()=>openEditTask);
 parcelHelpers.export(exports, "openDeleteTask", ()=>openDeleteTask);
+parcelHelpers.export(exports, "openWeatherModal", ()=>openWeatherModal);
 parcelHelpers.export(exports, "openProfileModal", ()=>openProfileModal);
 var _mainJs = require("./main.js");
 "use strict";
@@ -914,6 +927,7 @@ const backDrop = document.querySelector(".modal__backdrop");
 const addTaskModal = document.querySelector(".modal__new-task");
 const editTaskModal = document.querySelector(".modal__edit-task");
 const deleteTaskModal = document.querySelector(".modal__delete-task");
+const weatherModal = document.querySelector(".modal__weather");
 const profileModal = document.querySelector(".modal__profile");
 const modalForm = document.querySelector(".modal__form");
 const addTaskInput = document.querySelector(".modal__task-input");
@@ -927,6 +941,7 @@ const editBtn = document.querySelector(".modal__btn-edit");
 const doneBtn = document.querySelectorAll(".modal__btn-done");
 const deleteBtn = document.querySelector(".modal__btn-delete");
 const cancelBtn = document.querySelectorAll(".modal__btn-cancel");
+const okBtn = document.querySelector(".modal__btn-ok");
 modalForm.addEventListener("keydown", function(event) {
     // Stop anything from happening when user presses the enter key
     if (event.key === "Enter") event.preventDefault();
@@ -997,6 +1012,10 @@ const openDeleteTask = function() {
     backDrop.style.display = "block";
     deleteTaskModal.style.display = "flex";
 };
+const openWeatherModal = function() {
+    backDrop.style.display = "block";
+    weatherModal.style.display = "flex";
+};
 const openProfileModal = function() {
     _mainJs.profile = JSON.parse(localStorage.getItem("profile"));
     if (localStorage.getItem("profile")) {
@@ -1040,6 +1059,10 @@ doneBtn.forEach((btn)=>{
         // Render the calendar with the new data
         _mainJs.executeOrder();
     });
+});
+okBtn.addEventListener("click", function() {
+    backDrop.style.display = "none";
+    weatherModal.style.display = "none";
 });
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./main.js":"1SICI"}],"gkKU3":[function(require,module,exports) {
