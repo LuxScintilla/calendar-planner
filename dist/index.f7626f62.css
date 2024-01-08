@@ -418,4 +418,38 @@ body {
   background-color: #ebaf8d;
 }
 
+.weather__img {
+  width: 20rem;
+  height: 20rem;
+}
+
+.weather__temp {
+  margin-bottom: 4rem;
+  font-size: 6rem;
+  font-weight: 700;
+}
+
+.weather__info {
+  justify-content: space-between;
+  gap: 12rem;
+  width: 100%;
+  display: flex;
+}
+
+.weather__humidity, .weather__wind {
+  gap: 1rem;
+  display: flex;
+}
+
+.humidity, .wind {
+  width: 6rem;
+  height: 6rem;
+}
+
+.humidity__text, .wind__text {
+  align-self: center;
+  font-size: 3rem;
+  font-weight: 700;
+}
+
 /*# sourceMappingURL=index.f7626f62.css.map */

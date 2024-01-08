@@ -146,3 +146,41 @@
     background-color: $color-background-week;
   }
 }
+
+.weather {
+  &__img {
+    height: 20rem;
+    width: 20rem;
+  }
+
+  &__temp {
+    font-size: 6rem;
+    font-weight: 700;
+    margin-bottom: 4rem;
+  }
+
+  &__info {
+    display: flex;
+    justify-content: space-between;
+    gap: 12rem;
+    width: 100%;
+  }
+
+  &__humidity,
+  &__wind {
+    display: flex;
+    gap: 1rem;
+  }
+}
+
+.humidity,
+.wind {
+  height: 6rem;
+  width: 6rem;
+
+  &__text {
+    font-size: 3rem;
+    font-weight: 700;
+    align-self: center;
+  }
+}
