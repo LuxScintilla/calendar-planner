@@ -640,21 +640,21 @@ const renderTaskTitle = function(i, line) {
 // Renders the add task button at the top of the dates, unless date has passed
 const renderAddTaskBtn = function(i) {
     if (i < originalDate) return "";
-    else return `<button class="tasks__btn tasks__btn--add" data-date="${i}"><i class="fa-solid fa-plus"></i></button>`;
+    else return `<button class="tasks__btn tasks__btn--add" aria-label="button to add task for this date" data-date="${i}"><i class="fa-solid fa-plus"></i></button>`;
 };
 // Renders the edit button at the top of the dates, unless there are no tasks for that date
 const renderEditTaskBtn = function(i) {
-    if (tasks.some((task)=>task.taskDate === i)) return `<button class="tasks__btn tasks__btn--edit" data-date="${i}"><i class="fa-solid fa-pen-to-square"></i></button>`;
+    if (tasks.some((task)=>task.taskDate === i)) return `<button class="tasks__btn tasks__btn--edit" aria-label="button to edit existing tasks for this date" data-date="${i}"><i class="fa-solid fa-pen-to-square"></i></button>`;
     else return "";
 };
 // Renders the delete button at the top of the dates, unless there are no tasks for that date
 const renderDeleteTaskBtn = function(i) {
-    if (tasks.some((task)=>task.taskDate === i)) return `<button class="tasks__btn tasks__btn--delete" data-date="${i}"><i class="fa-solid fa-trash"></i></button>`;
+    if (tasks.some((task)=>task.taskDate === i)) return `<button class="tasks__btn tasks__btn--delete" aria-label="button to delete some tasks for this date" data-date="${i}"><i class="fa-solid fa-trash"></i></button>`;
     else return "";
 };
 // Renders the weather button at the top of every date, which will get the weather info from API and display it
 const renderWeatherBtn = function(i) {
-    if (i === originalDate) return `<button class="tasks__btn tasks__btn--weather" data-date="${i}"><i class="fa-solid fa-cloud-sun"></i></button>`;
+    if (i === originalDate) return `<button class="tasks__btn tasks__btn--weather" aria-label="button to see current weather for this date" data-date="${i}"><i class="fa-solid fa-cloud-sun"></i></button>`;
     else return "";
 };
 // Generates all the html markup for all the dates of the month
