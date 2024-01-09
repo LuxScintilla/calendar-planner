@@ -1,11 +1,11 @@
 {
-  "name": "life-tracker",
+  "name": "calendar-planner",
   "version": "1.0.0",
-  "description": "all in one life tracker app",
+  "description": "calendar planner with to do lists and weather",
   "default": "index.html",
   "scripts": {
     "start": "parcel index.html",
-    "build": "parcel build index.html --dist-dir ./dist"
+    "build": "parcel build index.html --dist-dir ./docs"
   },
   "author": "ekaterina furman",
   "license": "ISC",
