@@ -589,9 +589,11 @@ const calendar = document.querySelector(".organiser__dates");
 const monthYear = document.getElementById("month-year");
 const btnPrevious = document.querySelector(".month__button--previous");
 const btnNext = document.querySelector(".month__button--next");
-const avatarEl = document.querySelector(".calendar__avatar");
-const usernameEl = document.querySelector(".calendar__username");
-const locationEl = document.querySelector(".calendar__location");
+const avatarEl = document.querySelector(".profile__avatar");
+const usernameEl = document.querySelector(".profile__username");
+const locationEl = document.querySelector(".profile__location");
+const profileWeatherImg = document.querySelector(".profile__weather-img");
+const profileWeatherText = document.querySelector(".profile__weather-text");
 const weekdaysArray = [
     "Monday",
     "Tuesday",
@@ -652,7 +654,8 @@ const renderDeleteTaskBtn = function(i) {
 };
 // Renders the weather button at the top of every date, which will get the weather info from API and display it
 const renderWeatherBtn = function(i) {
-    return `<button class="tasks__btn tasks__btn--weather" data-date="${i}"><i class="fa-solid fa-cloud-sun"></i></button>`;
+    if (i === originalDate) return `<button class="tasks__btn tasks__btn--weather" data-date="${i}"><i class="fa-solid fa-cloud-sun"></i></button>`;
+    else return "";
 };
 // Generates all the html markup for all the dates of the month
 const renderDates = function() {
@@ -906,7 +909,21 @@ const renderProfile = function() {
         locationEl.textContent = "Location";
     }
 };
+const renderProfileWeather = async function() {
+    try {
+        profileWeatherImg.classList.add("spinner-class");
+        const data = await _modalJs.weatherAPI("Inverness");
+        if (!data) throw new Error("Something went wrong with the data!");
+        // Apply the data to the markup elements
+        profileWeatherImg.classList.remove("spinner-class");
+        profileWeatherImg.src = data.current.condition.icon;
+        profileWeatherText.textContent = `${data.current.temp_c}\xb0C`;
+    } catch (error) {
+        console.error(error);
+    }
+};
 renderProfile();
+renderProfileWeather();
 getDate();
 renderMonthYear();
 renderDates();
@@ -920,6 +937,7 @@ parcelHelpers.export(exports, "openAddTask", ()=>openAddTask);
 parcelHelpers.export(exports, "openEditTask", ()=>openEditTask);
 parcelHelpers.export(exports, "openDeleteTask", ()=>openDeleteTask);
 parcelHelpers.export(exports, "openWeatherModal", ()=>openWeatherModal);
+parcelHelpers.export(exports, "weatherAPI", ()=>weatherAPI);
 parcelHelpers.export(exports, "openProfileModal", ()=>openProfileModal);
 var _mainJs = require("./main.js");
 "use strict";
@@ -937,15 +955,16 @@ const editContainer = document.querySelector(".modal__render-edit-container");
 const deleteContainer = document.querySelector(".modal__render-delete-container");
 const saveBtn = document.querySelector(".modal__btn-save");
 const profileSaveBtn = document.querySelector(".modal__btn-profile-save");
-const editBtn = document.querySelector(".modal__btn-edit");
 const doneBtn = document.querySelectorAll(".modal__btn-done");
-const deleteBtn = document.querySelector(".modal__btn-delete");
 const cancelBtn = document.querySelectorAll(".modal__btn-cancel");
 const okBtn = document.querySelector(".modal__btn-ok");
 modalForm.addEventListener("keydown", function(event) {
     // Stop anything from happening when user presses the enter key
     if (event.key === "Enter") event.preventDefault();
 });
+///////////////////////////////////////////////
+// SAVE BUTTON
+///////////////////////////////////////////////
 saveBtn.addEventListener("click", function(event) {
     // Object that will be saved into localstorage
     const dataObject = {
@@ -1012,9 +1031,46 @@ const openDeleteTask = function() {
     backDrop.style.display = "block";
     deleteTaskModal.style.display = "flex";
 };
-const openWeatherModal = function() {
+///////////////////////////////////////////////
+// OPEN WEATHER MODAL
+///////////////////////////////////////////////
+const weatherIMG = document.querySelector(".weather__img");
+const weatherTemperature = document.querySelector(".weather__temp");
+const weatherHumidity = document.querySelector(".humidity__text");
+const weatherWind = document.querySelector(".wind__text");
+const KEY = "9b3d812c470e4cc4abf95058240901";
+const openWeatherModal = async function() {
     backDrop.style.display = "block";
     weatherModal.style.display = "flex";
+    try {
+        weatherIMG.classList.add("spinner-class");
+        const data = await weatherAPI("Inverness");
+        if (!data) throw new Error("Something went wrong with the data!");
+        // Apply the data to the markup elements
+        weatherIMG.classList.remove("spinner-class");
+        weatherIMG.src = data.current.condition.icon;
+        weatherTemperature.textContent = `${data.current.temp_c}\xb0C`;
+        weatherHumidity.textContent = `${data.current.humidity}%`;
+        weatherWind.textContent = `${data.current.wind_mph} mph`;
+    } catch (error) {
+        console.error(error);
+    }
+};
+const weatherAPI = async function(location) {
+    try {
+        // Request data from weatherAPI
+        const apiJSON = await fetch(`http://api.weatherapi.com/v1/current.json?key=${KEY}&q=${location}&aqi=no`);
+        // Check if data has succesfully been retrieved
+        if (!apiJSON.ok) throw new Error("Network response was not OK");
+        // Convert data from JSON format
+        const data = await apiJSON.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        // If something goes wrong crashes are caught here
+        console.error("Something went wrong here ...");
+        console.error(error);
+    }
 };
 const openProfileModal = function() {
     _mainJs.profile = JSON.parse(localStorage.getItem("profile"));
@@ -1028,6 +1084,9 @@ const openProfileModal = function() {
     backDrop.style.display = "block";
     profileModal.style.display = "flex";
 };
+///////////////////////////////////////////////
+// PROFILE SAVE BUTTON
+///////////////////////////////////////////////
 profileSaveBtn.addEventListener("click", function() {
     const dataObject = {
         username: localStorage.getItem("profile") && usernameInput.value === "" ? _mainJs.profile.username : usernameInput.value,
@@ -1041,6 +1100,9 @@ profileSaveBtn.addEventListener("click", function() {
     usernameInput.value = "";
     locationInput.value = "";
 });
+///////////////////////////////////////////////
+// CANCEL BUTTON
+///////////////////////////////////////////////
 cancelBtn.forEach((btn)=>{
     btn.addEventListener("click", function() {
         backDrop.style.display = "none";
@@ -1050,6 +1112,9 @@ cancelBtn.forEach((btn)=>{
         profileModal.style.display = "none";
     });
 });
+///////////////////////////////////////////////
+// DONE BUTTON
+///////////////////////////////////////////////
 doneBtn.forEach((btn)=>{
     btn.addEventListener("click", function() {
         backDrop.style.display = "none";
@@ -1060,6 +1125,9 @@ doneBtn.forEach((btn)=>{
         _mainJs.executeOrder();
     });
 });
+///////////////////////////////////////////////
+// OK BUTTON
+///////////////////////////////////////////////
 okBtn.addEventListener("click", function() {
     backDrop.style.display = "none";
     weatherModal.style.display = "none";

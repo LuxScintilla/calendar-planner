@@ -1,0 +1,104 @@
+.header {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-bottom: 1rem;
+}
+
+.profile {
+  grid-column: 1;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: 1fr 1fr;
+  column-gap: 2rem;
+
+  &__avatar {
+    position: relative;
+    grid-column: 1;
+    grid-row: 1 / -1;
+    align-self: center;
+    cursor: pointer;
+
+    &::after {
+      position: absolute;
+      content: "";
+      display: inline-block;
+      background-image: url(../img/gear-solid.svg);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      background-color: $color-right-medium;
+      border-radius: 50%;
+      border: 2px solid $color-right-medium;
+      bottom: 0;
+      right: 0;
+      height: 3rem;
+      width: 3rem;
+    }
+
+    &:hover::after {
+      animation-name: spin;
+      animation-duration: 2s;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+    }
+  }
+
+  &__avatar-img {
+    border-radius: 50%;
+    width: 10rem;
+    height: 10rem;
+  }
+
+  &__username {
+    align-self: flex-end;
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+
+  &__location {
+    align-self: flex-start;
+    font-size: 1.6rem;
+  }
+
+  &__weather {
+    grid-column: 3;
+    grid-row: 1 / -1;
+    display: flex;
+    align-items: center;
+  }
+
+  &__weather-img {
+    height: 10rem;
+    width: 10rem;
+  }
+
+  &__weather-text {
+    font-size: 2.4rem;
+    font-weight: 700;
+  }
+
+  &__title {
+    grid-column: 2;
+    font-family: "Tangerine", cursive;
+    font-size: 3.6rem;
+    text-align: center;
+    color: #fff;
+    padding: 2rem;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner-class {
+  animation-name: spin;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}

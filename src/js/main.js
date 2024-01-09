@@ -7,9 +7,12 @@ const monthYear = document.getElementById("month-year");
 const btnPrevious = document.querySelector(".month__button--previous");
 const btnNext = document.querySelector(".month__button--next");
 
-const avatarEl = document.querySelector(".calendar__avatar");
-const usernameEl = document.querySelector(".calendar__username");
-const locationEl = document.querySelector(".calendar__location");
+const avatarEl = document.querySelector(".profile__avatar");
+const usernameEl = document.querySelector(".profile__username");
+const locationEl = document.querySelector(".profile__location");
+
+const profileWeatherImg = document.querySelector(".profile__weather-img");
+const profileWeatherText = document.querySelector(".profile__weather-text");
 
 const weekdaysArray = [
   "Monday",
@@ -103,7 +106,11 @@ const renderDeleteTaskBtn = function (i) {
 
 // Renders the weather button at the top of every date, which will get the weather info from API and display it
 const renderWeatherBtn = function (i) {
-  return `<button class="tasks__btn tasks__btn--weather" data-date="${i}"><i class="fa-solid fa-cloud-sun"></i></button>`;
+  if (i === originalDate) {
+    return `<button class="tasks__btn tasks__btn--weather" data-date="${i}"><i class="fa-solid fa-cloud-sun"></i></button>`;
+  } else {
+    return "";
+  }
 };
 
 // Generates all the html markup for all the dates of the month
@@ -494,7 +501,27 @@ export const renderProfile = function () {
   }
 };
 
+const renderProfileWeather = async function () {
+  try {
+    profileWeatherImg.classList.add("spinner-class");
+
+    const data = await modal.weatherAPI("Inverness");
+
+    if (!data) {
+      throw new Error("Something went wrong with the data!");
+    }
+
+    // Apply the data to the markup elements
+    profileWeatherImg.classList.remove("spinner-class");
+    profileWeatherImg.src = data.current.condition.icon;
+    profileWeatherText.textContent = `${data.current.temp_c}°C`;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 renderProfile();
+renderProfileWeather();
 getDate();
 renderMonthYear();
 renderDates();

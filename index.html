@@ -16,15 +16,19 @@
 <body>
 
   <div class="calendar">
-    <header class="calendar__header">
-      <div class="calendar__profile">
-        <div class="calendar__avatar">
-          <img class="avatar" src="./src/img/mountain-avatar.jpg" alt="avatar picture">
+    <header class="header">
+      <div class="profile">
+        <div class="profile__avatar">
+          <img class="profile__avatar-img" src="./src/img/mountain-avatar.jpg" alt="avatar picture">
         </div>
-        <p class="calendar__username">Username: User</p>
-        <p class="calendar__location">Location: Scotland</p>
+        <p class="profile__username">Username: User</p>
+        <p class="profile__location">Location: Scotland</p>
+        <div class="profile__weather">
+          <img class="profile__weather-img" src="./src/img/wait.png" alt="current weather icon">
+          <p class="profile__weather-text">10°C</p>
+        </div>
       </div>
-      <div class="calendar__title">
+      <div class="profile__title">
         <h1>Calendar Planner</h1>
       </div>
     </header>
@@ -97,7 +101,7 @@
     <div class="modal__weather">
       <h2 class="modal__title">Weather</h2>
 
-      <img class="weather__img" src="./src/img/drizzle.png" alt="weather drizzle">
+      <img class="weather__img" src="./src/img/wait.png" alt="current weather icon">
       <p class="weather__temp">21°C</p>
       <div class="weather__info">
         <div class="weather__humidity">

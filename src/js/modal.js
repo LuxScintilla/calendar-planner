@@ -22,9 +22,7 @@ const deleteContainer = document.querySelector(
 
 const saveBtn = document.querySelector(".modal__btn-save");
 const profileSaveBtn = document.querySelector(".modal__btn-profile-save");
-const editBtn = document.querySelector(".modal__btn-edit");
 const doneBtn = document.querySelectorAll(".modal__btn-done");
-const deleteBtn = document.querySelector(".modal__btn-delete");
 const cancelBtn = document.querySelectorAll(".modal__btn-cancel");
 const okBtn = document.querySelector(".modal__btn-ok");
 
@@ -34,6 +32,10 @@ modalForm.addEventListener("keydown", function (event) {
     event.preventDefault();
   }
 });
+
+///////////////////////////////////////////////
+// SAVE BUTTON
+///////////////////////////////////////////////
 
 saveBtn.addEventListener("click", function (event) {
   // Object that will be saved into localstorage
@@ -58,11 +60,19 @@ saveBtn.addEventListener("click", function (event) {
   main.executeOrder();
 });
 
+///////////////////////////////////////////////
+// OPEN ADD TASK MODAL
+///////////////////////////////////////////////
+
 export const openAddTask = function () {
   backDrop.style.display = "block";
   addTaskModal.style.display = "flex";
   addTaskInput.focus();
 };
+
+///////////////////////////////////////////////
+// OPEN EDIT TASK MODAL
+///////////////////////////////////////////////
 
 export const openEditTask = function () {
   // Collects the entire markup to be attached when done
@@ -93,6 +103,10 @@ export const openEditTask = function () {
   editTaskModal.style.display = "flex";
 };
 
+///////////////////////////////////////////////
+// OPEN DELETE TASK MODAL
+///////////////////////////////////////////////
+
 export const openDeleteTask = function () {
   // Collects the entire markup to be attached when done
   let markup = "";
@@ -122,10 +136,69 @@ export const openDeleteTask = function () {
   deleteTaskModal.style.display = "flex";
 };
 
-export const openWeatherModal = function () {
+///////////////////////////////////////////////
+// OPEN WEATHER MODAL
+///////////////////////////////////////////////
+
+const weatherIMG = document.querySelector(".weather__img");
+const weatherTemperature = document.querySelector(".weather__temp");
+const weatherHumidity = document.querySelector(".humidity__text");
+const weatherWind = document.querySelector(".wind__text");
+
+const KEY = "9b3d812c470e4cc4abf95058240901";
+
+export const openWeatherModal = async function () {
   backDrop.style.display = "block";
   weatherModal.style.display = "flex";
+
+  try {
+    weatherIMG.classList.add("spinner-class");
+
+    const data = await weatherAPI("Inverness");
+
+    if (!data) {
+      throw new Error("Something went wrong with the data!");
+    }
+
+    // Apply the data to the markup elements
+    weatherIMG.classList.remove("spinner-class");
+    weatherIMG.src = data.current.condition.icon;
+    weatherTemperature.textContent = `${data.current.temp_c}°C`;
+    weatherHumidity.textContent = `${data.current.humidity}%`;
+    weatherWind.textContent = `${data.current.wind_mph} mph`;
+  } catch (error) {
+    console.error(error);
+  }
 };
+
+export const weatherAPI = async function (location) {
+  try {
+    // Request data from weatherAPI
+    const apiJSON = await fetch(
+      `http://api.weatherapi.com/v1/current.json?key=${KEY}&q=${location}&aqi=no`
+    );
+
+    // Check if data has succesfully been retrieved
+    if (!apiJSON.ok) {
+      throw new Error("Network response was not OK");
+    }
+
+    // Convert data from JSON format
+    const data = await apiJSON.json();
+
+    console.log(data);
+
+    return data;
+  } catch (error) {
+    // If something goes wrong crashes are caught here
+    console.error("Something went wrong here ...");
+    console.error(error);
+  }
+};
+
+///////////////////////////////////////////////
+// OPEN PROFILE MODAL
+///////////////////////////////////////////////
 
 export const openProfileModal = function () {
   main.profile = JSON.parse(localStorage.getItem("profile"));
@@ -141,6 +214,10 @@ export const openProfileModal = function () {
   backDrop.style.display = "block";
   profileModal.style.display = "flex";
 };
+
+///////////////////////////////////////////////
+// PROFILE SAVE BUTTON
+///////////////////////////////////////////////
 
 profileSaveBtn.addEventListener("click", function () {
   const dataObject = {
@@ -166,6 +243,10 @@ profileSaveBtn.addEventListener("click", function () {
   locationInput.value = "";
 });
 
+///////////////////////////////////////////////
+// CANCEL BUTTON
+///////////////////////////////////////////////
+
 cancelBtn.forEach((btn) => {
   btn.addEventListener("click", function () {
     backDrop.style.display = "none";
@@ -175,6 +256,10 @@ cancelBtn.forEach((btn) => {
     profileModal.style.display = "none";
   });
 });
+
+///////////////////////////////////////////////
+// DONE BUTTON
+///////////////////////////////////////////////
 
 doneBtn.forEach((btn) => {
   btn.addEventListener("click", function () {
@@ -186,6 +271,10 @@ doneBtn.forEach((btn) => {
     main.executeOrder();
   });
 });
+
+///////////////////////////////////////////////
+// OK BUTTON
+///////////////////////////////////////////////
 
 okBtn.addEventListener("click", function () {
   backDrop.style.display = "none";
