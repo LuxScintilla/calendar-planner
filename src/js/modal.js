@@ -175,7 +175,7 @@ export const weatherAPI = async function (location) {
   try {
     // Request data from weatherAPI
     const apiJSON = await fetch(
-      `http://api.weatherapi.com/v1/current.json?key=${KEY}&q=${location}&aqi=no`
+      `https://api.weatherapi.com/v1/current.json?key=${KEY}&q=${location}&aqi=no`
     );
 
     // Check if data has succesfully been retrieved
