@@ -213,6 +213,7 @@ export const openProfileModal = function () {
 
   backDrop.style.display = "block";
   profileModal.style.display = "flex";
+  usernameInput.focus();
 };
 
 ///////////////////////////////////////////////

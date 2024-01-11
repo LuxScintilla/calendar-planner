@@ -3,6 +3,9 @@
   grid-template-columns: 6rem 1fr;
   grid-template-rows: 6rem 1fr;
 
+  border-radius: 16px;
+  overflow: hidden;
+
   &__days {
     grid-column: 1 / -1;
     grid-row: 1;
@@ -18,7 +21,7 @@
       background-color: $color-background-day;
 
       font-weight: 700;
-      color: $color-left-text-light;
+      color: $color-text-main-light;
     }
   }
 
@@ -36,7 +39,7 @@
 
       background-color: $color-background-week;
 
-      color: $color-left-text-light;
+      color: $color-text-main-light;
 
       span {
         display: inline-block;

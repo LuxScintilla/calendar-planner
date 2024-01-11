@@ -2,12 +2,12 @@
   display: grid;
   grid-template-columns: 4rem 1fr;
   grid-template-rows: repeat(7, 1fr);
-  background-color: $color-calendar-light;
+  background-color: $color-tasks-background;
 
   &__date {
     font-size: 1.8rem;
     font-weight: 700;
-    color: #fff;
+    color: $color-text-main-light;
     text-align: center;
     background-color: $color-background-date;
     padding-top: 1rem;
@@ -16,9 +16,9 @@
     &--current {
       font-size: 1.8rem;
       font-weight: 700;
-      color: #fff;
+      color: $color-text-main-light;
       text-align: center;
-      background-color: #c23048;
+      background-color: $color-background-date-current;
       padding-top: 1rem;
       padding-bottom: 1rem;
     }
@@ -30,7 +30,7 @@
     align-items: center;
     gap: 1rem;
 
-    background-color: $color-calendar-dark;
+    background-color: $color-background-date-bar;
     padding-right: 1rem;
   }
 
@@ -42,16 +42,20 @@
     all: unset;
     width: 2rem;
     height: 2rem;
-    font-size: 1.4rem;
-    color: #fff;
+    font-size: 1rem;
+    color: $color-text-main-light;
     border-radius: 4px;
-    background-color: #c5a6a0;
+    background-color: $color-tasks-btn-background;
     cursor: pointer;
     transition: all 0.2s;
 
     &:hover {
-      color: $color-right-dark;
-      background-color: $color-calendar-light;
+      background-color: $color-tasks-btn-background-hover;
+    }
+
+    &:focus {
+      outline: 2px solid $color-tasks-btn-background-focus;
+      outline-offset: 2px;
     }
   }
 
@@ -73,16 +77,16 @@
     input[type="checkbox"] {
       -webkit-appearance: none;
       appearance: none;
-      background-color: $color-calendar-light;
+      background-color: $color-background-checkbox;
       margin: 0;
       display: grid;
       place-content: center;
 
       font: inherit;
-      color: $color-right-dark;
+      color: $color-text-main-dark;
       width: 2rem;
       height: 2rem;
-      border: 2px solid $color-right-dark;
+      border: 2px solid $color-border-checkbox;
       border-radius: 4px;
 
       &::before {
@@ -91,8 +95,15 @@
         height: 1rem;
         transform: scale(0);
         transition: 0.2s transform ease-in-out;
-        box-shadow: inset 1rem 1rem $color-right-dark;
-        background-color: CanvasText;
+        box-shadow: inset 1rem 1rem $color-checkbox-checked;
+
+        transform-origin: center;
+        clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+      }
+
+      &:focus {
+        outline: 2px solid $color-checkbox-focus;
+        outline-offset: 2px;
       }
 
       &:checked::before {
@@ -100,8 +111,8 @@
       }
 
       &:disabled {
-        --form-control-color: #a0a0a0;
-        color: #a0a0a0;
+        --form-control-color: $color-checkbox-disabled;
+        color: $color-checkbox-disabled;
         cursor: not-allowed;
       }
     }
@@ -110,16 +121,11 @@
   &__todo {
     align-self: center;
     font-size: 1.6rem;
-    color: $color-text-task;
+    color: $color-text-main-dark;
     border-bottom: 1px solid $color-divider;
-    border-right: 1px solid $color-divider;
   }
 }
 
-.current-day {
-  box-shadow: 0px 0px 0px 8px #af938e;
-}
-
 .padding {
-  background-color: $color-right-medium;
+  background-color: $color-tasks-background;
 }

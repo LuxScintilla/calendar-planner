@@ -11,12 +11,20 @@
   grid-template-rows: 1fr 1fr;
   column-gap: 2rem;
 
+  color: $color-text-main-light;
+
   &__avatar {
+    all: unset;
     position: relative;
     grid-column: 1;
     grid-row: 1 / -1;
     align-self: center;
     cursor: pointer;
+
+    &:focus {
+      outline: 2px solid $color-background-monthbtns-focus;
+      outline-offset: 2px;
+    }
 
     &::after {
       position: absolute;
@@ -26,13 +34,10 @@
       background-repeat: no-repeat;
       background-position: center;
       background-size: cover;
-      background-color: $color-right-medium;
-      border-radius: 50%;
-      border: 2px solid $color-right-medium;
-      bottom: 0;
-      right: 0;
-      height: 3rem;
-      width: 3rem;
+      bottom: 4px;
+      right: 4px;
+      height: 2.4rem;
+      width: 2.4rem;
     }
 
     &:hover::after {
@@ -74,15 +79,12 @@
 
   &__weather-text {
     font-size: 2.4rem;
-    font-weight: 700;
   }
 
   &__title {
     grid-column: 2;
-    font-family: "Tangerine", cursive;
-    font-size: 3.6rem;
+    text-transform: uppercase;
     text-align: center;
-    color: #fff;
     padding: 2rem;
   }
 }

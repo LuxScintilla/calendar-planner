@@ -6,10 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Display:wght@100;400;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="src/sass/main.scss" />
   <script src="https://kit.fontawesome.com/9393d0e112.js" crossorigin="anonymous"></script>
-  <script defer type="module" src="./src/js/main.js"></script>
+  <script type="module" src="./src/js/main.js"></script>
   <title>Calendar Planner | Ekaterina Furman</title>
 </head>
 
@@ -18,9 +19,9 @@
   <div class="calendar">
     <header class="header">
       <div class="profile">
-        <div class="profile__avatar">
+        <button class="profile__avatar">
           <img class="profile__avatar-img" src="./src/img/mountain-avatar.jpg" alt="avatar picture">
-        </div>
+        </button>
         <p class="profile__username">Username: User</p>
         <p class="profile__location">Location: Scotland</p>
         <div class="profile__weather">
@@ -124,12 +125,12 @@
     <div class="modal__profile">
       <h2 class="modal__title">Your profile settings</h2>
       <form class="modal__form">
-        <label class="modal__profile-label" for="profile">Username:</label>
-        <input class="modal__profile-input username-input" name="profile" placeholder="username" autocomplete="off"
-          maxlength="20">
-        <label class="modal__profile-label" for="profile">Location:</label>
-        <input class="modal__profile-input location-input" name="profile" placeholder="city" autocomplete="off"
-          maxlength="20">
+        <label class="modal__profile-label" for="profile-username">Username:</label>
+        <input class="modal__profile-input username-input" name="profile-username" id="profile-username"
+          placeholder="username" autocomplete="off" maxlength="20">
+        <label class="modal__profile-label" for="profile-location">Location:</label>
+        <input class="modal__profile-input location-input" name="profile-location" id="profile-location"
+          placeholder="city" autocomplete="off" maxlength="20">
       </form>
       <div class="modal__buttons">
         <button class="modal__btn-profile-save">Save</button>

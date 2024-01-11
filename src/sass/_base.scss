@@ -1,25 +1,38 @@
-$color-left-light: #df998d;
-$color-left-medium: #de8b83;
-$color-left-dark: #d17f81;
-$color-left-text-light: #faf0f0;
-$color-left-text-medium: #f6e6e6;
-$color-left-text-dark: #cc887b;
+$color-gradient-light: #50a1d4;
+$color-gradient-dark: #6656a3;
 
-$color-right-light: #f5f5f5;
-$color-right-medium: #efded4;
-$color-right-dark: #dbb8b2;
+$color-text-main-light: #ffffff;
+$color-text-main-dark: #081015;
 
-$color-calendar-light: #f5f5f5;
-$color-calendar-dark: #f3d0b2;
+$color-background-monthbtns: #524582;
+$color-background-monthbtns-hover: #387194;
+$color-background-monthbtns-focus: #332b52;
 
-$color-background-day: #dd7b30;
-$color-background-date: #eda541;
-$color-background-week: #ebaf8d;
+$color-background-day: #332b52;
+$color-background-week: #524582;
+$color-background-date: #30617f;
+$color-background-date-current: #081015;
+$color-background-date-bar: #387194;
 
-$color-text-completed: #d7babc;
-$color-text-task: #564a4b;
+$color-tasks-background: transparent;
+$color-divider: rgba(255, 255, 255, 0.1);
 
-$color-divider: #e7e7e7;
+$color-tasks-btn-background: #30617f;
+$color-tasks-btn-background-hover: #081015;
+$color-tasks-btn-background-focus: #081015;
+
+$color-background-checkbox: transparent;
+$color-border-checkbox: #30617f;
+$color-checkbox-checked: #081015;
+$color-checkbox-focus: #524582;
+$color-checkbox-disabled: #a3a7a9;
+
+$color-modal-input-background: #dcecf6;
+$color-modal-focus: #332b52;
+$color-modal-buttons: #524582;
+$color-modal-buttons-hover: #387194;
+
+/* ----------------------------------------------- */
 
 * {
   margin: 0;
@@ -38,27 +51,61 @@ html {
 }
 
 body {
-  font-family: sans-serif;
+  font-family: "Noto Sans Display", sans-serif;
   font-size: 1.4rem;
-  color: $color-text-task;
-  background-color: $color-right-dark;
+  color: $color-text-main-dark;
+  background-image: linear-gradient(
+    to bottom right,
+    $color-gradient-dark,
+    $color-gradient-light
+  );
   padding: 2rem;
 }
 
+h1,
+h2 {
+  color: $color-text-main-light;
+}
+
+h1 {
+  font-size: 5.2rem;
+  font-weight: 100;
+}
+
+h2 {
+  text-transform: uppercase;
+  font-size: 2.4rem;
+  font-weight: 400;
+}
+
 .calendar {
-  background-color: $color-right-medium;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+
   padding: 2rem;
 
   &__month {
     display: flex;
     align-items: center;
-    font-size: 1.6rem;
-    background-color: $color-right-light;
+
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+
     padding: 2rem;
     margin-bottom: 2rem;
 
     .month__button {
       margin-left: auto;
+      display: flex;
+      gap: 1rem;
 
       &--previous,
       &--next {
@@ -67,15 +114,20 @@ body {
         height: 4rem;
         text-align: center;
         font-size: 1.8rem;
-        color: $color-text-task;
+        color: $color-text-main-light;
         border-radius: 4px;
-        background-color: $color-right-dark;
+        background-color: $color-background-monthbtns;
         cursor: pointer;
         transition: all 0.2s;
 
         &:hover {
-          color: $color-right-light;
-          background-color: #e2c6c1;
+          color: $color-text-main-light;
+          background-color: $color-background-monthbtns-hover;
+        }
+
+        &:focus {
+          outline: 2px solid $color-background-monthbtns-focus;
+          outline-offset: 2px;
         }
       }
     }

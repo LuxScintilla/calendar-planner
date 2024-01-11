@@ -673,27 +673,27 @@ const renderDates = function() {
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-1-${i - state.paddingDays}">
           </div>
-          <label class="tasks__todo" for="task-1" data-task="task-1-${i - state.paddingDays}">${renderTaskTitle(i - state.paddingDays, 0) ? renderTaskTitle(i - state.paddingDays, 0) : ""}</label>
+          <label class="tasks__todo" for="task-1-${i - state.paddingDays}" data-task="task-1-${i - state.paddingDays}">${renderTaskTitle(i - state.paddingDays, 0) ? renderTaskTitle(i - state.paddingDays, 0) : ""}</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-2-${i - state.paddingDays}">
           </div>
-          <label class="tasks__todo" for="task-2" data-task="task-2-${i - state.paddingDays}">${renderTaskTitle(i - state.paddingDays, 1) ? renderTaskTitle(i - state.paddingDays, 1) : ""}</label>
+          <label class="tasks__todo" for="task-2-${i - state.paddingDays}" data-task="task-2-${i - state.paddingDays}">${renderTaskTitle(i - state.paddingDays, 1) ? renderTaskTitle(i - state.paddingDays, 1) : ""}</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-3-${i - state.paddingDays}">
           </div>
-          <label class="tasks__todo" for="task-3" data-task="task-3-${i - state.paddingDays}">${renderTaskTitle(i - state.paddingDays, 2) ? renderTaskTitle(i - state.paddingDays, 2) : ""}</label>
+          <label class="tasks__todo" for="task-3-${i - state.paddingDays}" data-task="task-3-${i - state.paddingDays}">${renderTaskTitle(i - state.paddingDays, 2) ? renderTaskTitle(i - state.paddingDays, 2) : ""}</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-4-${i - state.paddingDays}">
           </div>
-          <label class="tasks__todo" for="task-4" data-task="task-4-${i - state.paddingDays}">${renderTaskTitle(i - state.paddingDays, 3) ? renderTaskTitle(i - state.paddingDays, 3) : ""}</label>
+          <label class="tasks__todo" for="task-4-${i - state.paddingDays}" data-task="task-4-${i - state.paddingDays}">${renderTaskTitle(i - state.paddingDays, 3) ? renderTaskTitle(i - state.paddingDays, 3) : ""}</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-5-${i - state.paddingDays}">
           </div>
-          <label class="tasks__todo" for="task-5" data-task="task-5-${i - state.paddingDays}">${renderTaskTitle(i - state.paddingDays, 4) ? renderTaskTitle(i - state.paddingDays, 4) : ""}</label>
+          <label class="tasks__todo" for="task-5-${i - state.paddingDays}" data-task="task-5-${i - state.paddingDays}">${renderTaskTitle(i - state.paddingDays, 4) ? renderTaskTitle(i - state.paddingDays, 4) : ""}</label>
           <div class="tasks__checkbox">
             <input type="checkbox" name="checkbox" id="task-6-${i - state.paddingDays}">
           </div>
-          <label class="tasks__todo" for="task-6" data-task="task-6-${i - state.paddingDays}">${renderTaskTitle(i - state.paddingDays, 5) ? renderTaskTitle(i - state.paddingDays, 5) : ""}</label>
+          <label class="tasks__todo" for="task-6-${i - state.paddingDays}" data-task="task-6-${i - state.paddingDays}">${renderTaskTitle(i - state.paddingDays, 5) ? renderTaskTitle(i - state.paddingDays, 5) : ""}</label>
         </div>
       `;
     else markup += `
@@ -1083,6 +1083,7 @@ const openProfileModal = function() {
     }
     backDrop.style.display = "block";
     profileModal.style.display = "flex";
+    usernameInput.focus();
 };
 ///////////////////////////////////////////////
 // PROFILE SAVE BUTTON
