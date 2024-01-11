@@ -158,7 +158,9 @@ export const openDeleteTask = function () {
 
 const weatherIMG = document.querySelector(".weather__img");
 const weatherTemperature = document.querySelector(".weather__temp");
+const humidityIMG = document.querySelector(".humidity");
 const weatherHumidity = document.querySelector(".humidity__text");
+const windIMG = document.querySelector(".wind");
 const weatherWind = document.querySelector(".wind__text");
 
 const KEY = "9b3d812c470e4cc4abf95058240901";
@@ -174,21 +176,41 @@ export const openWeatherModal = async function () {
   try {
     weatherIMG.classList.add("spinner-class");
 
-    const data = await weatherAPI("Inverness");
+    let data;
 
-    if (!data) {
-      throw new Error("Something went wrong with the data!");
+    if (localStorage.getItem("profile")) {
+      const profile = JSON.parse(localStorage.getItem("profile"));
+      data = await weatherAPI(profile.location);
+
+      if (!data.current) {
+        throw new Error("Invalid location in your profile");
+      } else {
+        // Apply the data to the markup elements
+        weatherIMG.classList.remove("spinner-class");
+        weatherIMG.src = data.current.condition.icon;
+        weatherTemperature.textContent = `${data.current.temp_c}°C`;
+        weatherHumidity.textContent = `${data.current.humidity}%`;
+        weatherWind.textContent = `${data.current.wind_mph} mph`;
+      }
+    } else if (!localStorage.getItem("profile")) {
+      weatherMarkup("Enter a location into your profile (top left)");
     }
-
-    // Apply the data to the markup elements
-    weatherIMG.classList.remove("spinner-class");
-    weatherIMG.src = data.current.condition.icon;
-    weatherTemperature.textContent = `${data.current.temp_c}°C`;
-    weatherHumidity.textContent = `${data.current.humidity}%`;
-    weatherWind.textContent = `${data.current.wind_mph} mph`;
   } catch (error) {
     console.error(error);
+    weatherMarkup(
+      "Invalid location! Please change your location to a valid city or country name"
+    );
   }
+};
+
+const weatherMarkup = function (message) {
+  weatherIMG.style.display = "none";
+  weatherTemperature.style.fontSize = "2.4rem";
+  weatherTemperature.textContent = message;
+  humidityIMG.style.display = "none";
+  weatherHumidity.style.display = "none";
+  windIMG.style.display = "none";
+  weatherWind.style.display = "none";
 };
 
 export const weatherAPI = async function (location) {
@@ -200,7 +222,7 @@ export const weatherAPI = async function (location) {
 
     // Check if data has succesfully been retrieved
     if (!apiJSON.ok) {
-      throw new Error("Network response was not OK");
+      throw new Error("Invalid request, change location and try again");
     }
 
     // Convert data from JSON format
@@ -211,7 +233,6 @@ export const weatherAPI = async function (location) {
     return data;
   } catch (error) {
     // If something goes wrong crashes are caught here
-    console.error("Something went wrong here ...");
     console.error(error);
   }
 };
@@ -244,6 +265,8 @@ export const openProfileModal = function () {
 // PROFILE SAVE BUTTON
 ///////////////////////////////////////////////
 
+const profileWeatherImg = document.querySelector(".profile__weather-img");
+
 profileSaveBtn.addEventListener("click", function () {
   const dataObject = {
     username:
@@ -259,6 +282,8 @@ profileSaveBtn.addEventListener("click", function () {
   localStorage.setItem("profile", JSON.stringify(dataObject));
 
   main.renderProfile();
+  main.renderProfileWeather();
+  profileWeatherImg.style.display = "block";
 
   backDrop.style.display = "none";
   profileModal.style.display = "none";

@@ -11,6 +11,7 @@ const avatarEl = document.querySelector(".profile__avatar");
 const usernameEl = document.querySelector(".profile__username");
 const locationEl = document.querySelector(".profile__location");
 
+const profileWeatherDiv = document.querySelector(".profile__weather");
 const profileWeatherImg = document.querySelector(".profile__weather-img");
 const profileWeatherText = document.querySelector(".profile__weather-text");
 
@@ -505,22 +506,34 @@ export const renderProfile = function () {
   }
 };
 
-const renderProfileWeather = async function () {
+export const renderProfileWeather = async function () {
   try {
     profileWeatherImg.classList.add("spinner-class");
 
-    const data = await modal.weatherAPI("Inverness");
+    let data;
 
-    if (!data) {
-      throw new Error("Something went wrong with the data!");
+    if (localStorage.getItem("profile")) {
+      const profile = JSON.parse(localStorage.getItem("profile"));
+      data = await modal.weatherAPI(profile.location);
+
+      if (!data.current) {
+        throw new Error("Invalid location in your profile");
+      } else {
+        // Apply the data to the markup elements
+        profileWeatherImg.classList.remove("spinner-class");
+        profileWeatherImg.src = data.current.condition.icon;
+        profileWeatherText.textContent = `${data.current.temp_c}°C`;
+      }
+    } else if (!localStorage.getItem("profile")) {
+      profileWeatherImg.classList.remove("spinner-class");
+      profileWeatherImg.style.display = "none";
+      profileWeatherText.textContent = "No Location";
     }
-
-    // Apply the data to the markup elements
-    profileWeatherImg.classList.remove("spinner-class");
-    profileWeatherImg.src = data.current.condition.icon;
-    profileWeatherText.textContent = `${data.current.temp_c}°C`;
   } catch (error) {
     console.error(error);
+    profileWeatherImg.classList.remove("spinner-class");
+    profileWeatherImg.style.display = "none";
+    profileWeatherText.textContent = "Invalid Location";
   }
 };
 

@@ -583,6 +583,7 @@ parcelHelpers.export(exports, "profile", ()=>profile);
 parcelHelpers.export(exports, "state", ()=>state);
 parcelHelpers.export(exports, "executeOrder", ()=>executeOrder);
 parcelHelpers.export(exports, "renderProfile", ()=>renderProfile);
+parcelHelpers.export(exports, "renderProfileWeather", ()=>renderProfileWeather);
 var _modalJs = require("./modal.js");
 "use strict";
 const calendar = document.querySelector(".organiser__dates");
@@ -592,6 +593,7 @@ const btnNext = document.querySelector(".month__button--next");
 const avatarEl = document.querySelector(".profile__avatar");
 const usernameEl = document.querySelector(".profile__username");
 const locationEl = document.querySelector(".profile__location");
+const profileWeatherDiv = document.querySelector(".profile__weather");
 const profileWeatherImg = document.querySelector(".profile__weather-img");
 const profileWeatherText = document.querySelector(".profile__weather-text");
 const weekdaysArray = [
@@ -917,14 +919,27 @@ const renderProfile = function() {
 const renderProfileWeather = async function() {
     try {
         profileWeatherImg.classList.add("spinner-class");
-        const data = await _modalJs.weatherAPI("Inverness");
-        if (!data) throw new Error("Something went wrong with the data!");
-        // Apply the data to the markup elements
-        profileWeatherImg.classList.remove("spinner-class");
-        profileWeatherImg.src = data.current.condition.icon;
-        profileWeatherText.textContent = `${data.current.temp_c}\xb0C`;
+        let data;
+        if (localStorage.getItem("profile")) {
+            const profile = JSON.parse(localStorage.getItem("profile"));
+            data = await _modalJs.weatherAPI(profile.location);
+            if (!data.current) throw new Error("Invalid location in your profile");
+            else {
+                // Apply the data to the markup elements
+                profileWeatherImg.classList.remove("spinner-class");
+                profileWeatherImg.src = data.current.condition.icon;
+                profileWeatherText.textContent = `${data.current.temp_c}\xb0C`;
+            }
+        } else if (!localStorage.getItem("profile")) {
+            profileWeatherImg.classList.remove("spinner-class");
+            profileWeatherImg.style.display = "none";
+            profileWeatherText.textContent = "No Location";
+        }
     } catch (error) {
         console.error(error);
+        profileWeatherImg.classList.remove("spinner-class");
+        profileWeatherImg.style.display = "none";
+        profileWeatherText.textContent = "Invalid Location";
     }
 };
 renderProfile();
@@ -1053,7 +1068,9 @@ const openDeleteTask = function() {
 ///////////////////////////////////////////////
 const weatherIMG = document.querySelector(".weather__img");
 const weatherTemperature = document.querySelector(".weather__temp");
+const humidityIMG = document.querySelector(".humidity");
 const weatherHumidity = document.querySelector(".humidity__text");
+const windIMG = document.querySelector(".wind");
 const weatherWind = document.querySelector(".wind__text");
 const KEY = "9b3d812c470e4cc4abf95058240901";
 const openWeatherModal = async function() {
@@ -1064,31 +1081,46 @@ const openWeatherModal = async function() {
     document.body.style.height = "100%";
     try {
         weatherIMG.classList.add("spinner-class");
-        const data = await weatherAPI("Inverness");
-        if (!data) throw new Error("Something went wrong with the data!");
-        // Apply the data to the markup elements
-        weatherIMG.classList.remove("spinner-class");
-        weatherIMG.src = data.current.condition.icon;
-        weatherTemperature.textContent = `${data.current.temp_c}\xb0C`;
-        weatherHumidity.textContent = `${data.current.humidity}%`;
-        weatherWind.textContent = `${data.current.wind_mph} mph`;
+        let data;
+        if (localStorage.getItem("profile")) {
+            const profile = JSON.parse(localStorage.getItem("profile"));
+            data = await weatherAPI(profile.location);
+            if (!data.current) throw new Error("Invalid location in your profile");
+            else {
+                // Apply the data to the markup elements
+                weatherIMG.classList.remove("spinner-class");
+                weatherIMG.src = data.current.condition.icon;
+                weatherTemperature.textContent = `${data.current.temp_c}\xb0C`;
+                weatherHumidity.textContent = `${data.current.humidity}%`;
+                weatherWind.textContent = `${data.current.wind_mph} mph`;
+            }
+        } else if (!localStorage.getItem("profile")) weatherMarkup("Enter a location into your profile (top left)");
     } catch (error) {
         console.error(error);
+        weatherMarkup("Invalid location! Please change your location to a valid city or country name");
     }
+};
+const weatherMarkup = function(message) {
+    weatherIMG.style.display = "none";
+    weatherTemperature.style.fontSize = "2.4rem";
+    weatherTemperature.textContent = message;
+    humidityIMG.style.display = "none";
+    weatherHumidity.style.display = "none";
+    windIMG.style.display = "none";
+    weatherWind.style.display = "none";
 };
 const weatherAPI = async function(location) {
     try {
         // Request data from weatherAPI
         const apiJSON = await fetch(`https://api.weatherapi.com/v1/current.json?key=${KEY}&q=${location}&aqi=no`);
         // Check if data has succesfully been retrieved
-        if (!apiJSON.ok) throw new Error("Network response was not OK");
+        if (!apiJSON.ok) throw new Error("Invalid request, change location and try again");
         // Convert data from JSON format
         const data = await apiJSON.json();
         console.log(data);
         return data;
     } catch (error) {
         // If something goes wrong crashes are caught here
-        console.error("Something went wrong here ...");
         console.error(error);
     }
 };
@@ -1111,6 +1143,7 @@ const openProfileModal = function() {
 ///////////////////////////////////////////////
 // PROFILE SAVE BUTTON
 ///////////////////////////////////////////////
+const profileWeatherImg = document.querySelector(".profile__weather-img");
 profileSaveBtn.addEventListener("click", function() {
     const dataObject = {
         username: localStorage.getItem("profile") && usernameInput.value === "" ? _mainJs.profile.username : usernameInput.value,
@@ -1118,6 +1151,8 @@ profileSaveBtn.addEventListener("click", function() {
     };
     localStorage.setItem("profile", JSON.stringify(dataObject));
     _mainJs.renderProfile();
+    _mainJs.renderProfileWeather();
+    profileWeatherImg.style.display = "block";
     backDrop.style.display = "none";
     profileModal.style.display = "none";
     document.body.style.overflow = "auto";
