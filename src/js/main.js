@@ -397,6 +397,10 @@ const deleteTaskHandler = function () {
           if (btn.dataset.task === item.dataset.task) {
             // After confirm is clicked this value will be added to array which will later be used to filter out these to be deteled tasks from the main list of tasks
             originalValueArray.push(item.value);
+
+            // After confirming deletion set input and button to display none
+            btn.style.display = "none";
+            item.style.display = "none";
           }
           const filteredTasks = tasks.filter((task) => {
             if (

@@ -832,8 +832,13 @@ const deleteTaskHandler = function() {
             else if (btn.textContent === "Confirm") {
                 btn.textContent = "Delete";
                 taskInputs.forEach((item)=>{
-                    if (btn.dataset.task === item.dataset.task) // After confirm is clicked this value will be added to array which will later be used to filter out these to be deteled tasks from the main list of tasks
-                    originalValueArray.push(item.value);
+                    if (btn.dataset.task === item.dataset.task) {
+                        // After confirm is clicked this value will be added to array which will later be used to filter out these to be deteled tasks from the main list of tasks
+                        originalValueArray.push(item.value);
+                        // After confirming deletion set input and button to display none
+                        btn.style.display = "none";
+                        item.style.display = "none";
+                    }
                     const filteredTasks = tasks.filter((task)=>{
                         if (task.taskDate !== Number(clickedDate) && task.taskMonth === state.month) return task;
                         else if (task.taskDate === Number(clickedDate) && !originalValueArray.some((item)=>item === task.taskTitle) && task.taskMonth === state.month) return task;
@@ -977,6 +982,9 @@ saveBtn.addEventListener("click", function(event) {
     localStorage.setItem("tasks", JSON.stringify(_mainJs.tasks));
     backDrop.style.display = "none";
     addTaskModal.style.display = "none";
+    // Stop scrolling when modal is open
+    document.body.style.overflow = "auto";
+    document.body.style.height = "auto";
     // Clear input field
     addTaskInput.value = "";
     // Render the calendar with the new data
@@ -986,6 +994,9 @@ const openAddTask = function() {
     backDrop.style.display = "block";
     addTaskModal.style.display = "flex";
     addTaskInput.focus();
+    // Stop scrolling when modal is open
+    document.body.style.overflow = "hidden";
+    document.body.style.height = "100%";
 };
 const openEditTask = function() {
     // Collects the entire markup to be attached when done
@@ -1008,6 +1019,9 @@ const openEditTask = function() {
     editContainer.insertAdjacentHTML("afterbegin", markup);
     backDrop.style.display = "block";
     editTaskModal.style.display = "flex";
+    // Stop scrolling when modal is open
+    document.body.style.overflow = "hidden";
+    document.body.style.height = "100%";
 };
 const openDeleteTask = function() {
     // Collects the entire markup to be attached when done
@@ -1030,6 +1044,9 @@ const openDeleteTask = function() {
     deleteContainer.insertAdjacentHTML("afterbegin", markup);
     backDrop.style.display = "block";
     deleteTaskModal.style.display = "flex";
+    // Stop scrolling when modal is open
+    document.body.style.overflow = "hidden";
+    document.body.style.height = "100%";
 };
 ///////////////////////////////////////////////
 // OPEN WEATHER MODAL
@@ -1042,6 +1059,9 @@ const KEY = "9b3d812c470e4cc4abf95058240901";
 const openWeatherModal = async function() {
     backDrop.style.display = "block";
     weatherModal.style.display = "flex";
+    // Stop scrolling when modal is open
+    document.body.style.overflow = "hidden";
+    document.body.style.height = "100%";
     try {
         weatherIMG.classList.add("spinner-class");
         const data = await weatherAPI("Inverness");
@@ -1084,6 +1104,9 @@ const openProfileModal = function() {
     backDrop.style.display = "block";
     profileModal.style.display = "flex";
     usernameInput.focus();
+    // Stop scrolling when modal is open
+    document.body.style.overflow = "hidden";
+    document.body.style.height = "100%";
 };
 ///////////////////////////////////////////////
 // PROFILE SAVE BUTTON
@@ -1097,6 +1120,8 @@ profileSaveBtn.addEventListener("click", function() {
     _mainJs.renderProfile();
     backDrop.style.display = "none";
     profileModal.style.display = "none";
+    document.body.style.overflow = "auto";
+    document.body.style.height = "auto";
     // Clear input field
     usernameInput.value = "";
     locationInput.value = "";
@@ -1111,6 +1136,8 @@ cancelBtn.forEach((btn)=>{
         editTaskModal.style.display = "none";
         deleteTaskModal.style.display = "none";
         profileModal.style.display = "none";
+        document.body.style.overflow = "auto";
+        document.body.style.height = "auto";
     });
 });
 ///////////////////////////////////////////////
@@ -1122,6 +1149,8 @@ doneBtn.forEach((btn)=>{
         addTaskModal.style.display = "none";
         editTaskModal.style.display = "none";
         deleteTaskModal.style.display = "none";
+        document.body.style.overflow = "auto";
+        document.body.style.height = "auto";
         // Render the calendar with the new data
         _mainJs.executeOrder();
     });
@@ -1132,6 +1161,8 @@ doneBtn.forEach((btn)=>{
 okBtn.addEventListener("click", function() {
     backDrop.style.display = "none";
     weatherModal.style.display = "none";
+    document.body.style.overflow = "auto";
+    document.body.style.height = "auto";
 });
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./main.js":"1SICI"}],"gkKU3":[function(require,module,exports) {

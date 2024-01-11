@@ -4,7 +4,7 @@
   &__delete-task,
   &__weather,
   &__profile {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -126,10 +126,10 @@
 
   &__backdrop {
     display: none;
-
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     height: 100%;
     width: 100%;
     z-index: 100;

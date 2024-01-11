@@ -53,6 +53,10 @@ saveBtn.addEventListener("click", function (event) {
   backDrop.style.display = "none";
   addTaskModal.style.display = "none";
 
+  // Stop scrolling when modal is open
+  document.body.style.overflow = "auto";
+  document.body.style.height = "auto";
+
   // Clear input field
   addTaskInput.value = "";
 
@@ -68,6 +72,10 @@ export const openAddTask = function () {
   backDrop.style.display = "block";
   addTaskModal.style.display = "flex";
   addTaskInput.focus();
+
+  // Stop scrolling when modal is open
+  document.body.style.overflow = "hidden";
+  document.body.style.height = "100%";
 };
 
 ///////////////////////////////////////////////
@@ -101,6 +109,10 @@ export const openEditTask = function () {
 
   backDrop.style.display = "block";
   editTaskModal.style.display = "flex";
+
+  // Stop scrolling when modal is open
+  document.body.style.overflow = "hidden";
+  document.body.style.height = "100%";
 };
 
 ///////////////////////////////////////////////
@@ -134,6 +146,10 @@ export const openDeleteTask = function () {
 
   backDrop.style.display = "block";
   deleteTaskModal.style.display = "flex";
+
+  // Stop scrolling when modal is open
+  document.body.style.overflow = "hidden";
+  document.body.style.height = "100%";
 };
 
 ///////////////////////////////////////////////
@@ -150,6 +166,10 @@ const KEY = "9b3d812c470e4cc4abf95058240901";
 export const openWeatherModal = async function () {
   backDrop.style.display = "block";
   weatherModal.style.display = "flex";
+
+  // Stop scrolling when modal is open
+  document.body.style.overflow = "hidden";
+  document.body.style.height = "100%";
 
   try {
     weatherIMG.classList.add("spinner-class");
@@ -214,6 +234,10 @@ export const openProfileModal = function () {
   backDrop.style.display = "block";
   profileModal.style.display = "flex";
   usernameInput.focus();
+
+  // Stop scrolling when modal is open
+  document.body.style.overflow = "hidden";
+  document.body.style.height = "100%";
 };
 
 ///////////////////////////////////////////////
@@ -239,6 +263,9 @@ profileSaveBtn.addEventListener("click", function () {
   backDrop.style.display = "none";
   profileModal.style.display = "none";
 
+  document.body.style.overflow = "auto";
+  document.body.style.height = "auto";
+
   // Clear input field
   usernameInput.value = "";
   locationInput.value = "";
@@ -255,6 +282,9 @@ cancelBtn.forEach((btn) => {
     editTaskModal.style.display = "none";
     deleteTaskModal.style.display = "none";
     profileModal.style.display = "none";
+
+    document.body.style.overflow = "auto";
+    document.body.style.height = "auto";
   });
 });
 
@@ -268,6 +298,9 @@ doneBtn.forEach((btn) => {
     addTaskModal.style.display = "none";
     editTaskModal.style.display = "none";
     deleteTaskModal.style.display = "none";
+
+    document.body.style.overflow = "auto";
+    document.body.style.height = "auto";
     // Render the calendar with the new data
     main.executeOrder();
   });
@@ -280,4 +313,7 @@ doneBtn.forEach((btn) => {
 okBtn.addEventListener("click", function () {
   backDrop.style.display = "none";
   weatherModal.style.display = "none";
+
+  document.body.style.overflow = "auto";
+  document.body.style.height = "auto";
 });
