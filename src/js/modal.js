@@ -181,6 +181,7 @@ export const openWeatherModal = async function () {
     if (localStorage.getItem("profile")) {
       const profile = JSON.parse(localStorage.getItem("profile"));
       data = await weatherAPI(profile.location);
+      showElements();
 
       if (!data.current) {
         throw new Error("Invalid location in your profile");
@@ -211,6 +212,14 @@ const weatherMarkup = function (message) {
   weatherHumidity.style.display = "none";
   windIMG.style.display = "none";
   weatherWind.style.display = "none";
+};
+
+const showElements = function () {
+  weatherIMG.style.display = "block";
+  humidityIMG.style.display = "block";
+  weatherHumidity.style.display = "inline-block";
+  windIMG.style.display = "block";
+  weatherWind.style.display = "inline-block";
 };
 
 export const weatherAPI = async function (location) {
