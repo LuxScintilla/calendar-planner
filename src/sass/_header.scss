@@ -2,6 +2,13 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   margin-bottom: 1rem;
+
+  &__title {
+    grid-column: 2;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 2rem;
+  }
 }
 
 .profile {
@@ -11,7 +18,7 @@
   grid-template-rows: 1fr 1fr;
   column-gap: 2rem;
 
-  color: $color-text-main-light;
+  color: var(--color-text-main-light);
 
   &__avatar {
     all: unset;
@@ -22,7 +29,7 @@
     cursor: pointer;
 
     &:focus {
-      outline: 2px solid $color-background-monthbtns-focus;
+      outline: 2px solid var(--color-background-monthbtns-focus);
       outline-offset: 2px;
     }
 
@@ -80,13 +87,6 @@
   &__weather-text {
     font-size: 2.4rem;
   }
-
-  &__title {
-    grid-column: 2;
-    text-transform: uppercase;
-    text-align: center;
-    padding: 2rem;
-  }
 }
 
 @keyframes spin {
@@ -103,4 +103,62 @@
   animation-duration: 2s;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
+}
+
+.themes {
+  align-self: center;
+  justify-self: center;
+
+  &__btn {
+    all: unset;
+    width: 4rem;
+    height: 4rem;
+    margin-right: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover,
+    &:active {
+      transform: scale(1.2);
+    }
+
+    &:focus {
+      outline: 2px solid var(--color-background-monthbtns-focus);
+      outline-offset: 2px;
+    }
+
+    &--purple {
+      background-image: linear-gradient(
+        to bottom right,
+        #6656a3 0 50%,
+        #50a1d4 50% 100%
+      );
+    }
+
+    &--green {
+      background-image: linear-gradient(
+        to bottom right,
+        #375f34 0 50%,
+        #c0db48 50% 100%
+      );
+    }
+
+    &--dark {
+      background-image: linear-gradient(
+        to bottom right,
+        #1e1e29 0 50%,
+        #0a0a0a 50% 100%
+      );
+    }
+
+    &--light {
+      background-image: linear-gradient(
+        to bottom right,
+        #fafcff 0 50%,
+        #959da5 50% 100%
+      );
+    }
+  }
 }

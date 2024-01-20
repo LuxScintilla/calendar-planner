@@ -12,8 +12,8 @@
 
     background-image: linear-gradient(
       to bottom right,
-      $color-gradient-dark,
-      $color-gradient-light
+      var(--color-gradient-dark),
+      var(--color-gradient-light)
     );
     padding: 4rem 8rem;
     border-radius: 16px;
@@ -53,19 +53,19 @@
 
   &__task-label {
     margin-bottom: 0.6rem;
-    color: $color-text-main-dark;
+    color: var(--color-text-main-dark);
 
     &--edit,
     &--delete {
       align-self: center;
-      color: $color-text-main-dark;
+      color: var(--color-text-main-dark);
     }
   }
 
   &__profile-label {
     margin-bottom: 0.6rem;
     margin-top: 2rem;
-    color: $color-text-main-dark;
+    color: var(--color-text-main-dark);
 
     &:nth-of-type(1) {
       margin-top: 0rem;
@@ -75,16 +75,16 @@
   &__task-input,
   &__profile-input {
     all: unset;
-    color: $color-text-main-dark;
+    color: var(--color-text-input);
     width: 24rem;
     border-radius: 4px;
-    background-color: $color-modal-input-background;
+    background-color: var(--color-modal-input-background);
     box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.4);
-    border-bottom: 3px solid $color-gradient-dark;
+    border-bottom: 3px solid var(--color-gradient-dark);
     padding: 1rem;
 
     &:focus {
-      outline: 2px solid $color-modal-focus;
+      outline: 2px solid var(--color-modal-focus);
       outline-offset: 3px;
     }
   }
@@ -108,18 +108,18 @@
     padding: 0rem 2rem;
     text-align: center;
     font-size: 1.8rem;
-    color: $color-text-main-light;
+    color: var(--color-text-main-light);
     border-radius: 4px;
-    background-color: $color-modal-buttons;
+    background-color: var(--color-modal-buttons);
     cursor: pointer;
     transition: all 0.2s;
 
     &:hover {
-      background-color: $color-modal-buttons-hover;
+      background-color: var(--color-modal-buttons-hover);
     }
 
     &:focus {
-      outline: 2px solid $color-modal-focus;
+      outline: 2px solid var(--color-modal-focus);
       outline-offset: 2px;
     }
   }
@@ -148,14 +148,14 @@
   all: unset;
   text-align: center;
   font-size: 1.8rem;
-  color: $color-text-main-light;
+  color: var(--color-text-main-light);
   border-radius: 4px;
-  background-color: $color-modal-buttons;
+  background-color: var(--color-modal-buttons);
   cursor: pointer;
   transition: all 0.2s;
 
   &:hover {
-    background-color: $color-modal-buttons-hover;
+    background-color: var(--color-modal-buttons-hover);
   }
 }
 
@@ -168,7 +168,7 @@
   &__temp {
     font-size: 6rem;
     font-weight: 700;
-    color: $color-text-main-dark;
+    color: var(--color-text-main-dark);
     margin-bottom: 4rem;
   }
 
@@ -194,7 +194,7 @@
   &__text {
     font-size: 3rem;
     font-weight: 700;
-    color: $color-text-main-dark;
+    color: var(--color-text-main-dark);
     align-self: center;
   }
 }

@@ -1,38 +1,21 @@
-$color-gradient-light: #50a1d4;
-$color-gradient-dark: #6656a3;
+@import "mixins";
+@import "themes";
 
-$color-text-main-light: #ffffff;
-$color-text-main-dark: #081015;
+:root.purple {
+  @include spread-map($theme-map-purple);
+}
 
-$color-background-monthbtns: #524582;
-$color-background-monthbtns-hover: #387194;
-$color-background-monthbtns-focus: #332b52;
+:root.green {
+  @include spread-map($theme-map-green);
+}
 
-$color-background-day: #332b52;
-$color-background-week: #524582;
-$color-background-date: #30617f;
-$color-background-date-current: #081015;
-$color-background-date-bar: #387194;
+:root.dark {
+  @include spread-map($theme-map-dark);
+}
 
-$color-tasks-background: transparent;
-$color-divider: rgba(255, 255, 255, 0.1);
-
-$color-tasks-btn-background: #30617f;
-$color-tasks-btn-background-hover: #081015;
-$color-tasks-btn-background-focus: #081015;
-
-$color-background-checkbox: transparent;
-$color-border-checkbox: #30617f;
-$color-checkbox-checked: #081015;
-$color-checkbox-focus: #524582;
-$color-checkbox-disabled: #a3a7a9;
-
-$color-modal-input-background: #dcecf6;
-$color-modal-focus: #332b52;
-$color-modal-buttons: #524582;
-$color-modal-buttons-hover: #387194;
-
-/* ----------------------------------------------- */
+:root.light {
+  @include spread-map($theme-map-light);
+}
 
 * {
   margin: 0;
@@ -53,18 +36,18 @@ html {
 body {
   font-family: "Noto Sans Display", sans-serif;
   font-size: 1.4rem;
-  color: $color-text-main-dark;
+  color: var(--color-text-main-dark);
   background-image: linear-gradient(
     to bottom right,
-    $color-gradient-dark,
-    $color-gradient-light
+    var(--color-gradient-dark),
+    var(--color-gradient-light)
   );
   padding: 2rem;
 }
 
 h1,
 h2 {
-  color: $color-text-main-light;
+  color: var(--color-text-main-light);
 }
 
 h1 {
@@ -114,19 +97,19 @@ h2 {
         height: 4rem;
         text-align: center;
         font-size: 1.8rem;
-        color: $color-text-main-light;
+        color: var(--color-text-main-light);
         border-radius: 4px;
-        background-color: $color-background-monthbtns;
+        background-color: var(--color-background-monthbtns);
         cursor: pointer;
         transition: all 0.2s;
 
         &:hover {
-          color: $color-text-main-light;
-          background-color: $color-background-monthbtns-hover;
+          color: var(--color-text-main-light);
+          background-color: var(--color-background-monthbtns-hover);
         }
 
         &:focus {
-          outline: 2px solid $color-background-monthbtns-focus;
+          outline: 2px solid var(--color-background-monthbtns-focus);
           outline-offset: 2px;
         }
       }

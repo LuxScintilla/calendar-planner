@@ -18,10 +18,10 @@
       justify-content: center;
       align-items: center;
 
-      background-color: $color-background-day;
+      background-color: var(--color-background-day);
 
       font-weight: 700;
-      color: $color-text-main-light;
+      color: var(--color-text-main-light);
     }
   }
 
@@ -37,9 +37,9 @@
       justify-content: center;
       align-items: center;
 
-      background-color: $color-background-week;
+      background-color: var(--color-background-week);
 
-      color: $color-text-main-light;
+      color: var(--color-text-main-light);
 
       span {
         display: inline-block;

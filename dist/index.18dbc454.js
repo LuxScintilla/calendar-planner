@@ -942,6 +942,23 @@ const renderProfileWeather = async function() {
         profileWeatherText.textContent = "Invalid Location";
     }
 };
+////////////////////////////////////
+// THEME SECTION
+////////////////////////////////////
+const themeBtns = document.querySelectorAll(".themes__btn");
+let themeID = localStorage.getItem("theme") ? JSON.parse(localStorage.getItem("theme")) : "purple";
+themeBtns.forEach((btn)=>{
+    btn.addEventListener("click", function() {
+        localStorage.setItem("theme", JSON.stringify(btn.id));
+        loadTheme();
+        location.replace(location.href);
+    });
+});
+// Function that loads the theme depending on whether there is one saved in local storage or not
+const loadTheme = function() {
+    document.documentElement.classList.add(themeID);
+};
+loadTheme();
 renderProfile();
 renderProfileWeather();
 getDate();

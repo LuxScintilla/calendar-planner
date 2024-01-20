@@ -2,23 +2,23 @@
   display: grid;
   grid-template-columns: 4rem 1fr;
   grid-template-rows: repeat(7, 1fr);
-  background-color: $color-tasks-background;
+  background-color: var(--color-tasks-background);
 
   &__date {
     font-size: 1.8rem;
     font-weight: 700;
-    color: $color-text-main-light;
+    color: var(--color-text-main-light);
     text-align: center;
-    background-color: $color-background-date;
+    background-color: var(--color-background-date);
     padding-top: 1rem;
     padding-bottom: 1rem;
 
     &--current {
       font-size: 1.8rem;
       font-weight: 700;
-      color: $color-text-main-light;
+      color: var(--color-text-main-light);
       text-align: center;
-      background-color: $color-background-date-current;
+      background-color: var(--color-background-date-current);
       padding-top: 1rem;
       padding-bottom: 1rem;
     }
@@ -30,7 +30,7 @@
     align-items: center;
     gap: 1rem;
 
-    background-color: $color-background-date-bar;
+    background-color: var(--color-background-date-bar);
     padding-right: 1rem;
   }
 
@@ -43,18 +43,18 @@
     width: 2rem;
     height: 2rem;
     font-size: 1rem;
-    color: $color-text-main-light;
+    color: var(--color-text-main-light);
     border-radius: 4px;
-    background-color: $color-tasks-btn-background;
+    background-color: var(--color-tasks-btn-background);
     cursor: pointer;
     transition: all 0.2s;
 
     &:hover {
-      background-color: $color-tasks-btn-background-hover;
+      background-color: var(--color-tasks-btn-background-hover);
     }
 
     &:focus {
-      outline: 2px solid $color-tasks-btn-background-focus;
+      outline: 2px solid var(--color-tasks-btn-background-focus);
       outline-offset: 2px;
     }
   }
@@ -77,16 +77,16 @@
     input[type="checkbox"] {
       -webkit-appearance: none;
       appearance: none;
-      background-color: $color-background-checkbox;
+      background-color: var(--color-background-checkbox);
       margin: 0;
       display: grid;
       place-content: center;
 
       font: inherit;
-      color: $color-text-main-dark;
+      color: var(--color-text-main-dark);
       width: 2rem;
       height: 2rem;
-      border: 2px solid $color-border-checkbox;
+      border: 2px solid var(--color-border-checkbox);
       border-radius: 4px;
 
       &::before {
@@ -95,14 +95,14 @@
         height: 1rem;
         transform: scale(0);
         transition: 0.2s transform ease-in-out;
-        box-shadow: inset 1rem 1rem $color-checkbox-checked;
+        box-shadow: inset 1rem 1rem var(--color-checkbox-checked);
 
         transform-origin: center;
         clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
       }
 
       &:focus {
-        outline: 2px solid $color-checkbox-focus;
+        outline: 2px solid var(--color-checkbox-focus);
         outline-offset: 2px;
       }
 
@@ -111,8 +111,8 @@
       }
 
       &:disabled {
-        --form-control-color: $color-checkbox-disabled;
-        color: $color-checkbox-disabled;
+        --form-control-color: var(--color-checkbox-disabled);
+        color: var(--color-checkbox-disabled);
         cursor: not-allowed;
       }
     }
@@ -121,11 +121,11 @@
   &__todo {
     align-self: center;
     font-size: 1.6rem;
-    color: $color-text-main-dark;
-    border-bottom: 1px solid $color-divider;
+    color: var(--color-text-main-dark);
+    border-bottom: 1px solid var(--color-divider);
   }
 }
 
 .padding {
-  background-color: $color-tasks-background;
+  background-color: var(--color-tasks-background);
 }
