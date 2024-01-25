@@ -541,7 +541,7 @@ export const renderProfileWeather = async function () {
   }
 };
 
-const getWeatherIcon = {
+export const getWeatherIcon = {
   1000: "/weather/clear-day.svg",
   1003: "/weather/partly-cloudy-day.svg",
   1006: "/weather/cloudy.svg",

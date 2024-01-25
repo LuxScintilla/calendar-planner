@@ -188,7 +188,7 @@ export const openWeatherModal = async function () {
       } else {
         // Apply the data to the markup elements
         weatherIMG.classList.remove("spinner-class");
-        weatherIMG.src = data.current.condition.icon;
+        weatherIMG.src = getWeatherIcon[data.current.condition.code];
         weatherTemperature.textContent = `${data.current.temp_c}°C`;
         weatherHumidity.textContent = `${data.current.humidity}%`;
         weatherWind.textContent = `${data.current.wind_mph} mph`;

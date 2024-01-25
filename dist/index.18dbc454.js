@@ -584,6 +584,7 @@ parcelHelpers.export(exports, "state", ()=>state);
 parcelHelpers.export(exports, "executeOrder", ()=>executeOrder);
 parcelHelpers.export(exports, "renderProfile", ()=>renderProfile);
 parcelHelpers.export(exports, "renderProfileWeather", ()=>renderProfileWeather);
+parcelHelpers.export(exports, "getWeatherIcon", ()=>getWeatherIcon);
 var _modalJs = require("./modal.js");
 "use strict";
 const calendar = document.querySelector(".organiser__dates");
@@ -946,54 +947,54 @@ const renderProfileWeather = async function() {
     }
 };
 const getWeatherIcon = {
-    1000: "./src/img/weather/clear-day.svg",
-    1003: "./src/img/weather/partly-cloudy-day.svg",
-    1006: "./src/img/weather/cloudy.svg",
-    1009: "./src/img/weather/overcast.svg",
-    1030: "./src/img/weather/mist.svg",
-    1063: "./src/img/weather/partly-cloudy-day-rain.svg",
-    1066: "./src/img/weather/partly-cloudy-day-snow.svg",
-    1069: "./src/img/weather/partly-cloudy-day-sleet.svg",
-    1072: "./src/img/weather/partly-cloudy-day-hail.svg",
-    1087: "./src/img/weather/thunderstorms-day.svg",
-    1114: "./src/img/weather/snow.svg",
-    1117: "./src/img/weather/extreme-snow.svg",
-    1135: "./src/img/weather/fog.svg",
-    1147: "./src/img/weather/overcast-fog.svg",
-    1150: "./src/img/weather/overcast-day-drizzle.svg",
-    1153: "./src/img/weather/drizzle.svg",
-    1168: "./src/img/weather/hail.svg",
-    1171: "./src/img/weather/hail.svg",
-    1180: "./src/img/weather/partly-cloudy-day-rain.svg",
-    1183: "./src/img/weather/drizzle.svg",
-    1186: "./src/img/weather/rain.svg",
-    1189: "./src/img/weather/rain.svg",
-    1192: "./src/img/weather/overcast-rain.svg",
-    1195: "./src/img/weather/overcast-rain.svg",
-    1198: "./src/img/weather/hail.svg",
-    1201: "./src/img/weather/hail.svg",
-    1204: "./src/img/weather/sleet.svg",
-    1207: "./src/img/weather/extreme-sleet.svg",
-    1210: "./src/img/weather/partly-cloudy-day-snow.svg",
-    1213: "./src/img/weather/snow.svg",
-    1216: "./src/img/weather/partly-cloudy-day-snow.svg",
-    1219: "./src/img/weather/snow.svg",
-    1222: "./src/img/weather/overcast-snow.svg",
-    1225: "./src/img/weather/extreme-snow.svg",
-    1237: "./src/img/weather/hail.svg",
-    1240: "./src/img/weather/rain.svg",
-    1243: "./src/img/weather/extreme-rain.svg",
-    1246: "./src/img/weather/extreme-rain.svg",
-    1249: "./src/img/weather/sleet.svg",
-    1252: "./src/img/weather/extreme-sleet.svg",
-    1255: "./src/img/weather/snow.svg",
-    1258: "./src/img/weather/overcast-snow.svg",
-    1261: "./src/img/weather/hail.svg",
-    1264: "./src/img/weather/extreme-hail.svg",
-    1273: "./src/img/weather/thunderstorms-day-rain.svg",
-    1276: "./src/img/weather/thunderstorms-extreme-rain.svg",
-    1279: "./src/img/weather/thunderstorms-day-snow.svg",
-    1282: "./src/img/weather/thunderstorms-extreme-snow.svg"
+    1000: "/weather/clear-day.svg",
+    1003: "/weather/partly-cloudy-day.svg",
+    1006: "/weather/cloudy.svg",
+    1009: "/weather/overcast.svg",
+    1030: "/weather/mist.svg",
+    1063: "/weather/partly-cloudy-day-rain.svg",
+    1066: "/weather/partly-cloudy-day-snow.svg",
+    1069: "/weather/partly-cloudy-day-sleet.svg",
+    1072: "/weather/partly-cloudy-day-hail.svg",
+    1087: "/weather/thunderstorms-day.svg",
+    1114: "/weather/snow.svg",
+    1117: "/weather/extreme-snow.svg",
+    1135: "/weather/fog.svg",
+    1147: "/weather/overcast-fog.svg",
+    1150: "/weather/overcast-day-drizzle.svg",
+    1153: "/weather/drizzle.svg",
+    1168: "/weather/hail.svg",
+    1171: "/weather/hail.svg",
+    1180: "/weather/partly-cloudy-day-rain.svg",
+    1183: "/weather/drizzle.svg",
+    1186: "/weather/rain.svg",
+    1189: "/weather/rain.svg",
+    1192: "/weather/overcast-rain.svg",
+    1195: "/weather/overcast-rain.svg",
+    1198: "/weather/hail.svg",
+    1201: "/weather/hail.svg",
+    1204: "/weather/sleet.svg",
+    1207: "/weather/extreme-sleet.svg",
+    1210: "/weather/partly-cloudy-day-snow.svg",
+    1213: "/weather/snow.svg",
+    1216: "/weather/partly-cloudy-day-snow.svg",
+    1219: "/weather/snow.svg",
+    1222: "/weather/overcast-snow.svg",
+    1225: "/weather/extreme-snow.svg",
+    1237: "/weather/hail.svg",
+    1240: "/weather/rain.svg",
+    1243: "/weather/extreme-rain.svg",
+    1246: "/weather/extreme-rain.svg",
+    1249: "/weather/sleet.svg",
+    1252: "/weather/extreme-sleet.svg",
+    1255: "/weather/snow.svg",
+    1258: "/weather/overcast-snow.svg",
+    1261: "/weather/hail.svg",
+    1264: "/weather/extreme-hail.svg",
+    1273: "/weather/thunderstorms-day-rain.svg",
+    1276: "/weather/thunderstorms-extreme-rain.svg",
+    1279: "/weather/thunderstorms-day-snow.svg",
+    1282: "/weather/thunderstorms-extreme-snow.svg"
 };
 ////////////////////////////////////
 // THEME SECTION
@@ -1160,7 +1161,7 @@ const openWeatherModal = async function() {
             else {
                 // Apply the data to the markup elements
                 weatherIMG.classList.remove("spinner-class");
-                weatherIMG.src = data.current.condition.icon;
+                weatherIMG.src = getWeatherIcon[data.current.condition.code];
                 weatherTemperature.textContent = `${data.current.temp_c}\xb0C`;
                 weatherHumidity.textContent = `${data.current.humidity}%`;
                 weatherWind.textContent = `${data.current.wind_mph} mph`;
