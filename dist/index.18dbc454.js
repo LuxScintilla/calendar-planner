@@ -903,6 +903,9 @@ const addCheckedStatus = function(data, status) {
         }
     });
 };
+////////////////////////////////////
+// PROFILE SECTION
+////////////////////////////////////
 avatarEl.addEventListener("click", function() {
     _modalJs.openProfileModal();
 });
@@ -927,7 +930,7 @@ const renderProfileWeather = async function() {
             else {
                 // Apply the data to the markup elements
                 profileWeatherImg.classList.remove("spinner-class");
-                profileWeatherImg.src = data.current.condition.icon;
+                profileWeatherImg.src = getWeatherIcon[data.current.condition.code];
                 profileWeatherText.textContent = `${data.current.temp_c}\xb0C`;
             }
         } else if (!localStorage.getItem("profile")) {
@@ -941,6 +944,56 @@ const renderProfileWeather = async function() {
         profileWeatherImg.style.display = "none";
         profileWeatherText.textContent = "Invalid Location";
     }
+};
+const getWeatherIcon = {
+    1000: "./src/weather/clear-day.svg",
+    1003: "./src/weather/partly-cloudy-day.svg",
+    1006: "./src/weather/cloudy.svg",
+    1009: "./src/weather/overcast.svg",
+    1030: "./src/weather/mist.svg",
+    1063: "./src/weather/partly-cloudy-day-rain.svg",
+    1066: "./src/weather/partly-cloudy-day-snow.svg",
+    1069: "./src/weather/partly-cloudy-day-sleet.svg",
+    1072: "./src/weather/partly-cloudy-day-hail.svg",
+    1087: "./src/weather/thunderstorms-day.svg",
+    1114: "./src/weather/snow.svg",
+    1117: "./src/weather/extreme-snow.svg",
+    1135: "./src/weather/fog.svg",
+    1147: "./src/weather/overcast-fog.svg",
+    1150: "./src/weather/overcast-day-drizzle.svg",
+    1153: "./src/weather/drizzle.svg",
+    1168: "./src/weather/hail.svg",
+    1171: "./src/weather/hail.svg",
+    1180: "./src/weather/partly-cloudy-day-rain.svg",
+    1183: "./src/weather/drizzle.svg",
+    1186: "./src/weather/rain.svg",
+    1189: "./src/weather/rain.svg",
+    1192: "./src/weather/overcast-rain.svg",
+    1195: "./src/weather/overcast-rain.svg",
+    1198: "./src/weather/hail.svg",
+    1201: "./src/weather/hail.svg",
+    1204: "./src/weather/sleet.svg",
+    1207: "./src/weather/extreme-sleet.svg",
+    1210: "./src/weather/partly-cloudy-day-snow.svg",
+    1213: "./src/weather/snow.svg",
+    1216: "./src/weather/partly-cloudy-day-snow.svg",
+    1219: "./src/weather/snow.svg",
+    1222: "./src/weather/overcast-snow.svg",
+    1225: "./src/weather/extreme-snow.svg",
+    1237: "./src/weather/hail.svg",
+    1240: "./src/weather/rain.svg",
+    1243: "./src/weather/extreme-rain.svg",
+    1246: "./src/weather/extreme-rain.svg",
+    1249: "./src/weather/sleet.svg",
+    1252: "./src/weather/extreme-sleet.svg",
+    1255: "./src/weather/snow.svg",
+    1258: "./src/weather/overcast-snow.svg",
+    1261: "./src/weather/hail.svg",
+    1264: "./src/weather/extreme-hail.svg",
+    1273: "./src/weather/thunderstorms-day-rain.svg",
+    1276: "./src/weather/thunderstorms-extreme-rain.svg",
+    1279: "./src/weather/thunderstorms-day-snow.svg",
+    1282: "./src/weather/thunderstorms-extreme-snow.svg"
 };
 ////////////////////////////////////
 // THEME SECTION
@@ -1225,7 +1278,7 @@ okBtn.addEventListener("click", function() {
     document.body.style.height = "auto";
 });
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./main.js":"1SICI"}],"gkKU3":[function(require,module,exports) {
+},{"./main.js":"1SICI","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
